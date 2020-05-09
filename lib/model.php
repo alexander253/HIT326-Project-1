@@ -21,8 +21,8 @@ function sign_up($first_name, $last_name, $title, $email, $email_confirm, $addre
    try{
      $db = get_db();
 
-     if(validate_lname($db,$last_name) && validate_emails($email,$email_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
-          $query = "INSERT INTO CustomerDetails(CustFName, CustLName, CustTitle, CustEmail, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?)";
+     if (validate_lname($db,$last_name) && validate_emails($email,$email_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
+          $query = "INSERT INTO CustomerDetails (CustFName, CustLName, CustTitle, CustEmail, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?)";
           if($statement = $db->prepare($query)){
              $binding = array($first_name, $last_name, $title, $email, $address, $city, $state, $country, $post_code, $phone);
              if(!$statement -> execute($binding)){

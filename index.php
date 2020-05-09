@@ -151,6 +151,13 @@ put("/?change",function(){
   redirect_to("/");
 });
 
+get("/?admin",function(){
+   force_to_http("/admin");
+   $messages["title"]="Art Company Adminstration";
+   $messages["message"]="Welcome, ADMIN";
+   render($messages,LAYOUT,"art_admin");
+});
+
 # The Delete call back is left for you to work out
 
 # This function is automatically run if the scrupt gets this far
