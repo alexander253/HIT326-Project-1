@@ -4,7 +4,7 @@ function get_db(){
     $db = null;
 
     try{
-        $db = new PDO('mysql:host=localhost;dbname=blogs_db', 'root','hit326');
+        $db = new PDO('mysql:host=localhost;dbname=test_db', 'root','');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(PDOException $e){
@@ -17,16 +17,14 @@ function get_db(){
 
 /* Other functions can go below here */
 
-function sign_up($user_name, $password, $password_confirm){
+function sign_up($first_name, $last_name, $title, $email, $email_confirm, $address, $city, $state, $country, $post_code, $phone){
    try{
      $db = get_db();
-     
-     if(validate_user_name($db,$user_name) && validate_passwords($password,$password_confirm)){
-          $salt = generate_salt();
-          $password_hash = generate_password_hash($password,$salt);
-          $query = "INSERT INTO users (name,salt,hashed_password) VALUES (?,?,?)";
+
+     if(validate_lname($db,$last_name) && validate_emails($email,$email_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
+          $query = "INSERT INTO CustomerDetails(CustFName, CustLName, CustTitle, CustEmail, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?)";
           if($statement = $db->prepare($query)){
-             $binding = array($user_name,$salt,$password_hash);
+             $binding = array($first_name, $last_name, $title, $email, $address, $city, $state, $country, $post_code, $phone);
              if(!$statement -> execute($binding)){
                  throw new Exception("Could not execute query.");
              }
@@ -39,7 +37,7 @@ function sign_up($user_name, $password, $password_confirm){
      else{
         throw new Exception("Invalid data.");
      }
-     
+
 
    }
    catch(Exception $e){
@@ -50,7 +48,7 @@ function sign_up($user_name, $password, $password_confirm){
 
 function sign_in($user_name,$password){
    try{
-      $db = get_db();  
+      $db = get_db();
       $query = "SELECT id, salt, hashed_password FROM users WHERE name=?";
       if($statement = $db->prepare($query)){
          $binding = array($user_name);
@@ -81,8 +79,8 @@ function sign_in($user_name,$password){
 }
 
 function set_authenticated_session($id,$password_hash){
-      session_start();  
-      
+      session_start();
+
       //Make it a bit harder to session hijack
       session_regenerate_id(true);
 
@@ -100,22 +98,24 @@ function generate_salt(){
     return str_shuffle($chars);
 }
 
-function validate_user_name($db,$user_name){
+function validate_lname($db,$last_name){
     // is it a valid name?
     // use get_user_id function. if empty then it doesn't exist
     // if all good return true, other return false
     return true;
 }
 
-function validate_passwords($password, $password_confirm){
-   if($password === $password_confirm && validate_password($password)){
+function validate_emails($email, $email_confirm){
+   if($email === $email_confirm && validate_email($email)){
       return true;
+   } else{
+     return false;
    }
-   return false;
+
 }
 
-function validate_password($password){
-  //Does the password pass the strong password tests
+function validate_email($email){
+  //validate email
   return true;
 }
 
@@ -123,14 +123,14 @@ function validate_password($password){
 function is_authenticated(){
     $id = "";
     $hash="";
-    
+
     session_start();
     if(!empty($_SESSION["id"]) && !empty($_SESSION["hash"])){
        $id = $_SESSION["id"];
        $hash = $_SESSION["hash"];
     }
     session_write_close();
- 
+
     if(!empty($id) && !empty($hash)){
 
         try{
@@ -148,12 +148,12 @@ function is_authenticated(){
                  }
              }
            }
-            
+
         }
         catch(Exception $e){
            throw new Exception("Authentication not working properly. {$e->getMessage()}");
         }
-    
+
     }
     return false;
 
@@ -163,9 +163,9 @@ function sign_out(){
     session_start();
     if(!empty($_SESSION["id"]) && !empty($_SESSION["hash"])){
        $_SESSION["id"] = "";
-       $_SESSION["hash"] = ""; 
+       $_SESSION["hash"] = "";
        $_SESSION = array();
-       session_destroy();                     
+       session_destroy();
     }
     session_write_close();
 }

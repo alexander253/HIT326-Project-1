@@ -41,9 +41,9 @@ function render($messages, $layout, $content){
    foreach($messages As $key => $val){
        $$key = $val;
    }
-   
-   $flash = get_flash();
-   
+
+   $flash = get_flash($msg);
+
    if(!empty($layout)){
       require VIEWS."/{$layout}.layout.php";
    }
@@ -126,10 +126,5 @@ function set_flash($msg){
 }
 
 function get_flash($msg){
-      return get_session_message("flash");   
+      return get_session_message("flash");
 }
-
-
-
-
-
