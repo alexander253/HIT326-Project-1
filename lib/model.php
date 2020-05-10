@@ -89,14 +89,14 @@ function set_authenticated_session($id,$password_hash){
       session_write_close();
 }
 
-function generate_password_hash($password,$salt){
+/*function generate_password_hash($password,$salt){
       return hash("sha256", $password.$salt, false);
-}
+}*/
 
-function generate_salt(){
+/*function generate_salt(){
     $chars = "0123456789ABCDEF";
     return str_shuffle($chars);
-}
+}*/
 
 function validate_lname($db,$last_name){
     // is it a valid name?
