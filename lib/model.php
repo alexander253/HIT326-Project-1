@@ -98,7 +98,7 @@ function get_user_name(){
 function sign_in($email,$password){
    try{
       $db = get_db();
-      $query = "SELECT Cust_salt, Cust_hashed_Password FROM CustomerDetails WHERE CustEmail=?";
+      $query = "SELECT CustEmail, Cust_salt, Cust_hashed_Password FROM CustomerDetails WHERE CustEmail=?";
       if($statement = $db->prepare($query)){
          $binding = array($email);
          if(!$statement -> execute($binding)){
@@ -106,14 +106,14 @@ function sign_in($email,$password){
          }
          else{
             $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $salt = $result['salt'];
-            $hashed_password = $result['hashed_password'];
+            $salt = $result['Cust_salt'];
+            $hashed_password = $result['Cust_hashed_Password'];
             if(generate_password_hash($password,$salt) !== $hashed_password){
                 throw new Exception("Account does not exist!");
             }
             else{
-               $id = $result["id"];
-               set_authenticated_session($id,$hashed_password);
+               $email = $result["CustEmail"];
+               set_authenticated_session($email,$hashed_password);
             }
          }
       }
@@ -157,13 +157,13 @@ function is_db_empty(){
 
 }
 
-function set_authenticated_session($id,$password_hash){
+function set_authenticated_session($email,$password_hash){
       session_start();
 
       //Make it a bit harder to session hijack
       session_regenerate_id(true);
 
-      $_SESSION["id"] = $id;
+      $_SESSION["email"] = $email;
       $_SESSION["hash"] = $password_hash;
       session_write_close();
 }
@@ -207,23 +207,23 @@ function validate_password($password){
 
 
 function is_authenticated(){
-    $id = "";
+    $email = "";
     $hash="";
 
     session_start();
-    if(!empty($_SESSION["id"]) && !empty($_SESSION["hash"])){
-       $id = $_SESSION["id"];
+    if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
+       $id = $_SESSION["email"];
        $hash = $_SESSION["hash"];
     }
     session_write_close();
 
-    if(!empty($id) && !empty($hash)){
+    if(!empty($email) && !empty($hash)){
 
         try{
            $db = get_db();
-           $query = "SELECT hashed_password FROM users WHERE id=?";
+           $query = "SELECT Cust_hashed_Password FROM CustomerDetails WHERE CustEmail=?";
            if($statement = $db->prepare($query)){
-             $binding = array($id);
+             $binding = array($email);
              if(!$statement -> execute($binding)){
                 return false;
              }
