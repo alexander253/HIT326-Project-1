@@ -1,10 +1,13 @@
 /*USE dac_db; dac short for Darwin Art Company*/
 
 CREATE TABLE `CustomerDetails` (
+  CustID int(11) NOT NULL auto_increment,
   CustFName varchar(255) NOT NULL,
   CustLName varchar(255) NOT NULL,
   CustTitle varchar(5) NOT NULL,
   CustEmail varchar(254) NOT NULL,
+  Cust_hashed_Password varchar(64) NOT NULL,
+  Cust_salt char(16) NOT NULL,
   CustAddress varchar(255) NOT NULL,
   CustCity varchar(150) NOT NULL,
   CustState varchar(150) NOT NULL,

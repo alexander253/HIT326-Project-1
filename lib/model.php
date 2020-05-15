@@ -17,14 +17,16 @@ function get_db(){
 
 /* Other functions can go below here */
 
-function sign_up($first_name, $last_name, $title, $email, $email_confirm, $address, $city, $state, $country, $post_code, $phone){
+function sign_up($first_name, $last_name, $title, $email, $email_confirm, $password, $password_confirm, $address, $city, $state, $country, $post_code, $phone){
    try{
      $db = get_db();
- 
-     if (validate_lname($db,$last_name) && validate_emails($email,$email_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
-          $query = "INSERT INTO CustomerDetails (CustFName, CustLName, CustTitle, CustEmail, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+     if (validate_emails($email,$email_confirm) && validate_passwords($password, $password_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
+          $salt = generate_salt();
+          $password_hash = generate_password_hash($password,$salt);
+          $query = "INSERT INTO CustomerDetails (CustFName, CustLName, CustTitle, CustEmail, CustPassword, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
           if($statement = $db->prepare($query)){
-             $binding = array($first_name, $last_name, $title, $email, $address, $city, $state, $country, $post_code, $phone);
+             $binding = array($first_name, $last_name, $title, $email, $password_hash, $address, $city, $state, $country, $post_code, $phone);
              if(!$statement -> execute($binding)){
                  throw new Exception("Could not execute query.");
              }
@@ -44,6 +46,53 @@ function sign_up($first_name, $last_name, $title, $email, $email_confirm, $addre
        throw new Exception($e->getMessage());
    }
 
+}
+
+function get_user_id(){
+   $id="";
+   session_start();
+   if(!empty($_SESSION["id"])){
+      $id = $_SESSION["id"];
+   }
+   session_write_close();
+   return $id;
+}
+
+function get_user_name(){
+   $id="";
+   $name="";
+   session_start();
+   if(!empty($_SESSION["id"])){
+      $id = $_SESSION["id"];
+   }
+   session_write_close();
+
+   if(empty($id)){
+     throw new Exception("User has no valid id");
+   }
+
+   try{
+      $db = get_db();
+      $query = "SELECT name FROM users WHERE id=?";
+      if($statement = $db->prepare($query)){
+         $binding = array($id);
+         if(!$statement -> execute($binding)){
+                 throw new Exception("Could not execute query.");
+         }
+         else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $name = $result['name'];
+         }
+      }
+      else{
+            throw new Exception("Could not prepare statement.");
+      }
+
+   }
+   catch(Exception $e){
+      throw new Exception($e->getMessage());
+   }
+   return $name;
 }
 
 function sign_in($user_name,$password){
@@ -78,6 +127,36 @@ function sign_in($user_name,$password){
    }
 }
 
+function is_db_empty(){
+   $is_empty = false;
+   try{
+      $db = get_db();
+      $query = "SELECT * FROM CustomerDetails";
+      if($statement = $db->prepare($query)){
+	     $id=1;
+         $binding = array($id);
+         if(!$statement -> execute($binding)){
+                 throw new Exception("Could not execute query.");
+         }
+         else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            if(empty($result)){
+	          $is_empty = true;
+            }
+         }
+      }
+      else{
+            throw new Exception("Could not prepare statement.");
+      }
+
+   }
+   catch(Exception $e){
+      throw new Exception($e->getMessage());
+   }
+   return $is_empty;
+
+}
+
 function set_authenticated_session($id,$password_hash){
       session_start();
 
@@ -89,16 +168,16 @@ function set_authenticated_session($id,$password_hash){
       session_write_close();
 }
 
-/*function generate_password_hash($password,$salt){
+function generate_password_hash($password,$salt){
       return hash("sha256", $password.$salt, false);
-}*/
+}
 
-/*function generate_salt(){
+function generate_salt(){
     $chars = "0123456789ABCDEF";
     return str_shuffle($chars);
-}*/
+}
 
-function validate_lname($db,$last_name){
+function validate_user_name($db,$user_name){
     // is it a valid name?
     // use get_user_id function. if empty then it doesn't exist
     // if all good return true, other return false
@@ -110,13 +189,26 @@ function validate_emails($email, $email_confirm){
    if($email === $email_confirm && validate_email($email)){
       return true;
    } else{
-     return false;
+      return false;
    }
 
 }
 
 function validate_email($email){
-  //validate email
+  //Does it fit emails category
+  return true;
+}
+
+function validate_passwords($password, $password_confirm){
+
+   if($password === $password_confirm && validate_password($password)){
+      return true;
+   }
+   return false;
+}
+
+function validate_password($password){
+  //Does the password pass the strong password tests
   return true;
 }
 
