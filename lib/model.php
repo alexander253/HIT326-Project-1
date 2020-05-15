@@ -133,7 +133,7 @@ function is_db_empty(){
       $db = get_db();
       $query = "SELECT * FROM CustomerDetails";
       if($statement = $db->prepare($query)){
-	     $id=1;
+	       $id=1;
          $binding = array($id);
          if(!$statement -> execute($binding)){
                  throw new Exception("Could not execute query.");
@@ -212,7 +212,7 @@ function is_authenticated(){
 
     session_start();
     if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
-       $id = $_SESSION["email"];
+       $email = $_SESSION["email"];
        $hash = $_SESSION["hash"];
     }
     session_write_close();
@@ -229,7 +229,7 @@ function is_authenticated(){
              }
              else{
                  $result = $statement->fetch(PDO::FETCH_ASSOC);
-                 if($result['hashed_password'] === $hash){
+                 if($result['Cust_hashed_Password'] === $hash){
                    return true;
                  }
              }
