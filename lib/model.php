@@ -247,8 +247,8 @@ function is_authenticated(){
 
 function sign_out(){
     session_start();
-    if(!empty($_SESSION["id"]) && !empty($_SESSION["hash"])){
-       $_SESSION["id"] = "";
+    if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
+       $_SESSION["email"] = "";
        $_SESSION["hash"] = "";
        $_SESSION = array();
        session_destroy();
