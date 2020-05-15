@@ -20,7 +20,7 @@ function get_db(){
 function sign_up($first_name, $last_name, $title, $email, $email_confirm, $address, $city, $state, $country, $post_code, $phone){
    try{
      $db = get_db();
-
+ 
      if (validate_lname($db,$last_name) && validate_emails($email,$email_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
           $query = "INSERT INTO CustomerDetails (CustFName, CustLName, CustTitle, CustEmail, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?)";
           if($statement = $db->prepare($query)){
@@ -106,6 +106,7 @@ function validate_lname($db,$last_name){
 }
 
 function validate_emails($email, $email_confirm){
+
    if($email === $email_confirm && validate_email($email)){
       return true;
    } else{

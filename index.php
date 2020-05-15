@@ -105,10 +105,10 @@ post("/?signup",function(){
       $post_code = form('postcode');
       $phone = form('phone');
       $confirm = form('email_confirm');
-
+      
   if($first_name && $last_name && $title && $email && $address && $city && $state && $country && $post_code && $phone && $confirm){
      try{
-        sign_up($first_name, $last_name, $title, $email, $address, $city, $state, $country, $post_code, $phone, $confirm);
+        sign_up($first_name, $last_name, $title, $email, $confirm, $address, $city, $state, $country, $post_code, $phone);
         set_flash("Lovely, you are now signed up, ".htmlspecialchars(form('lname'))." Now sign in!");
      }
      catch(Exception $e){
