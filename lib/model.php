@@ -24,9 +24,9 @@ function sign_up($first_name, $last_name, $title, $email, $email_confirm, $passw
      if (validate_emails($email,$email_confirm) && validate_passwords($password, $password_confirm)){//validate_lname($db,$last_name) && validate_emails($email,$email_confirm)
           $salt = generate_salt();
           $password_hash = generate_password_hash($password,$salt);
-          $query = "INSERT INTO CustomerDetails (CustFName, CustLName, CustTitle, CustEmail, CustPassword, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+          $query = "INSERT INTO CustomerDetails (CustFName, CustLName, CustTitle, CustEmail, Cust_hashed_Password, Cust_salt, CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
           if($statement = $db->prepare($query)){
-             $binding = array($first_name, $last_name, $title, $email, $password_hash, $address, $city, $state, $country, $post_code, $phone);
+             $binding = array($first_name, $last_name, $title, $email, $password_hash, $salt, $address, $city, $state, $country, $post_code, $phone);
              if(!$statement -> execute($binding)){
                  throw new Exception("Could not execute query.");
              }
@@ -95,12 +95,12 @@ function get_user_name(){
    return $name;
 }
 
-function sign_in($user_name,$password){
+function sign_in($email,$password){
    try{
       $db = get_db();
-      $query = "SELECT id, salt, hashed_password FROM users WHERE name=?";
+      $query = "SELECT Cust_salt, Cust_hashed_Password FROM CustomerDetails WHERE CustEmail=?";
       if($statement = $db->prepare($query)){
-         $binding = array($user_name);
+         $binding = array($email);
          if(!$statement -> execute($binding)){
                  throw new Exception("Could not execute query.");
          }
@@ -175,13 +175,6 @@ function generate_password_hash($password,$salt){
 function generate_salt(){
     $chars = "0123456789ABCDEF";
     return str_shuffle($chars);
-}
-
-function validate_user_name($db,$user_name){
-    // is it a valid name?
-    // use get_user_id function. if empty then it doesn't exist
-    // if all good return true, other return false
-    return true;
 }
 
 function validate_emails($email, $email_confirm){

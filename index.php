@@ -180,12 +180,12 @@ post("/signup",function($app){
 });
 
 post("/signin",function($app){
-  $name = $app->form('name');
+  $email = $app->form('email');
   $password = $app->form('password');
-  if($name && $password){
+  if($email && $password){
     require MODEL;
     try{
-       sign_in($name,$password);
+       sign_in($email,$password);
     }
     catch(Exception $e){
       $app->set_flash("Could not sign you in. Try again. {$e->getMessage()}");
@@ -193,7 +193,7 @@ post("/signin",function($app){
     }
   }
   else{
-       $app->set_flash("Something wrong with name or password. Try again.");
+       $app->set_flash("Something wrong with email or password. Try again.");
        $app->redirect_to("/signin");
   }
   $app->set_flash("Lovely, you are now signed in!");
