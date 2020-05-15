@@ -1,11 +1,13 @@
 <?php
-# Set to noisy error reporting for development. Comment out later for production mode.
+/* SET to display all warnings in development. Comment next two lines out for production mode*/
 ini_set('display_errors','On');
 error_reporting(E_ERROR | E_PARSE);
 
-# Paths
-DEFINE("LIB",$_SERVER['DOCUMENT_ROOT']."/lib");
-DEFINE("VIEWS",LIB."/views");
+/* Set the path to the Application folder */
+DEFINE("LIB",$_SERVER['DOCUMENT_ROOT']."/lib/");
+
+/* SET VIEWS path */
+DEFINE("VIEWS",LIB."views/");
 DEFINE("PARTIALS",VIEWS."/partials");
 
 # Paths to actual files
@@ -18,150 +20,169 @@ DEFINE("LAYOUT","different");
 # This inserts our application code which handles the requests and other things
 require APP;
 
-#Global, damn it! Oh well we'll take care of this somehow later on ... stay tuned.
-$messages = array();
+/* Here is our Controller code i.e. API if you like.  */
+/* The following are just examples of how you might set up a basic app with authentication */
 
-# Below are all the request handlers written as callbacks
-
-get("/",function(){
-   force_to_http("/");
-   $messages["title"]="Darwin Art Company";
-   $messages["message"]="Welcome back";
-   render($messages,LAYOUT,"home");
+get("/",function($app){
+   $app->force_to_http("/");
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Welcome back");
+   $app->render(LAYOUT,"home");
 });
 
-get("/?signin",function(){
-   force_to_http("/?signin");
-   $messages["title"]="Sign in";
+
+get("/signin",function($app){
+   $app->force_to_http("/signin");
+   $app->set_message("title","Sign in");
    require MODEL;
    try{
      if(is_authenticated()){
-        set_flash("Why on earth do you want to sign in again. You are already signed in. Perhaps you want to sign out first.");
+       $app->set_message("error","Why on earth do you want to sign in again. You are already signed in. Perhaps you want to sign out first.");
      }
 
    }
    catch(Exception $e){
-       set_flash($e->getMessage());
+     $app->set_message("error",$e->getMessage($app));
    }
-   render($messages,LAYOUT,"signin");
+   $app->render(LAYOUT,"signin");
+
 });
 
-get("/?signup",function(){
-   force_to_http("/?signup");
+get("/change",function($app){
+   $app->force_to_http("/change");
+   $app->set_message("title","Change password");
    require MODEL;
-   $messages["title"]="Sign up";
    try{
      if(is_authenticated()){
-        set_flash("You are already signed in. Why do you want to sign up? Do you want another account? OK then ... who am I to complain!");
+       try{
+          $name = get_user_name();
+          $app->set_message("name",$name);
+          $id = get_user_id();
+          $app->set_message("user_id",$id);
+       }
+       catch(Exception $e){
+           $app->set_message("error","Error with retrieving name");
+       }
+     }
+     else{
+         $app->set_flash("You are not authorised to do this.");
+         $app->redirect_to("/");
      }
    }
    catch(Exception $e){
-       set_flash($e->getMessage());
+     $app->set_message("error",$e->getMessage());
    }
-   render($messages,LAYOUT,"signup");
-});
+   $app->render(LAYOUT,"change_password");
 
-get("/?change",function(){
-   force_to_http("/?change");
-   $messages["title"]="Change password";
-   render($messages,LAYOUT,"change_password");
 });
 
 
-get("/?signout",function(){
+get("/signout",function($app){
    // should this be GET or POST or PUT?????
-   force_to_http("/?signout");
+   $app->force_to_http("/signout");
    require MODEL;
    if(is_authenticated()){
       try{
          sign_out();
-         set_flash("You are now signed out.");
-         redirect_to("/");
+         $app->set_flash("You are now signed out.");
+         $app->redirect_to("/");
+
       }
       catch(Exception $e){
-        set_flash("Something wrong with the sessions.");
-        redirect_to("/");
+        $app->set_flash("Something wrong with the sessions.");
+        $app->redirect_to("/");
      }
    }
    else{
-        set_flash("You can't sign out if you are not signed in!");
-        redirect_to("/?signin");
+        $app->set_flash("You can't sign out if you are not signed in!");
+        $app->redirect_to("/signin");
    }
 
 });
 
 
-post("/?signup",function(){
+post("/signup",function($app){
   require MODEL;
+  try{
+     if(is_authenticated() || is_db_empty()){
+        $first_name = $app-> form('fname');
+        $last_name = $app-> form('lname');
+        $title = $app-> form('title');
+        $email = $app-> form('email');
+        $address = $app-> form('address');
+        $city = $app-> form('city');
+        $state = $app-> form('state');
+        $country = $app-> form('country');
+        $post_code = $app-> form('postcode');
+        $phone = $app-> form('phone');
+        $confirm = $app-> form('email_confirm');
 
-      $first_name = form('fname');
-      $last_name = form('lname');
-      $title = form('title');
-      $email = form('email');
-      $address = form('address');
-      $city = form('city');
-      $state = form('state');
-      $country = form('country');
-      $post_code = form('postcode');
-      $phone = form('phone');
-      $confirm = form('email_confirm');
-      
   if($first_name && $last_name && $title && $email && $address && $city && $state && $country && $post_code && $phone && $confirm){
      try{
         sign_up($first_name, $last_name, $title, $email, $confirm, $address, $city, $state, $country, $post_code, $phone);
-        set_flash("Lovely, you are now signed up, ".htmlspecialchars(form('lname'))." Now sign in!");
+        $app->set_flash("Lovely, you are now signed up, ".htmlspecialchars(form('lname'))." Now sign in!");
      }
      catch(Exception $e){
-          set_flash($e->getMessage());
-          redirect_to("/?signup");
+          $app->set_flash($e->getMessage());
+          $app->redirect_to("/signup");
      }
   }
 
   else{
-     set_flash("You are not signed up. Try again and don't leave any fields blank.");
-     redirect_to("/?signup");
+     $app->set_flash("You are not signed up. Try again and don't leave any fields blank.");
+     $app->redirect_to("/signup");
   }
-  redirect_to("/?signin");
+  $app->redirect_to("/signup");
+}
+else{
+   $app->set_flash("You are not authorised to access this resource");
+   $app->redirect_to("/");
+ }
+
+}
+ catch(Exception $e){
+      $app->set_flash($e.getMessage());
+      $app->redirect_to("/");
+ }
+
 });
 
-post("/?signin",function(){
-  $email = form('name');
-  $password = form('password');
-  if($email && $password){
+post("/signin",function($app){
+  $name = $app->form('name');
+  $password = $app->form('password');
+  if($name && $password){
     require MODEL;
     try{
        sign_in($email,$password);
     }
     catch(Exception $e){
-      set_flash("Could not sign you in. Try again. {$e->getMessage()}");
-      redirect_to("/?signin");
+      $app->set_flash("Could not sign you in. Try again. {$e->getMessage()}");
+      $app->redirect_to("/signin");
     }
   }
   else{
-       set_flash("Something wrong with email or password. Try again.");
-       redirect_to("/?signin");
-  }
-  set_flash("Lovely, you are now signed in!");
-  redirect_to("/");
+       $app->set_flash("Something wrong with name or password. Try again.");
+       $app->redirect_to("/signin");
+   }
+   $app->set_flash("Lovely, you are now signed in!");
+   $app->redirect_to("/");
 });
 
-put("/?change",function(){
-  // Not complete of course
-  set_flash("Password is changed");
-  redirect_to("/");
+put("/change",function($app){
+  // Not complete because can't handle complex routes like /change/23
+  $app->set_flash("Password is changed");
+  $app->redirect_to("/");
 });
 
-get("/?admin",function(){
-   force_to_http("/admin");
-   $messages["title"]="Art Company Adminstration";
-   $messages["message"]="Welcome, ADMIN";
-   render($messages,LAYOUT,"art_admin");
+
+get("/admin",function($app){
+   $app->force_to_http("/admin");
+   $app->set_message("title","Art Company Adminstration");
+   $app->set_message("message","Welcome, ADMIN");
+   $app->render(LAYOUT,"art_admin");
 });
 
 # The Delete call back is left for you to work out
 
-# This function is automatically run if the scrupt gets this far
-error_404(function(){
-    header("HTTP/1.0 404 Not Found");
-    render($messages,LAYOUT,"404");
-});
+// New. If it get this far then page not found
+resolve();
