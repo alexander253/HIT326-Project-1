@@ -145,7 +145,7 @@ get("/signout",function($app){
    // should this be GET or POST or PUT?????
    $app->force_to_http("/signout");
    require MODEL;
-   if(is_authenticated()){
+   if(is_authenticated() || is_admin_authenticated()){
       try{
          sign_out();
          $app->set_flash("You are now signed out.");

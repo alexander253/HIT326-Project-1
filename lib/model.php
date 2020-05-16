@@ -310,6 +310,13 @@ function sign_out(){
        $_SESSION = array();
        session_destroy();
     }
+
+    else if(!empty($_SESSION["admin"]) && !empty($_SESSION["password"])){
+      $_SESSION["admin"] = "";
+      $_SESSION["password"] = "";
+      $_SESSION = array();
+      session_destroy();
+    }
     session_write_close();
 }
 
