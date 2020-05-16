@@ -13,8 +13,9 @@
   <li><a href='/'>Home</a></li>
   <li><a href='/signin'>Sign in</a></li>
   <li><a href='/signup'>Sign up</a></li>
-  <li><a href='/signout'>Sign out</a></li>
   <li><a href='/change'>Change password</a></li>
+  <li><a href='/admin_signin'>Admin</a></li>
+  <li><a href='/signout'>Sign out</a></li>
 </ul>
 </nav>
 
@@ -25,7 +26,7 @@
     echo "<p class='flash'>{$flash}</p>";
   }
   if(!empty($error)){
-    echo "<p class='flash'>{$error}</p>";	
+    echo "<p class='flash'>{$error}</p>";
   }
   require $content;
 ?>

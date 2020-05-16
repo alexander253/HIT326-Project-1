@@ -41,6 +41,9 @@ get("/signin",function($app){
      if(is_authenticated()){
         $app->set_message("error","You are already signed in, please sign out before signing in again.");
      }
+     else if(is_admin_authenticated()){
+       $app->set_message("error", "You are signed in as a admin, please sign out before signin in again.");
+     }
    }
    catch(Exception $e){
        $app->set_message("error",$e->getMessage($app));
@@ -48,14 +51,42 @@ get("/signin",function($app){
    $app->render(LAYOUT,"signin");
 });
 
+get("/admin_signin",function($app){
+   $app->force_to_http("/admin_signin");
+   $app->set_message("title","Administrater sign in");
+   require MODEL;
+   try{
+     if(is_authenticated()){
+        $app->set_flash("error","You do not have permission to access this page");
+        $app->redirect_to("/");
+     }
+     else if(is_admin_authenticated()){
+       $app->redirect_to("/admin");
+     }
+   }
+   catch(Exception $e){
+       $app->set_message("error",$e->getMessage($app));
+   }
+   $app->render(LAYOUT,"admin_signin");
+});
+
+get("/admin",function($app){
+  $app->force_to_http("/admin");
+  $app->set_message("title","Administrater");
+  require MODEL;
+  $app->render(LAYOUT,"admin");
+});
+
 get("/signup",function($app){
     $app->force_to_http("/signup");
     require MODEL;
     $messages["title"]="Sign up";
     $is_authenticated=false;
+    $is_admin_authenticated = false;
     $is_db_empty=false;
     try{
        $is_authenticated = is_authenticated();
+       $is_admin_authenticated = is_admin_authenticated();
        $is_db_empty = is_db_empty();
     }
     catch(Exception $e){
@@ -65,6 +96,10 @@ get("/signup",function($app){
 
     if($is_authenticated){
         $app->set_message("error","Create more accounts for other users.");
+    }
+    else if($is_admin_authenticated){
+      $app->set_message("error", "You are signed in as a admin, please sign out to sign up users");
+      $app->redirect_to("/admin");
     }
     //else if(!$is_authenticated && $is_db_empty){
        //$app->set_message("error","You are the SUPER USER. This account cannot be deleted. You are the boss. The only way to clear the SUPER USER from the database is to DROP the entire table. Please sign in after you have finished signing up.");
@@ -198,6 +233,27 @@ post("/signin",function($app){
   }
   $app->set_flash("Lovely, you are now signed in!");
   $app->redirect_to("/");
+});
+
+post("/adminsignin",function($app){
+  $admin = $app->form('admin');
+  $password = $app->form('password');
+  if($admin && $password){
+    require MODEL;
+    try{
+       admin_sign_in($admin,$password);
+    }
+    catch(Exception $e){
+      $app->set_flash("Could not sign you in. Try again. {$e->getMessage()}");
+      $app->redirect_to("/admin_signin");
+    }
+  }
+  else{
+       $app->set_flash("Invalid credentials, try again");
+       $app->redirect_to("/admin_signin");
+  }
+  $app->set_flash("Welcome admin");
+  $app->redirect_to("/admin");
 });
 
 put("/change",function($app){
