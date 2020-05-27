@@ -26,12 +26,25 @@ $messages = array();
 /* Here is our Controller code i.e. API if you like.  */
 /* The following are just examples of how you might set up a basic app with authentication */
 
+
 get("/",function($app){
    $app->force_to_http("/");
    $app->set_message("title","Home");
-   $app->set_message("message","Welcome");
+   require MODEL;
+   $app ->set_message("artworks", get_artwork());
    $app->render(LAYOUT,"home");
 });
+
+
+get("/admin",function($app){
+  $app->force_to_http("/admin");
+  $app->set_message("title","Administrater");
+  require MODEL;
+  $app ->set_message("artworks", get_artwork());
+  $app->render(LAYOUT,"admin");
+});
+
+
 
 get("/signin",function($app){
    $app->force_to_http("/signin");
@@ -39,10 +52,12 @@ get("/signin",function($app){
    require MODEL;
    try{
      if(is_authenticated()){
-        $app->set_message("error","You are already signed in, please sign out before signing in again.");
+        $app->set_flash("You are already signed in, please sign out before signing in again.");
+        $app->redirect_to("/");
      }
      else if(is_admin_authenticated()){
-       $app->set_message("error", "You are signed in as a admin, please sign out before signin in again.");
+       $app->set_flash("You are signed in as a admin, please sign out before signin in again.");
+       $app->redirect_to("/admin");
      }
    }
    catch(Exception $e){
@@ -70,13 +85,6 @@ get("/admin_signin",function($app){
    $app->render(LAYOUT,"admin_signin");
 });
 
-get("/admin",function($app){
-  $app->force_to_http("/admin");
-  $app->set_message("title","Administrater");
-  require MODEL;
-  $app->render(LAYOUT,"admin");
-});
-
 get("/signup",function($app){
     $app->force_to_http("/signup");
     require MODEL;
@@ -95,10 +103,11 @@ get("/signup",function($app){
     }
 
     if($is_authenticated){
-        $app->set_message("error","Create more accounts for other users.");
+        $app->set_flash("You are signed in as a user! Please sign out before signing up!");
+        $app->redirect_to("/");
     }
     else if($is_admin_authenticated){
-      $app->set_message("error", "You are signed in as a admin, please sign out to sign up users");
+      $app->set_flash("You are signed in as a admin, please sign out to sign up users");
       $app->redirect_to("/admin");
     }
     //else if(!$is_authenticated && $is_db_empty){
@@ -116,14 +125,14 @@ get("/change",function($app){
    $app->force_to_http("/change");
    $app->set_message("title","Change password");
    require MODEL;
-   $name="";
+   $lname="";
    try{
       if(is_authenticated()){
         try{
-           $name = get_user_name();
-           $app->set_message("name",$name);
-           $id = get_user_id();
-           $app->set_message("user_id",$id);
+           $lname = getUserLName();
+           $app->set_message("name",$lname);
+           $email = getUserEmail();
+           $app->set_message("Email",$email);
         }
         catch(Exception $e){
             $app->set_message("error","Error with retrieving name");
@@ -187,7 +196,8 @@ post("/signup",function($app){
           if($first_name && $last_name && $title && $email && $email_confirm && $pw && $pw_confirm && $address && $city && $state && $country && $post_code && $phone){
               try{
                 sign_up($first_name, $last_name, $title, $email, $email_confirm, $pw, $pw_confirm, $address, $city, $state, $country, $post_code, $phone);
-                $app->set_flash(htmlspecialchars($app->form('fname'))." is now signed up ");
+                $app->set_flash("You are signed up, sign in here!");//htmlspecialchars($app->form('fname'))."
+                $app->redirect_to("/signup");
              }
              catch(Exception $e){
                   $app->set_flash($e->getMessage());
@@ -212,6 +222,56 @@ post("/signup",function($app){
 
 
     }
+});
+
+post("/addProduct", function($app){
+  require MODEL;
+  try{
+    if(is_admin_authenticated()){
+      $productName = $app->form('pName');
+      $productPrice = $app->form('price');
+      $productSize = $app->form('size');
+      $imgName = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
+
+      $target_dir = "uploads/";
+      $target_file = $target_dir . basename($_FILES["image"]["name"]);
+      $uploadOk = 1;
+
+      $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+      $check = getimagesize($_FILES["image"]["tmp_name"]);
+      $extension = image_type_to_extension($check[2]);
+
+      if ($extension === ".jpeg"){
+        $extension = ".jpg";
+      }
+      
+      if ($check !== false){
+        $uploadOk = 1;
+      } else {
+        $uploadOk = 0;
+      }
+
+      if (file_exists($target_file)) {
+        $app->set_flash("Sorry, file already exists");
+        $uploadOk = 0;
+      }
+
+      if ($uploadOk === 1){
+        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+        $productImgPath = "$target_dir" . "$imgName" . "$extension";
+        addProduct($productName, $productPrice, $productSize, $productImgPath);
+      }
+
+    } else {
+      $app->set_flash("You are not signed in as admin");
+      $app->redirect_to("/admin");
+    }
+  }
+  catch(Exception $e){
+       $app->set_flash($e->getMessage());
+       $app->redirect_to("/admin");
+     }
+  $app->redirect_to("/admin");
 });
 
 post("/signin",function($app){
@@ -258,6 +318,11 @@ post("/adminsignin",function($app){
 
 put("/change",function($app){
   // Not complete because can't handle complex routes like /change/23
+  $email = getUserEmail();
+  $oldPassword = $app->form('old-Password');
+  $password = $app->form('password');
+  $pwConfirm = $app->form('password-confirm');
+  change_password($email, $oldPassword, $password, $pwConfirm);
   $app->set_flash("Password is changed");
   $app->redirect_to("/");
 });

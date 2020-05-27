@@ -15,6 +15,23 @@ function get_db(){
 
 }
 
+function get_artwork(){
+   try{
+      $db = get_db();
+      $query = "SELECT ProductID, ProductName, ProductPrice, ProductSize, ProductImage FROM ProductDetails";
+      $statement = $db->query($query);
+      $statement -> execute();
+      $artworks = $statement->fetchall(PDO::FETCH_ASSOC);
+      return $artworks;
+   }
+
+   catch(PDOException $e){
+      throw new Exception($e->getMessage());
+      return "";
+      }
+}
+
+
 /* Other functions can go below here */
 
 function sign_up($first_name, $last_name, $title, $email, $email_confirm, $password, $password_confirm, $address, $city, $state, $country, $post_code, $phone){
@@ -48,40 +65,40 @@ function sign_up($first_name, $last_name, $title, $email, $email_confirm, $passw
 
 }
 
-function get_user_id(){
-   $id="";
+function getUserEmail(){
+   $email="";
    session_start();
-   if(!empty($_SESSION["id"])){
-      $id = $_SESSION["id"];
+   if(!empty($_SESSION["email"])){
+      $email = $_SESSION["email"];
    }
    session_write_close();
-   return $id;
+   return $email;
 }
 
-function get_user_name(){
-   $id="";
-   $name="";
+function getUserLName(){
+   $email="";
+   $lname="";
    session_start();
-   if(!empty($_SESSION["id"])){
-      $id = $_SESSION["id"];
+   if(!empty($_SESSION["email"])){
+      $email = $_SESSION["email"];
    }
    session_write_close();
 
-   if(empty($id)){
-     throw new Exception("User has no valid id");
+   if(empty($email)){
+     throw new Exception("User has no email");
    }
 
    try{
       $db = get_db();
-      $query = "SELECT name FROM users WHERE id=?";
+      $query = "SELECT CustLName FROM CustomerDetails WHERE CustEmail=?";
       if($statement = $db->prepare($query)){
-         $binding = array($id);
+         $binding = array($email);
          if(!$statement -> execute($binding)){
                  throw new Exception("Could not execute query.");
          }
          else{
             $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $name = $result['name'];
+            $lname = $result['CustLName'];
          }
       }
       else{
@@ -92,7 +109,7 @@ function get_user_name(){
    catch(Exception $e){
       throw new Exception($e->getMessage());
    }
-   return $name;
+   return $lname;
 }
 
 function sign_in($email,$password){
@@ -321,7 +338,55 @@ function sign_out(){
 }
 
 
-function change_password($user_id, $old_pw, $new_pw, $pw_confirm){
+function change_password($user_Email, $old_pw_input, $new_pw, $pw_confirm){
+  session_start();
+  if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
+    $old_pw = $_SESSION["hash"];
+    $email = $_SESSION["email"];
+  }
+  session_write_close();
+
+  if ($old_pw === $old_pw_input){
+    if ($new_pw === $pw_confirm){
+      $db = get_db();
+      $salt = generate_salt();
+      $new_password_hash = generate_password_hash($new_pw,$salt);
+      $query = "UPDATE CustomerDetails SET (Cust_hashed_Password, Cust_salt) VALUES (?,?)";
+      if($statement = $db->prepare($query)){
+           $binding = array($new_password_hash, $salt);
+          if(!$statement -> execute($binding)){
+              throw new Exception("Could not execute query.");
+          }
+    }
+
+    }
+  }
+}
+
+function addProduct($productName, $productPrice, $productSize, $productImgPath){
+  try{
+    $db = get_db();
+
+    if ($productName && $productPrice && $productSize && $productImgPath) {
+         $query = "INSERT INTO ProductDetails (ProductName, ProductPrice, ProductSize, ProductImage) VALUES (?,?,?,?)";
+         if($statement = $db->prepare($query)){
+            $binding = array($productName, $productPrice, $productSize, $productImgPath);
+            if(!$statement -> execute($binding)){
+                throw new Exception("Could not execute query.");
+            }
+         }
+         else{
+           throw new Exception("Could not prepare statement.");
+
+         }
+    }
+    else{
+       throw new Exception("Invalid data.");
+    }
 
 
+  }
+  catch(Exception $e){
+      throw new Exception($e->getMessage());
+  }
 }
