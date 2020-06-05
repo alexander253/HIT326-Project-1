@@ -30,24 +30,27 @@ class Application{
     /* Added properties */
     private $messages = array();
     private $method = "";
-    
+
+    private $route_segments = array();
+    private $route_variables = array();
+
     public static function get_instance(){
         if(!isset(static::$instance)){
             static::$instance = new Application();
         }
         return static::$instance;
     }
-    
+
     protected function __construct(){
         $this->route = $this->get_route();
         /* New */
         $this->method = $this->get_method();
     }
-    
+
     public function get_route(){
-      return $_SERVER['REQUEST_URI'];  
+      return $_SERVER['REQUEST_URI'];
     }
-    
+
     public static function register($route,$callback, $method){
         $application = static::get_instance();
         /* NEW addition of method at end */
@@ -55,11 +58,69 @@ class Application{
             static::$route_found = true;
             echo $callback($application);
         }
+
+        else if(!static::$route_found){
+          $application = static::get_instance();
+          $url_parts = explode("/",trim($route,"/"));
+          $matched = null;
+
+          if(count($application->route_segments) == count($url_parts)){
+             foreach($url_parts as $key=>$part){
+                if(strpos($part,":") !== false){
+                    //This means we have a route variable
+
+                    //Reject if URI segment is empty? e.g. /admin/user/12. is /admin//12. Invalid URI.
+                    if(empty($application->route_segments[$key])){
+                        $matched = false;
+                        break;
+                    }
+
+                   if(strpos($part,";") !== false){
+                       //means we have a regex
+                       $parts = explode(";",trim($part," "));
+
+                      if(count($parts === 2)){
+                         if(!preg_match("/^{$parts[1]}$/",$application->route_segments[$key])){
+                             $matched = false;
+                             break;
+                         }
+                      }
+                      $part = $parts[0];
+                    }
+                    $application->route_variables[substr($part,1)] = $application->route_segments[$key];
+                    $matched = true;
+                }
+                else{
+                  //Means we do not have a route variable
+                  if($part == $application->route_segments[$key]){
+                      if(!$matched){
+                         $matched = true;
+                      }
+                  }
+                  else{
+                     //Means routes don't match
+                     $matched = false;
+                     break;
+                  }
+                  if(!$matched || $application->method != $method){
+                    if(!$matched){
+                       $matcher = "NULL";
+                    }
+                    return false;
+                  }
+                  else{
+                    static::$route_found = true;
+                    echo $callback($application);
+                  }
+                }
+             }
+          }
         else{
             return false;
         }
-    }   
-    
+    }
+  }
+
     /* All the the methods below come from week 6 functions in application.php i.e. example 17*/
 
 
@@ -70,7 +131,7 @@ class Application{
        foreach($this->messages As $key => $val){
             $$key = $val;
        }
-       
+
 
        $flash = $this->get_flash();
 
@@ -87,6 +148,10 @@ class Application{
 
     public function get_request(){
       return $_SERVER['REQUEST_URI'];
+    }
+
+    public function route_var($key){
+      return $this->route_variables[$key];
     }
 
     public function force_to_https($path="/"){
@@ -158,9 +223,9 @@ class Application{
     }
 
     public function get_flash($msg = ""){
-          return $this->get_session_message("flash");   
+          return $this->get_session_message("flash");
     }
-    
+
     /* added to remove global message from procedural technique*/
     public function set_message($key,$value){
       $this->messages[$key] = $value;
@@ -171,7 +236,7 @@ class Application{
 	  if(!static::$route_found){
 		$application = static::get_instance();
 		header("HTTP/1.0 404 Not Found");
-	    $application->render("standard","404");	
+	    $application->render("standard","404");
 	  }
     }
 
@@ -180,6 +245,3 @@ class Application{
 
 
 }
-
-
-

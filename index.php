@@ -35,6 +35,32 @@ get("/",function($app){
    $app->render(LAYOUT,"home");
 });
 
+get("/cart",function($app){
+   $app->set_message("title","My cart");
+   $app->set_message("message","Your cart");
+   require MODEL;
+   if(is_authenticated()){
+     try{
+        $app->set_message("artworks", get_artwork());
+        $app->render(LAYOUT,"cart");
+      }
+      catch(Exception $e){
+        $app->set_flash($e->getMessage());
+      }
+    }
+     else{
+       $app->set_flash("You can't add product to cart if you are not signed in!");
+       $app->redirect_to("/");
+     }
+});
+
+get("/clearCart", function($app){
+  $app->set_message("title","My cart");
+  $app->set_message("message","Your cart");
+  require MODEL;
+  resetCart();
+  $app->redirect_to("/cart");
+});
 
 get("/admin",function($app){
   $app->force_to_http("/admin");
@@ -72,7 +98,7 @@ get("/admin_signin",function($app){
    require MODEL;
    try{
      if(is_authenticated()){
-        $app->set_flash("error","You do not have permission to access this page");
+        $app->set_flash("You do not have permission to access this page");
         $app->redirect_to("/");
      }
      else if(is_admin_authenticated()){
@@ -121,8 +147,8 @@ get("/signup",function($app){
    $app->render(LAYOUT,"signup");
 });
 
-get("/change",function($app){
-   $app->force_to_http("/change");
+get("/change_password", function($app){
+   $app->force_to_http("/change_password");
    $app->set_message("title","Change password");
    require MODEL;
    $lname="";
@@ -175,6 +201,9 @@ get("/signout",function($app){
 });
 
 
+
+
+
 post("/signup",function($app){
     require MODEL;
     try{
@@ -197,7 +226,7 @@ post("/signup",function($app){
               try{
                 sign_up($first_name, $last_name, $title, $email, $email_confirm, $pw, $pw_confirm, $address, $city, $state, $country, $post_code, $phone);
                 $app->set_flash("You are signed up, sign in here!");//htmlspecialchars($app->form('fname'))."
-                $app->redirect_to("/signup");
+                $app->redirect_to("/signin");
              }
              catch(Exception $e){
                   $app->set_flash($e->getMessage());
@@ -244,7 +273,7 @@ post("/addProduct", function($app){
       if ($extension === ".jpeg"){
         $extension = ".jpg";
       }
-      
+
       if ($check !== false){
         $uploadOk = 1;
       } else {
@@ -272,6 +301,41 @@ post("/addProduct", function($app){
        $app->redirect_to("/admin");
      }
   $app->redirect_to("/admin");
+});
+
+post("/cart",function($app){
+    session_start();
+    require MODEL;
+    date_default_timezone_set("Australia/North");
+    $cart= $_SESSION['cart'];
+    $CustEmail= $_SESSION["email"];
+    $OrderDate = date('Y/m/d H:m:s');
+    $list_products = array();
+
+    if(!empty($_SESSION["cart"])){
+    foreach($_SESSION['cart'] as $select=>$val){
+          $ProductID= $val;
+          array_push($list_products, $ProductID);
+     }
+    }
+    $ProductIDs = implode(" ", $list_products);
+    if($ProductIDs){
+      try{
+        checkout($CustEmail, $OrderDate, $ProductIDs);
+        resetCart();
+        $app->set_flash("Lovely, your order has been placed.");
+
+}
+    catch(Exception $e){
+    $app->  set_flash($e->getMessage());
+      $app->redirect_to("/cart");
+    }
+  }
+  else{
+     $app->set_flash("You have not placed your order yet.");
+     $app->redirect_to("/");
+  }
+  $app->redirect_to("/cart");
 });
 
 post("/signin",function($app){
@@ -316,14 +380,24 @@ post("/adminsignin",function($app){
   $app->redirect_to("/admin");
 });
 
-put("/change",function($app){
-  // Not complete because can't handle complex routes like /change/23
+post("/change/:id;[\d]+", function($app){
+  $id = $app->route_var("id");
+  require MODEL;
   $email = getUserEmail();
   $oldPassword = $app->form('old-Password');
   $password = $app->form('password');
   $pwConfirm = $app->form('password-confirm');
-  change_password($email, $oldPassword, $password, $pwConfirm);
-  $app->set_flash("Password is changed");
+  try{
+    change_password($email, $oldPassword, $password, $pwConfirm);
+    sign_out();
+  }
+  catch (Exception $e){
+    $app->set_flash("Incorrect credentials, try again. {$e->getMessage()}");
+    $app->redirect_to("/change");
+  }
+
+
+  $app->set_flash("Password is changed, please sign in again");
   $app->redirect_to("/");
 });
 

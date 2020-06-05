@@ -1,6 +1,7 @@
 /*USE dac_db; dac short for Darwin Art Company*/
 
 CREATE TABLE `CustomerDetails` (
+  CustId int (12) NOT NULL auto_increment,
   CustFName varchar(255) NOT NULL,
   CustLName varchar(255) NOT NULL,
   CustTitle varchar(5) NOT NULL,
@@ -13,30 +14,23 @@ CREATE TABLE `CustomerDetails` (
   CustCountry varchar(150) NOT NULL,
   CustPostCode int(10) NOT NULL,
   CustPhone int (25) NOT NULL,
-  PRIMARY KEY (CustEmail)
+  PRIMARY KEY (CustId)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `PurchaseDetails` (
-  PurchasedID int(12) NOT NULL auto_increment,
+  PurchaseID int(12) NOT NULL auto_increment,
   CustEmail varchar(254) references `CustomerDetails` (CustEmail),
-  OrderID int(12) references `OrderDetails` (OrderID),
+  OrderDate varchar(255) NOT NULL,
   PRIMARY KEY (PurchasedID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `OrderDetails` (
   OrderID int(12) NOT NULL auto_increment,
-  PurchasesID int(12) references `ProductPurchase` (PurchasesID),
+  ProductID char(100) NOT NULL,
+  OrderDate varchar(255) NOT NULL,
   PRIMARY KEY (OrderID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `ProductPurchase` (
-  PurchasesID int(11) NOT NULL auto_increment,
-  ProductID int(11) references `ProductDetails` (ProductID),
-  ProductQuantity int(3) NOT NULL,
-  OrderID int(12) references `OrderDetails` (OrderID),
-  PRIMARY KEY (PurchasesID)
-
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ProductDetails` (
   ProductID int(11) NOT NULL auto_increment,

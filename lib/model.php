@@ -15,6 +15,32 @@ function get_db(){
 
 }
 
+function add(){
+    if(isset($_POST['add'])) {
+      session_start();
+      $shopping = $_POST['shopping'];
+      array_push($_SESSION['cart'],$shopping);
+    }
+  }
+
+
+function cart(){
+    if(!empty($_SESSION["cart"])){
+    foreach($_SESSION['cart'] as $select=>$val)
+      {
+        $db = get_db();
+        $query = "SELECT  ProductName, ProductPrice, ProductSize, ProductImage FROM ProductDetails where ProductID = ? ";
+        $ProductID= $val;
+        if($statement = $db->prepare($query)){
+          $binding = array($val);
+        $statement -> execute($binding);
+        $artworks = $statement->fetchall(PDO::FETCH_ASSOC);
+        return $artworks;
+      }
+    }
+  }
+}
+
 function get_artwork(){
    try{
       $db = get_db();
@@ -75,6 +101,32 @@ function getUserEmail(){
    return $email;
 }
 
+function getUserId(){
+  $id = "";
+  $email = "";
+  session_start();
+  if (!empty($_SESSION["email"])){
+    $email=$_SESSION["email"];
+  }
+  session_write_close();
+  $db = get_db();
+  $query = "SELECT CustId FROM CustomerDetails WHERE CustEmail=?";
+  if($statement = $db->prepare($query)){
+     $binding = array($email);
+     if(!$statement -> execute($binding)){
+             throw new Exception("Could not execute query.");
+     }
+     else{
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $id = $result['CustId'];
+     }
+  }
+  else{
+        throw new Exception("Could not prepare statement.");
+  }
+  return $id;
+}
+
 function getUserLName(){
    $email="";
    $lname="";
@@ -130,7 +182,8 @@ function sign_in($email,$password){
             }
             else{
                $email = $result["CustEmail"];
-               set_authenticated_session($email,$hashed_password);
+               $cart = array();
+               set_authenticated_session($email,$hashed_password, $cart);
             }
          }
       }
@@ -193,7 +246,7 @@ function is_db_empty(){
 
 }
 
-function set_authenticated_session($email,$password_hash){
+function set_authenticated_session($email,$password_hash,$cart){
       session_start();
 
       //Make it a bit harder to session hijack
@@ -201,6 +254,7 @@ function set_authenticated_session($email,$password_hash){
 
       $_SESSION["email"] = $email;
       $_SESSION["hash"] = $password_hash;
+      $_SESSION["cart"] = $cart;
       session_write_close();
 }
 
@@ -337,29 +391,86 @@ function sign_out(){
     session_write_close();
 }
 
+function resetCart(){
+  session_start();
+  unset($_SESSION['cart']);
+  $cart = array();
+  $_SESSION['cart'] = $cart;
+  session_write_close();
+}
+
+  function checkout($CustEmail, $OrderDate, $ProductIDs){
+      $db = get_db();
+      if ($CustEmail && $OrderDate && $ProductIDs){
+        try{
+          $query = "INSERT INTO OrderDetails (ProductID, OrderDate) VALUES (?,?)";
+          $statement = $db->prepare($query);
+          $binding = array($ProductIDs, $OrderDate);
+          $statement -> execute($binding);
+        }
+        catch(Exception $e){
+           throw new Exception("Order not placed, please log out and log back in. {$e->getMessage()}");
+        }
+      } else {
+        throw new Exception("Could not execute query.");
+      }
+
+      $query = "SELECT OrderID FROM OrderDetails WHERE OrderDate = ?";
+      if($statement = $db->prepare($query)){
+        $binding = array($OrderDate);
+        if(!$statement -> execute($binding)){
+           return false;
+        }
+        else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $OrderID = $result['OrderID'];
+            }
+        }
+
+      if ($OrderID){
+        $query = "INSERT INTO PurchaseDetails (PurchaseID, CustEmail, OrderDate) VALUES (?,?,?)";
+        $statement = $db->prepare($query);
+        $binding = array($OrderID, $CustEmail, $OrderDate);
+        $statement -> execute($binding);
+      } else {
+        throw new Exception("Could not execute query.");
+      }
+}
+
 
 function change_password($user_Email, $old_pw_input, $new_pw, $pw_confirm){
   session_start();
   if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
-    $old_pw = $_SESSION["hash"];
+    $old_pw_hash = $_SESSION["hash"];
     $email = $_SESSION["email"];
   }
   session_write_close();
-
-  if ($old_pw === $old_pw_input){
-    if ($new_pw === $pw_confirm){
-      $db = get_db();
-      $salt = generate_salt();
-      $new_password_hash = generate_password_hash($new_pw,$salt);
-      $query = "UPDATE CustomerDetails SET (Cust_hashed_Password, Cust_salt) VALUES (?,?)";
-      if($statement = $db->prepare($query)){
-           $binding = array($new_password_hash, $salt);
-          if(!$statement -> execute($binding)){
-              throw new Exception("Could not execute query.");
-          }
+  $db = get_db();
+  $query = "SELECT Cust_salt FROM CustomerDetails Where CustEmail = ?";
+  if($statement = $db->prepare($query)){
+    $binding = array($email);
+    if(!$statement -> execute($binding)){
+       return false;
+    }
+    else{
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $cust_salt = $result['Cust_salt'];
+        }
+    }
+  $old_pw_input_hash = generate_password_hash($old_pw_input, $cust_salt);
+  if ($old_pw_hash === $old_pw_input_hash && $new_pw === $pw_confirm && $user_Email === $email){
+    $db = get_db();
+    $salt = generate_salt();
+    $new_password_hash = generate_password_hash($new_pw,$salt);
+    $query = "UPDATE CustomerDetails SET Cust_hashed_Password = ?, Cust_salt = ? WHERE CustEmail = ?";
+    if($statement = $db->prepare($query)){
+      exit();
+         $binding = array($new_password_hash, $salt, $email);
+        if(!$statement -> execute($binding)){
+            throw new Exception("Could not execute query.");
+        }
     }
 
-    }
   }
 }
 
