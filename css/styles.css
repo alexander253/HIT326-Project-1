@@ -1,3 +1,4 @@
+/*Product display*/
 #product {
   margin-top: 10px;
   font-family: arial, sans-serif;
@@ -22,7 +23,7 @@
   color: black;
 }
 
-
+/*pop up review window*/
 .overlay {
   position: fixed;
   top: 0;

@@ -21,7 +21,7 @@ CREATE TABLE `PurchaseDetails` (
   PurchaseID int(12) NOT NULL auto_increment,
   CustEmail varchar(254) references `CustomerDetails` (CustEmail),
   OrderDate varchar(255) NOT NULL,
-  PRIMARY KEY (PurchasedID)
+  PRIMARY KEY (PurchaseID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `OrderDetails` (

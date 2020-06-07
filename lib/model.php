@@ -1,20 +1,51 @@
 <?php
-
+//Database functions
 function get_db(){
     $db = null;
 
     try{
-        $db = new PDO('mysql:host=localhost;dbname=test_db', 'root','');
+        $db = new PDO('mysql:host=localhost;dbname=dac_db', 'root','');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(PDOException $e){
-        // notice how we THROW the exception. You can catch this in your controller code in the usual way
+        //Catch errors where if something is wrong witht the database
         throw new Exception("Something wrong with the database: ".$e->getMessage());
     }
     return $db;
 
 }
 
+function is_db_empty(){
+   $is_empty = false;
+   try{
+      $db = get_db();
+      $query = "SELECT * FROM CustomerDetails";
+      if($statement = $db->prepare($query)){
+	       $id=1;
+         $binding = array($id);
+         if(!$statement -> execute($binding)){
+                 throw new Exception("Could not execute query.");
+         }
+         else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            if(empty($result)){
+	          $is_empty = true;
+            }
+         }
+      }
+      else{
+            throw new Exception("Could not prepare statement.");
+      }
+
+   }
+   catch(Exception $e){
+      throw new Exception($e->getMessage());
+   }
+   return $is_empty;
+
+}
+
+//Cart related functions
 function add(){
     if(isset($_POST['add'])) {
       session_start();
@@ -41,6 +72,138 @@ function cart(){
   }
 }
 
+function resetCart(){
+  session_start();
+  unset($_SESSION['cart']);
+  $cart = array();
+  $_SESSION['cart'] = $cart;
+  session_write_close();
+}
+
+function checkout($CustEmail, $OrderDate, $ProductIDs){
+      $db = get_db();
+      if ($CustEmail && $OrderDate && $ProductIDs){
+        try{
+          $query = "INSERT INTO OrderDetails (ProductID, OrderDate) VALUES (?,?)";
+          $statement = $db->prepare($query);
+          $binding = array($ProductIDs, $OrderDate);
+          $statement -> execute($binding);
+        }
+        catch(Exception $e){
+           throw new Exception("Order not placed, please log out and log back in. {$e->getMessage()}");
+        }
+      } else {
+        throw new Exception("Could not execute query.");
+      }
+
+      $query = "SELECT OrderID FROM OrderDetails WHERE OrderDate = ?";
+      if($statement = $db->prepare($query)){
+        $binding = array($OrderDate);
+        if(!$statement -> execute($binding)){
+           return false;
+        }
+        else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $OrderID = $result['OrderID'];
+            }
+        }
+
+      if ($OrderID){
+        $query = "INSERT INTO PurchaseDetails (PurchaseID, CustEmail, OrderDate) VALUES (?,?,?)";
+        $statement = $db->prepare($query);
+        $binding = array($OrderID, $CustEmail, $OrderDate);
+        $statement -> execute($binding);
+      } else {
+        throw new Exception("Could not execute query.");
+      }
+
+      $query = "SELECT ProductID FROM OrderDetails WHERE OrderDate = ?";
+      if($statement = $db->prepare($query)){
+        $binding = array($OrderDate);
+        if(!$statement -> execute($binding)){
+           return false;
+        }
+        else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $productID = $result['ProductID'];
+            }
+        }
+
+        $listOfProducts = array();
+        $total = 0;
+        $listProductID = explode(" ", $productID);
+        foreach ($listProductID as $item){
+          $query = "SELECT ProductName, ProductPrice, ProductSize FROM ProductDetails WHERE ProductID = ?";
+          if($statement = $db->prepare($query)){
+            $binding = array($item);
+            if(!$statement -> execute($binding)){
+               return false;
+            }
+            else{
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+                $productName = $result['ProductName'];
+                $productPrice = $result['ProductPrice'];
+                $productSize = $result['ProductSize'];
+                if ($productName !== NULL && $productPrice !== NULL && $productSize !== NULL){
+                  $total = $total + $productPrice;
+                  $productName = "Name: $productName";
+                  $productPrice = "$ $productPrice";
+                  $productSize = "Size: $productSize";
+                  $space = "        ";
+                  array_push($listOfProducts, "\n $space $productName $productPrice $productSize \n");
+                  }
+                }
+            }
+        }
+        //Sending to customer
+        $strOfProducts = implode(" ", $listOfProducts);
+        $lname = getUserLName();
+        $msg =  "Dear $lname, \n\n
+        Included following is the details of your purchase: \n
+        $strOfProducts \n\n
+        Time of purchase: $OrderDate\n
+        Total: $$total \n\n
+        Thank you for your purchase!";
+        $sub = "Purchase details";
+        mail($CustEmail, $sub, $msg);
+
+        $customerAddress = array();
+        $query = "SELECT CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone FROM CustomerDetails WHERE CustEmail = ?";
+        if($statement = $db->prepare($query)){
+          $binding = array($CustEmail);
+          if(!$statement -> execute($binding)){
+             return false;
+          }
+          else{
+              $result = $statement->fetch(PDO::FETCH_ASSOC);
+              $CustAddress = $result['CustAddress'];
+              $CustCity = $result['CustCity'];
+              $CustState = $result['CustState'];
+              $CustCountry = $result['CustCountry'];
+              $CustPostCode = $result['CustPostCode'];
+              $CustPhone = $result['CustPhone'];
+              array_push($customerAddress, "Address: $CustAddress City: $CustCity State: $CustState Country: $CustCountry Postcode: $CustPostCode Phone: $CustPhone");
+              }
+          }
+
+          //Email to company for purchase handling
+          $customerAddress = implode($customerAddress);
+          $msg =  "
+          Included following is the details of a purchase for handling: \n\n
+          Customer: $lname\n
+          Customer details:\n
+          $customerAddress\n\n
+          $strOfProducts \n\n
+          Time of purchase: $OrderDate\n
+          Total: $$total \n\n
+          Please handle purchase as soon as possible\n";
+          $sub = "Customer purchase";
+          mail($CustEmail, $sub, $msg); //CustEmail variable should be changed to company email, but will use customer (lecturer) email for now
+
+}
+
+//Artwork/product related functions
+
 function get_artwork(){
    try{
       $db = get_db();
@@ -57,6 +220,35 @@ function get_artwork(){
       }
 }
 
+function addProduct($productName, $productPrice, $productSize, $productImgPath){
+  try{
+    $db = get_db();
+
+    if ($productName && $productPrice && $productSize && $productImgPath) {
+         $query = "INSERT INTO ProductDetails (ProductName, ProductPrice, ProductSize, ProductImage) VALUES (?,?,?,?)";
+         if($statement = $db->prepare($query)){
+            $binding = array($productName, $productPrice, $productSize, $productImgPath);
+            if(!$statement -> execute($binding)){
+                throw new Exception("Could not execute query.");
+            }
+         }
+         else{
+           throw new Exception("Could not prepare statement.");
+
+         }
+    }
+    else{
+       throw new Exception("Invalid data.");
+    }
+
+
+  }
+  catch(Exception $e){
+      throw new Exception($e->getMessage());
+  }
+}
+
+//Review related functions
 function get_reviews(){
    try{
       $db = get_db();
@@ -72,7 +264,25 @@ function get_reviews(){
       }
 }
 
+function addReview($title, $review, $email){
+  try{
+    $db = get_db();
+    $query = "INSERT INTO Reviews (Title, Review, Email) VALUES (?,?,?)";
+    if($statement = $db->prepare($query)){
+       $binding = array($title, $review, $email);
+       if(!$statement -> execute($binding)){
+           throw new Exception("Could not execute query.");
+       }
+    }
+    else{
+      throw new Exception("Could not prepare statement.");
+    }
+  }catch(Exception $e){
+      throw new Exception($e->getMessage());
+  }
+}
 
+//User related functions
 
 function sign_up($first_name, $last_name, $title, $email, $email_confirm, $password, $password_confirm, $address, $city, $state, $country, $post_code, $phone){
    try{
@@ -103,6 +313,39 @@ function sign_up($first_name, $last_name, $title, $email, $email_confirm, $passw
        throw new Exception($e->getMessage());
    }
 
+}
+
+function sign_in($email,$password){
+   try{
+      $db = get_db();
+      $query = "SELECT CustEmail, Cust_salt, Cust_hashed_Password FROM CustomerDetails WHERE CustEmail=?";
+      if($statement = $db->prepare($query)){
+         $binding = array($email);
+         if(!$statement -> execute($binding)){
+                 throw new Exception("Could not execute query.");
+         }
+         else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $salt = $result['Cust_salt'];
+            $hashed_password = $result['Cust_hashed_Password'];
+            if(generate_password_hash($password,$salt) !== $hashed_password){
+                throw new Exception("Account does not exist!");
+            }
+            else{
+               $email = $result["CustEmail"];
+               $cart = array();
+               set_authenticated_session($email,$hashed_password, $cart);
+            }
+         }
+      }
+      else{
+            throw new Exception("Could not prepare statement.");
+      }
+
+   }
+   catch(Exception $e){
+      throw new Exception($e->getMessage());
+   }
 }
 
 function getUserEmail(){
@@ -178,39 +421,43 @@ function getUserLName(){
    return $lname;
 }
 
-function sign_in($email,$password){
-   try{
-      $db = get_db();
-      $query = "SELECT CustEmail, Cust_salt, Cust_hashed_Password FROM CustomerDetails WHERE CustEmail=?";
-      if($statement = $db->prepare($query)){
-         $binding = array($email);
-         if(!$statement -> execute($binding)){
-                 throw new Exception("Could not execute query.");
-         }
-         else{
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $salt = $result['Cust_salt'];
-            $hashed_password = $result['Cust_hashed_Password'];
-            if(generate_password_hash($password,$salt) !== $hashed_password){
-                throw new Exception("Account does not exist!");
-            }
-            else{
-               $email = $result["CustEmail"];
-               $cart = array();
-               set_authenticated_session($email,$hashed_password, $cart);
-            }
-         }
-      }
-      else{
-            throw new Exception("Could not prepare statement.");
-      }
+function change_password($user_Email, $old_pw_input, $new_pw, $pw_confirm){
+  session_start();
+  if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
+    $old_pw_hash = $_SESSION["hash"];
+    $email = $_SESSION["email"];
+  }
+  session_write_close();
+  $db = get_db();
+  $query = "SELECT Cust_salt FROM CustomerDetails Where CustEmail = ?";
+  if($statement = $db->prepare($query)){
+    $binding = array($email);
+    if(!$statement -> execute($binding)){
+       return false;
+    }
+    else{
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $cust_salt = $result['Cust_salt'];
+        }
+    }
+  $old_pw_input_hash = generate_password_hash($old_pw_input, $cust_salt);
+  if ($old_pw_hash === $old_pw_input_hash && $new_pw === $pw_confirm && $user_Email === $email){
+    $db = get_db();
+    $salt = generate_salt();
+    $new_password_hash = generate_password_hash($new_pw,$salt);
+    $query = "UPDATE CustomerDetails SET Cust_hashed_Password = ?, Cust_salt = ? WHERE CustEmail = ?";
+    if($statement = $db->prepare($query)){
+      exit();
+         $binding = array($new_password_hash, $salt, $email);
+        if(!$statement -> execute($binding)){
+            throw new Exception("Could not execute query.");
+        }
+    }
 
-   }
-   catch(Exception $e){
-      throw new Exception($e->getMessage());
-   }
+  }
 }
 
+//Program and admin related functions
 function admin_sign_in($admin, $password){
   try{
     if ($admin && $password){
@@ -228,36 +475,6 @@ function admin_sign_in($admin, $password){
   catch(Exception $e){
     throw new Exception($e->getMessage());
   }
-}
-
-function is_db_empty(){
-   $is_empty = false;
-   try{
-      $db = get_db();
-      $query = "SELECT * FROM CustomerDetails";
-      if($statement = $db->prepare($query)){
-	       $id=1;
-         $binding = array($id);
-         if(!$statement -> execute($binding)){
-                 throw new Exception("Could not execute query.");
-         }
-         else{
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            if(empty($result)){
-	          $is_empty = true;
-            }
-         }
-      }
-      else{
-            throw new Exception("Could not prepare statement.");
-      }
-
-   }
-   catch(Exception $e){
-      throw new Exception($e->getMessage());
-   }
-   return $is_empty;
-
 }
 
 function set_authenticated_session($email,$password_hash,$cart){
@@ -403,217 +620,4 @@ function sign_out(){
       session_destroy();
     }
     session_write_close();
-}
-
-function resetCart(){
-  session_start();
-  unset($_SESSION['cart']);
-  $cart = array();
-  $_SESSION['cart'] = $cart;
-  session_write_close();
-}
-
-function checkout($CustEmail, $OrderDate, $ProductIDs){
-      $db = get_db();
-      if ($CustEmail && $OrderDate && $ProductIDs){
-        try{
-          $query = "INSERT INTO OrderDetails (ProductID, OrderDate) VALUES (?,?)";
-          $statement = $db->prepare($query);
-          $binding = array($ProductIDs, $OrderDate);
-          $statement -> execute($binding);
-        }
-        catch(Exception $e){
-           throw new Exception("Order not placed, please log out and log back in. {$e->getMessage()}");
-        }
-      } else {
-        throw new Exception("Could not execute query.");
-      }
-
-      $query = "SELECT OrderID FROM OrderDetails WHERE OrderDate = ?";
-      if($statement = $db->prepare($query)){
-        $binding = array($OrderDate);
-        if(!$statement -> execute($binding)){
-           return false;
-        }
-        else{
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $OrderID = $result['OrderID'];
-            }
-        }
-
-      if ($OrderID){
-        $query = "INSERT INTO PurchaseDetails (PurchaseID, CustEmail, OrderDate) VALUES (?,?,?)";
-        $statement = $db->prepare($query);
-        $binding = array($OrderID, $CustEmail, $OrderDate);
-        $statement -> execute($binding);
-      } else {
-        throw new Exception("Could not execute query.");
-      }
-
-      $query = "SELECT ProductID FROM OrderDetails WHERE OrderDate = ?";
-      if($statement = $db->prepare($query)){
-        $binding = array($OrderDate);
-        if(!$statement -> execute($binding)){
-           return false;
-        }
-        else{
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $productID = $result['ProductID'];
-            }
-        }
-
-        $listOfProducts = array();
-        $total = 0;
-        $listProductID = explode(" ", $productID);
-        foreach ($listProductID as $item){
-          $query = "SELECT ProductName, ProductPrice, ProductSize FROM ProductDetails WHERE ProductID = ?";
-          if($statement = $db->prepare($query)){
-            $binding = array($item);
-            if(!$statement -> execute($binding)){
-               return false;
-            }
-            else{
-                $result = $statement->fetch(PDO::FETCH_ASSOC);
-                $productName = $result['ProductName'];
-                $productPrice = $result['ProductPrice'];
-                $productSize = $result['ProductSize'];
-                if ($productName !== NULL && $productPrice !== NULL && $productSize !== NULL){
-                  $total = $total + $productPrice;
-                  $productName = "Name: $productName";
-                  $productPrice = "$ $productPrice";
-                  $productSize = "Size: $productSize";
-                  $space = "        ";
-                  array_push($listOfProducts, "\n $space $productName $productPrice $productSize \n");
-                  }
-                }
-            }
-        }
-        //Sending to customer
-        $strOfProducts = implode(" ", $listOfProducts);
-        $lname = getUserLName();
-        $msg =  "Dear $lname, \n\n
-        Included following is the details of your purchase: \n
-        $strOfProducts \n\n
-        Time of purchase: $OrderDate\n
-        Total: $$total \n\n
-        Thank you for your purchase!";
-        $sub = "Purchase details";
-        mail($CustEmail, $sub, $msg);
-
-        $customerAddress = array();
-        $query = "SELECT CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone FROM CustomerDetails WHERE CustEmail = ?";
-        if($statement = $db->prepare($query)){
-          $binding = array($CustEmail);
-          if(!$statement -> execute($binding)){
-             return false;
-          }
-          else{
-              $result = $statement->fetch(PDO::FETCH_ASSOC);
-              $CustAddress = $result['CustAddress'];
-              $CustCity = $result['CustCity'];
-              $CustState = $result['CustState'];
-              $CustCountry = $result['CustCountry'];
-              $CustPostCode = $result['CustPostCode'];
-              $CustPhone = $result['CustPhone'];
-              array_push($customerAddress, "Address: $CustAddress City: $CustCity State: $CustState Country: $CustCountry Postcode: $CustPostCode Phone: $CustPhone");
-              }
-          }
-
-          //Email to company for purchase handling
-          $customerAddress = implode($customerAddress);
-          $msg =  "
-          Included following is the details of a purchase for handling: \n\n
-          Customer: $lname\n
-          Customer details:\n
-          $customerAddress\n\n
-          $strOfProducts \n\n
-          Time of purchase: $OrderDate\n
-          Total: $$total \n\n
-          Please handle purchase as soon as possible\n";
-          $sub = "Customer purchase";
-          mail($CustEmail, $sub, $msg); //CustEmail variable should be changed to company email, but will use customer (lecturer) email for now
-
-}
-
-
-function change_password($user_Email, $old_pw_input, $new_pw, $pw_confirm){
-  session_start();
-  if(!empty($_SESSION["email"]) && !empty($_SESSION["hash"])){
-    $old_pw_hash = $_SESSION["hash"];
-    $email = $_SESSION["email"];
-  }
-  session_write_close();
-  $db = get_db();
-  $query = "SELECT Cust_salt FROM CustomerDetails Where CustEmail = ?";
-  if($statement = $db->prepare($query)){
-    $binding = array($email);
-    if(!$statement -> execute($binding)){
-       return false;
-    }
-    else{
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        $cust_salt = $result['Cust_salt'];
-        }
-    }
-  $old_pw_input_hash = generate_password_hash($old_pw_input, $cust_salt);
-  if ($old_pw_hash === $old_pw_input_hash && $new_pw === $pw_confirm && $user_Email === $email){
-    $db = get_db();
-    $salt = generate_salt();
-    $new_password_hash = generate_password_hash($new_pw,$salt);
-    $query = "UPDATE CustomerDetails SET Cust_hashed_Password = ?, Cust_salt = ? WHERE CustEmail = ?";
-    if($statement = $db->prepare($query)){
-      exit();
-         $binding = array($new_password_hash, $salt, $email);
-        if(!$statement -> execute($binding)){
-            throw new Exception("Could not execute query.");
-        }
-    }
-
-  }
-}
-
-function addProduct($productName, $productPrice, $productSize, $productImgPath){
-  try{
-    $db = get_db();
-
-    if ($productName && $productPrice && $productSize && $productImgPath) {
-         $query = "INSERT INTO ProductDetails (ProductName, ProductPrice, ProductSize, ProductImage) VALUES (?,?,?,?)";
-         if($statement = $db->prepare($query)){
-            $binding = array($productName, $productPrice, $productSize, $productImgPath);
-            if(!$statement -> execute($binding)){
-                throw new Exception("Could not execute query.");
-            }
-         }
-         else{
-           throw new Exception("Could not prepare statement.");
-
-         }
-    }
-    else{
-       throw new Exception("Invalid data.");
-    }
-
-
-  }
-  catch(Exception $e){
-      throw new Exception($e->getMessage());
-  }
-}
-
-function addReview($title, $review, $email){
-  try{
-    $db = get_db();
-    $query = "INSERT INTO Reviews (Title, Review, Email) VALUES (?,?,?)";
-    if($statement = $db->prepare($query)){
-       $binding = array($title, $review, $email);
-       if(!$statement -> execute($binding)){
-           throw new Exception("Could not execute query.");
-       }
-    }
-    else{
-      throw new Exception("Could not prepare statement.");
-    }
-  }catch(Exception $e){
-      throw new Exception($e->getMessage());
-  }
 }

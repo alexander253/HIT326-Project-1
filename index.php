@@ -22,11 +22,7 @@ DEFINE("LAYOUT","standard");
 require APP;
 $messages = array();
 
-
-/* Here is our Controller code i.e. API if you like.  */
-/* The following are just examples of how you might set up a basic app with authentication */
-
-
+//Homepage
 get("/",function($app){
    $app->force_to_http("/");
    $app->set_message("title","Home");
@@ -36,6 +32,7 @@ get("/",function($app){
    $app->render(LAYOUT,"home");
 });
 
+//Cart page
 get("/cart",function($app){
    $app->set_message("title","My cart");
    $app->set_message("message","Your cart");
@@ -55,6 +52,7 @@ get("/cart",function($app){
      }
 });
 
+//Clear cart function
 get("/clearCart", function($app){
   $app->set_message("title","My cart");
   $app->set_message("message","Your cart");
@@ -63,6 +61,27 @@ get("/clearCart", function($app){
   $app->redirect_to("/cart");
 });
 
+//Admin sign in page
+get("/admin_signin",function($app){
+   $app->force_to_http("/admin_signin");
+   $app->set_message("title","Administrater sign in");
+   require MODEL;
+   try{
+     if(is_authenticated()){
+        $app->set_flash("You do not have permission to access this page");
+        $app->redirect_to("/");
+     }
+     else if(is_admin_authenticated()){
+       $app->redirect_to("/admin");
+     }
+   }
+   catch(Exception $e){
+       $app->set_message("error",$e->getMessage($app));
+   }
+   $app->render(LAYOUT,"admin_signin");
+});
+
+//Admin page
 get("/admin",function($app){
   $app->force_to_http("/admin");
   $app->set_message("title","Administrater");
@@ -71,8 +90,7 @@ get("/admin",function($app){
   $app->render(LAYOUT,"admin");
 });
 
-
-
+//Sign in page
 get("/signin",function($app){
    $app->force_to_http("/signin");
    $app->set_message("title","Sign in");
@@ -93,25 +111,7 @@ get("/signin",function($app){
    $app->render(LAYOUT,"signin");
 });
 
-get("/admin_signin",function($app){
-   $app->force_to_http("/admin_signin");
-   $app->set_message("title","Administrater sign in");
-   require MODEL;
-   try{
-     if(is_authenticated()){
-        $app->set_flash("You do not have permission to access this page");
-        $app->redirect_to("/");
-     }
-     else if(is_admin_authenticated()){
-       $app->redirect_to("/admin");
-     }
-   }
-   catch(Exception $e){
-       $app->set_message("error",$e->getMessage($app));
-   }
-   $app->render(LAYOUT,"admin_signin");
-});
-
+//Signup page
 get("/signup",function($app){
     $app->force_to_http("/signup");
     require MODEL;
@@ -137,17 +137,11 @@ get("/signup",function($app){
       $app->set_flash("You are signed in as a admin, please sign out to sign up users");
       $app->redirect_to("/admin");
     }
-    //else if(!$is_authenticated && $is_db_empty){
-       //$app->set_message("error","You are the SUPER USER. This account cannot be deleted. You are the boss. The only way to clear the SUPER USER from the database is to DROP the entire table. Please sign in after you have finished signing up.");
-    //}
-    //else{
-       //$app->set_flash("You are not authorised to access this resource yet. I'm gonna tell your mum if you don't sign in.");
-       //$app->redirect_to("/signin");
-    //}
    $app->set_message("title","Sign up");
    $app->render(LAYOUT,"signup");
 });
 
+//Change password page
 get("/change_password", function($app){
    $app->force_to_http("/change_password");
    $app->set_message("title","Change password");
@@ -176,7 +170,7 @@ get("/change_password", function($app){
    $app->render(LAYOUT,"change_password");
 });
 
-
+//Sign out function
 get("/signout",function($app){
    // should this be GET or POST or PUT?????
    $app->force_to_http("/signout");
@@ -199,6 +193,7 @@ get("/signout",function($app){
 
 });
 
+//User sign up form information handling
 post("/signup",function($app){
     require MODEL;
     try{
@@ -243,9 +238,36 @@ post("/signup",function($app){
     catch(Exception $e){
          $app->set_flash($e.getMessage());
          $app->redirect_to("/");
-
-
     }
+});
+
+//Review adding function
+get("/addReview", function($app){
+  $title = $app->form('key');
+  $review = $app->form('valueInput');
+  require MODEL;
+  $email = getUserEmail();
+  try {
+    if (is_authenticated()){
+      if ($title && $review){
+        try{
+          addReview($title, $review, $email);
+        } catch(Exception $e){
+          $app->set_flash("Review not added! Please try again. {$e->getMessage()}");
+          $app->redirect_to("#popup1");
+          }
+        }
+    }else{
+      $app->set_flash("You must sign in to leave a review!");
+      $app->redirect_to("/");
+    }
+  }
+  catch (Exception $e){
+    $app->set_flash("You must be signed in to add a review!. {$e->getMessage()}");
+    $app->redirect_to("/signin");
+  }
+
+  $app->redirect_to("/");
 });
 
 post("/addProduct", function($app){
@@ -298,6 +320,7 @@ post("/addProduct", function($app){
   $app->redirect_to("/admin");
 });
 
+//Cart checkout information handling function
 post("/cart",function($app){
     session_start();
     require MODEL;
@@ -333,6 +356,7 @@ post("/cart",function($app){
   $app->redirect_to("/cart");
 });
 
+//Sign in information handling function
 post("/signin",function($app){
   $email = $app->form('email');
   $password = $app->form('password');
@@ -354,6 +378,7 @@ post("/signin",function($app){
   $app->redirect_to("/");
 });
 
+//Admin sign in information handling
 post("/adminsignin",function($app){
   $admin = $app->form('admin');
   $password = $app->form('password');
@@ -375,34 +400,7 @@ post("/adminsignin",function($app){
   $app->redirect_to("/admin");
 });
 
-get("/addReview", function($app){
-  $title = $app->form('key');
-  $review = $app->form('valueInput');
-  require MODEL;
-  $email = getUserEmail();
-  try {
-    if (is_authenticated()){
-      if ($title && $review){
-        try{
-          addReview($title, $review, $email);
-        } catch(Exception $e){
-          $app->set_flash("Review not added! Please try again. {$e->getMessage()}");
-          $app->redirect_to("#popup1");
-          }
-        }
-    }else{
-      $app->set_flash("You must sign in to leave a review!");
-      $app->redirect_to("/");
-    }
-  }
-  catch (Exception $e){
-    $app->set_flash("You must be signed in to add a review!. {$e->getMessage()}");
-    $app->redirect_to("/signin");
-  }
-
-  $app->redirect_to("/");
-});
-
+//Change password information handling function
 post("/change/:id;[\d]+", function($app){
   $id = $app->route_var("id");
   require MODEL;
@@ -424,8 +422,7 @@ post("/change/:id;[\d]+", function($app){
   $app->redirect_to("/");
 });
 
-# The Delete call back is left for you to work out
-
+//Not functional, as complex routes were not achieved
 delete("/user",function($app){
   $app->set_flash("user has been deleted");
   $app->redirect_to("/");
