@@ -57,8 +57,22 @@ function get_artwork(){
       }
 }
 
+function get_reviews(){
+   try{
+      $db = get_db();
+      $query = "SELECT Title, Review FROM Reviews";
+      $statement = $db->query($query);
+      $statement -> execute();
+      $reviews = $statement->fetchall(PDO::FETCH_ASSOC);
+      return $reviews;
+   }
+   catch(PDOException $e){
+      throw new Exception($e->getMessage());
+      return "";
+      }
+}
 
-/* Other functions can go below here */
+
 
 function sign_up($first_name, $last_name, $title, $email, $email_confirm, $password, $password_confirm, $address, $city, $state, $country, $post_code, $phone){
    try{
@@ -399,7 +413,7 @@ function resetCart(){
   session_write_close();
 }
 
-  function checkout($CustEmail, $OrderDate, $ProductIDs){
+function checkout($CustEmail, $OrderDate, $ProductIDs){
       $db = get_db();
       if ($CustEmail && $OrderDate && $ProductIDs){
         try{
@@ -435,6 +449,90 @@ function resetCart(){
       } else {
         throw new Exception("Could not execute query.");
       }
+
+      $query = "SELECT ProductID FROM OrderDetails WHERE OrderDate = ?";
+      if($statement = $db->prepare($query)){
+        $binding = array($OrderDate);
+        if(!$statement -> execute($binding)){
+           return false;
+        }
+        else{
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $productID = $result['ProductID'];
+            }
+        }
+
+        $listOfProducts = array();
+        $total = 0;
+        $listProductID = explode(" ", $productID);
+        foreach ($listProductID as $item){
+          $query = "SELECT ProductName, ProductPrice, ProductSize FROM ProductDetails WHERE ProductID = ?";
+          if($statement = $db->prepare($query)){
+            $binding = array($item);
+            if(!$statement -> execute($binding)){
+               return false;
+            }
+            else{
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+                $productName = $result['ProductName'];
+                $productPrice = $result['ProductPrice'];
+                $productSize = $result['ProductSize'];
+                if ($productName !== NULL && $productPrice !== NULL && $productSize !== NULL){
+                  $total = $total + $productPrice;
+                  $productName = "Name: $productName";
+                  $productPrice = "$ $productPrice";
+                  $productSize = "Size: $productSize";
+                  $space = "        ";
+                  array_push($listOfProducts, "\n $space $productName $productPrice $productSize \n");
+                  }
+                }
+            }
+        }
+        //Sending to customer
+        $strOfProducts = implode(" ", $listOfProducts);
+        $lname = getUserLName();
+        $msg =  "Dear $lname, \n\n
+        Included following is the details of your purchase: \n
+        $strOfProducts \n\n
+        Time of purchase: $OrderDate\n
+        Total: $$total \n\n
+        Thank you for your purchase!";
+        $sub = "Purchase details";
+        mail($CustEmail, $sub, $msg);
+
+        $customerAddress = array();
+        $query = "SELECT CustAddress, CustCity, CustState, CustCountry, CustPostCode, CustPhone FROM CustomerDetails WHERE CustEmail = ?";
+        if($statement = $db->prepare($query)){
+          $binding = array($CustEmail);
+          if(!$statement -> execute($binding)){
+             return false;
+          }
+          else{
+              $result = $statement->fetch(PDO::FETCH_ASSOC);
+              $CustAddress = $result['CustAddress'];
+              $CustCity = $result['CustCity'];
+              $CustState = $result['CustState'];
+              $CustCountry = $result['CustCountry'];
+              $CustPostCode = $result['CustPostCode'];
+              $CustPhone = $result['CustPhone'];
+              array_push($customerAddress, "Address: $CustAddress City: $CustCity State: $CustState Country: $CustCountry Postcode: $CustPostCode Phone: $CustPhone");
+              }
+          }
+
+          //Email to company for purchase handling
+          $customerAddress = implode($customerAddress);
+          $msg =  "
+          Included following is the details of a purchase for handling: \n\n
+          Customer: $lname\n
+          Customer details:\n
+          $customerAddress\n\n
+          $strOfProducts \n\n
+          Time of purchase: $OrderDate\n
+          Total: $$total \n\n
+          Please handle purchase as soon as possible\n";
+          $sub = "Customer purchase";
+          mail($CustEmail, $sub, $msg); //CustEmail variable should be changed to company email, but will use customer (lecturer) email for now
+
 }
 
 
@@ -498,6 +596,24 @@ function addProduct($productName, $productPrice, $productSize, $productImgPath){
 
   }
   catch(Exception $e){
+      throw new Exception($e->getMessage());
+  }
+}
+
+function addReview($title, $review, $email){
+  try{
+    $db = get_db();
+    $query = "INSERT INTO Reviews (Title, Review, Email) VALUES (?,?,?)";
+    if($statement = $db->prepare($query)){
+       $binding = array($title, $review, $email);
+       if(!$statement -> execute($binding)){
+           throw new Exception("Could not execute query.");
+       }
+    }
+    else{
+      throw new Exception("Could not prepare statement.");
+    }
+  }catch(Exception $e){
       throw new Exception($e->getMessage());
   }
 }

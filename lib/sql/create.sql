@@ -40,3 +40,11 @@ CREATE TABLE `ProductDetails` (
   ProductImage varchar(150) NOT NULL,
   PRIMARY KEY (ProductID)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Reviews` (
+  ReviewID int(11) NOT NULL auto_increment,
+  Title char(50) NOT NULL,
+  Review varchar(255) NOT NULL,
+  CustEmail varchar(254) references `CustomerDetails` (CustEmail),
+  PRIMARY KEY (ReviewID)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

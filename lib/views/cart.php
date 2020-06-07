@@ -23,7 +23,6 @@
                 <th width="10%">Price</th>
                 <th width="12%">Size</th>
                 <th width="20%">Image</th>
-                <th width="10%">Remove Item</th>
             </tr>
   <?php
   if(!empty($_SESSION["cart"])){
@@ -64,7 +63,7 @@
         <td colspan="2" align="right">Total</td>
         <th align="right">$ <?php echo number_format($total, 2); ?></th>
           <input type='hidden' name='_method' value='post' />
-          <th><input type='submit' class='btn btn-success' name='checkout'value='Checkout' onclick="alert('Thank you for buying our products. You will recieve a confirmation letter in your email shortly.')"  /><br>
+          <th><input type='submit' class='btn btn-success' name='checkout'value='Checkout' onclick="return confirm('Please confirm your purchase')"  /><br>
           <a href="/clearCart" action=delete class="btn btn-danger" name='Clear' onclick="return confirm('Are you sure you want to clear the cart?')" <span class="text-danger">Clear cart</span></a></th>
    </form>
    </tr>

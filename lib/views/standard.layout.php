@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $title ?></title>
  <link rel="stylesheet" href="/css/standard.css" />
 </head>
@@ -16,7 +17,7 @@
   <li><a href='/signup'>Sign up</a></li>
   <li><a href='/change_password'>Change password</a></li>
   <li><a href='/admin_signin'>Admin</a></li>
-  <li><a href='/signout'>Sign out</a></li>
+  <li><a href='/signout' onclick = "return confirm ('Are you sure you want to sign out?')">Sign out</a></li>
 </ul>
 </nav>
 

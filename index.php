@@ -32,6 +32,7 @@ get("/",function($app){
    $app->set_message("title","Home");
    require MODEL;
    $app ->set_message("artworks", get_artwork());
+   $app ->set_message("reviews", get_reviews());
    $app->render(LAYOUT,"home");
 });
 
@@ -196,13 +197,7 @@ get("/signout",function($app){
         $app->redirect_to("/signin");
    }
 
-
-
 });
-
-
-
-
 
 post("/signup",function($app){
     require MODEL;
@@ -323,7 +318,7 @@ post("/cart",function($app){
       try{
         checkout($CustEmail, $OrderDate, $ProductIDs);
         resetCart();
-        $app->set_flash("Lovely, your order has been placed.");
+        $app->set_flash("Lovely, your order has been placed. An email containing purchase details will be sent to you soon.");
 
 }
     catch(Exception $e){
@@ -378,6 +373,34 @@ post("/adminsignin",function($app){
   }
   $app->set_flash("Welcome admin");
   $app->redirect_to("/admin");
+});
+
+get("/addReview", function($app){
+  $title = $app->form('key');
+  $review = $app->form('valueInput');
+  require MODEL;
+  $email = getUserEmail();
+  try {
+    if (is_authenticated()){
+      if ($title && $review){
+        try{
+          addReview($title, $review, $email);
+        } catch(Exception $e){
+          $app->set_flash("Review not added! Please try again. {$e->getMessage()}");
+          $app->redirect_to("#popup1");
+          }
+        }
+    }else{
+      $app->set_flash("You must sign in to leave a review!");
+      $app->redirect_to("/");
+    }
+  }
+  catch (Exception $e){
+    $app->set_flash("You must be signed in to add a review!. {$e->getMessage()}");
+    $app->redirect_to("/signin");
+  }
+
+  $app->redirect_to("/");
 });
 
 post("/change/:id;[\d]+", function($app){

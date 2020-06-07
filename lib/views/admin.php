@@ -19,7 +19,9 @@
 
 <h1> Administrator page </h1>
 
+<center>
 <h3> Product list </h3>
+</center>
 <table border ="1" cellpadding = "5" cellspacing= "5" align="center">
 <tr>
   <th>ID</th>
@@ -62,7 +64,7 @@
 
 
  //?>
-
+<center>
 <h3>Add product</h3>
 <div>
 <form action='/addProduct' method='POST' enctype="multipart/form-data">
@@ -76,6 +78,7 @@
  <input type='submit' value='Add' />
 </form>
 </div>
+</center>
 
 
  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
