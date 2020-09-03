@@ -1,2 +1,2 @@
-<label for='phone'>Phone</label>
-<input type='number'id='phone' name='phone' maxlength="25"/>
+<label for='phone'>Phone Number</label>
+<input type='number' id='phone' name='phone' />

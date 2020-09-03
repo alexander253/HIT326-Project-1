@@ -10,61 +10,156 @@ DEFINE("LIB",$_SERVER['DOCUMENT_ROOT']."/lib/");
 DEFINE("VIEWS",LIB."views/");
 DEFINE("PARTIALS",VIEWS."/partials");
 
-
 # Paths to actual files
 DEFINE("MODEL",LIB."/model.php");
 DEFINE("APP",LIB."/application.php");
 
 # Define a layout
 DEFINE("LAYOUT","standard");
+DEFINE("ADMIN","admin");
+DEFINE("ADMINSIGN","admin_signin");
+
+
+
+
+
 
 # This inserts our application code which handles the requests and other things
 require APP;
-$messages = array();
 
-//Homepage
-get("/",function($app){
-   $app->force_to_http("/");
-   $app->set_message("title","Home");
-   require MODEL;
-   $app ->set_message("artworks", get_artwork());
-   $app ->set_message("reviews", get_reviews());
-   $app->render(LAYOUT,"home");
-});
 
-//Cart page
-get("/cart",function($app){
-   $app->set_message("title","My cart");
-   $app->set_message("message","Your cart");
-   require MODEL;
-   if(is_authenticated()){
-     try{
-        $app->set_message("artworks", get_artwork());
-        $app->render(LAYOUT,"cart");
-      }
-      catch(Exception $e){
-        $app->set_flash($e->getMessage());
-      }
-    }
-     else{
-       $app->set_flash("You can't add product to cart if you are not signed in!");
-       $app->redirect_to("/");
+
+
+/* Here is our Controller code i.e. API if you like.  */
+/* The following are just examples of how you might set up a basic app with authentication */
+
+
+#GET Functions
+get("/bins",function($app){
+
+  require MODEL;
+  if (is_admin_authenticated()){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Bins");
+   $app->set_message("list", product_list());}
+   else {$app->set_message("message","You are not authorised");}
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"bins");}
+     else {
+       $app->render(LAYOUT,"notauthorised");
      }
 });
 
-//Clear cart function
-get("/clearCart", function($app){
-  $app->set_message("title","My cart");
-  $app->set_message("message","Your cart");
+get("/rubbish_items",function($app){
+
   require MODEL;
-  resetCart();
-  $app->redirect_to("/cart");
+  if (is_admin_authenticated()){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Rubbish Items");
+   $app->set_message("list", rubbish_list());
+   $app->render(ADMIN,"rubbish_items");
+
+ }
+
+   else {
+     $app->set_message("title","Darwin Art Company");
+     $app->set_message("message","Rubbish Items");
+     $app->set_message("list", rubbish_list());
+     $app->render(LAYOUT,"rubbish_items");
+   }
+
 });
 
-//Admin sign in page
+get("/myaccount",function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","My Account");
+   require MODEL;
+   $app->set_message("list", my_account());
+   $app->render(LAYOUT,"myaccount");
+});
+
+get("/leaderboard",function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Leader Board");
+   require MODEL;
+   $app->set_message("list", leaderboard());
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"adminleaderboard");}
+     else {
+       $app->render(LAYOUT,"leaderboard");
+     }
+});
+
+get("/points",function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","My Account");
+   require MODEL;
+   $app->set_message("list", points());
+   $app->render(LAYOUT,"points");
+});
+
+get("/cart",function($app){
+   $app->set_message("title","My Cart");
+   $app->set_message("message","Your cart:");
+   require MODEL;
+   $app->set_message("list", cart());
+   $app->render(LAYOUT,"cart");
+});
+
+get("/addbin",function($app){
+
+  require MODEL;
+  if (is_admin_authenticated()){
+   $app->set_message("title","My Cart");
+   $app->set_message("message","Your cart:");}
+   else {$app->set_message("message","You are not authorised");}
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"addbin");}
+     else {
+       $app->render(LAYOUT,"notauthorised");
+     }
+
+
+});
+
+get("/addrubbish_item",function($app){
+
+  require MODEL;
+  if (is_admin_authenticated()){
+   $app->set_message("title","My Cart");
+   $app->set_message("message","Your cart:");}
+   else {$app->set_message("message","You are not authorised");}
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"addrubbish");}
+     else {
+       $app->render(LAYOUT,"notauthorised");
+     }
+
+
+});
+
+get("/",function($app){
+  $app->force_to_http("/");
+  require MODEL;
+   $app->set_message("title","Home");
+   $app->set_message("message","Home");
+   $app->set_message("name",get_user_name());
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"home");}
+     else {
+       $app->render(LAYOUT,"home");
+     }
+
+});
+
 get("/admin_signin",function($app){
    $app->force_to_http("/admin_signin");
-   $app->set_message("title","Administrater sign in");
+   $app->set_message("title","Admin sign in");
    require MODEL;
    try{
      if(is_authenticated()){
@@ -78,31 +173,17 @@ get("/admin_signin",function($app){
    catch(Exception $e){
        $app->set_message("error",$e->getMessage($app));
    }
-   $app->render(LAYOUT,"admin_signin");
+   $app->render(ADMINSIGN,"admin_signin");
 });
 
-//Admin page
-get("/admin",function($app){
-  $app->force_to_http("/admin");
-  $app->set_message("title","Administrater");
-  require MODEL;
-  $app ->set_message("artworks", get_artwork());
-  $app->render(LAYOUT,"admin");
-});
-
-//Sign in page
 get("/signin",function($app){
    $app->force_to_http("/signin");
    $app->set_message("title","Sign in");
    require MODEL;
    try{
      if(is_authenticated()){
-        $app->set_flash("You are already signed in, please sign out before signing in again.");
-        $app->redirect_to("/");
-     }
-     else if(is_admin_authenticated()){
-       $app->set_flash("You are signed in as a admin, please sign out before signin in again.");
-       $app->redirect_to("/admin");
+        $app->set_message("error","Why on earth do you want to sign in again.
+        You are already signed in. Perhaps you want to sign out first.");
      }
    }
    catch(Exception $e){
@@ -111,17 +192,13 @@ get("/signin",function($app){
    $app->render(LAYOUT,"signin");
 });
 
-//Signup page
 get("/signup",function($app){
     $app->force_to_http("/signup");
     require MODEL;
-    $messages["title"]="Sign up";
     $is_authenticated=false;
-    $is_admin_authenticated = false;
     $is_db_empty=false;
     try{
        $is_authenticated = is_authenticated();
-       $is_admin_authenticated = is_admin_authenticated();
        $is_db_empty = is_db_empty();
     }
     catch(Exception $e){
@@ -130,30 +207,33 @@ get("/signup",function($app){
     }
 
     if($is_authenticated){
-        $app->set_flash("You are signed in as a user! Please sign out before signing up!");
-        $app->redirect_to("/");
+        $app->set_message("error","Create more accounts for other users.");
     }
-    else if($is_admin_authenticated){
-      $app->set_flash("You are signed in as a admin, please sign out to sign up users");
-      $app->redirect_to("/admin");
+    else if(!$is_authenticated && $is_db_empty){
+       $app->set_message("error","You are the SUPER USER. This account cannot be deleted. You are the boss.
+       The only way to clear the SUPER USER from the database is to DROP the entire table.
+       Please sign in after you have finished signing up.");
+    }
+    else{
+       $app->set_flash("You are not authorised to access this resource yet. I'm gonna tell your mum if you don't sign in.");
+       $app->redirect_to("/signin");
     }
    $app->set_message("title","Sign up");
    $app->render(LAYOUT,"signup");
 });
 
-//Change password page
-get("/change_password", function($app){
-   $app->force_to_http("/change_password");
+get("/change",function($app){
+   $app->force_to_http("/change");
    $app->set_message("title","Change password");
    require MODEL;
-   $lname="";
+   $name="";
    try{
       if(is_authenticated()){
         try{
-           $lname = getUserLName();
-           $app->set_message("name",$lname);
-           $email = getUserEmail();
-           $app->set_message("Email",$email);
+           $name = get_user_name();
+           $app->set_message("name",$name);
+           $id = get_user_id();
+           $app->set_message("user_id",$id);
         }
         catch(Exception $e){
             $app->set_message("error","Error with retrieving name");
@@ -170,17 +250,30 @@ get("/change_password", function($app){
    $app->render(LAYOUT,"change_password");
 });
 
-//Sign out function
 get("/signout",function($app){
-   // should this be GET or POST or PUT?????
    $app->force_to_http("/signout");
    require MODEL;
-   if(is_authenticated() || is_admin_authenticated()){
+   if(is_authenticated()){
       try{
          sign_out();
          $app->set_flash("You are now signed out.");
          $app->redirect_to("/");
       }
+
+
+      catch(Exception $e){
+        $app->set_flash("Something wrong with the sessions.");
+        $app->redirect_to("/");
+     }
+   }
+
+   if(is_admin_authenticated()){
+      try{
+         sign_out();
+         $app->set_flash("You are now signed out.");
+         $app->redirect_to("/");
+      }
+
       catch(Exception $e){
         $app->set_flash("Something wrong with the sessions.");
         $app->redirect_to("/");
@@ -190,33 +283,32 @@ get("/signout",function($app){
         $app->set_flash("You can't sign out if you are not signed in!");
         $app->redirect_to("/signin");
    }
-
 });
 
-//User sign up form information handling
+
+#POST Functions
+
+post("/addtocart",function($app){
+    require MODEL;
+    addtocart();
+    $app->set_flash(htmlspecialchars("Your cart has been updated"));
+    $app->redirect_to("/cart");
+  });
+
 post("/signup",function($app){
     require MODEL;
     try{
-        if(!is_authenticated()){
-          $first_name = $app->form('fname');
-          $last_name = $app->form('lname');
-          $title = $app->form('title');
+        if(is_authenticated() || is_db_empty()){
           $email = $app->form('email');
-          $email_confirm = $app->form('email_confirm');
+          $fname = $app->form('fname');
+          $lname = $app->form('lname');
           $pw = $app->form('password');
-          $pw_confirm = $app->form('password-confirm');
-          $address = $app->form('address');
-          $city = $app->form('city');
-          $state = $app->form('state');
-          $country = $app->form('country');
-          $post_code = $app->form('postcode');
-          $phone = $app->form('phone');
+          $confirm = $app->form('password-confirm');
 
-          if($first_name && $last_name && $title && $email && $email_confirm && $pw && $pw_confirm && $address && $city && $state && $country && $post_code && $phone){
+          if($email && $fname && $lname && $pw && $confirm){
               try{
-                sign_up($first_name, $last_name, $title, $email, $email_confirm, $pw, $pw_confirm, $address, $city, $state, $country, $post_code, $phone);
-                $app->set_flash("You are signed up, sign in here!");//htmlspecialchars($app->form('fname'))."
-                $app->redirect_to("/signin");
+                sign_up($email,$fname, $lname,$pw,$confirm);
+                $app->set_flash(htmlspecialchars($app->form('name'))." is now signed up ");
              }
              catch(Exception $e){
                   $app->set_flash($e->getMessage());
@@ -233,7 +325,6 @@ post("/signup",function($app){
            $app->set_flash("You are not authorised to access this resource");
            $app->redirect_to("/");
         }
-
     }
     catch(Exception $e){
          $app->set_flash($e.getMessage());
@@ -241,129 +332,13 @@ post("/signup",function($app){
     }
 });
 
-//Review adding function
-get("/addReview", function($app){
-  $title = $app->form('key');
-  $review = $app->form('valueInput');
-  require MODEL;
-  $email = getUserEmail();
-  try {
-    if (is_authenticated()){
-      if ($title && $review){
-        try{
-          addReview($title, $review, $email);
-        } catch(Exception $e){
-          $app->set_flash("Review not added! Please try again. {$e->getMessage()}");
-          $app->redirect_to("#popup1");
-          }
-        }
-    }else{
-      $app->set_flash("You must sign in to leave a review!");
-      $app->redirect_to("/");
-    }
-  }
-  catch (Exception $e){
-    $app->set_flash("You must be signed in to add a review!. {$e->getMessage()}");
-    $app->redirect_to("/signin");
-  }
-
-  $app->redirect_to("/");
-});
-
-post("/addProduct", function($app){
-  require MODEL;
-  try{
-    if(is_admin_authenticated()){
-      $productName = $app->form('pName');
-      $productPrice = $app->form('price');
-      $productSize = $app->form('size');
-      $imgName = pathinfo($_FILES['image']['name'], PATHINFO_FILENAME);
-
-      $target_dir = "uploads/";
-      $target_file = $target_dir . basename($_FILES["image"]["name"]);
-      $uploadOk = 1;
-
-      $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-      $check = getimagesize($_FILES["image"]["tmp_name"]);
-      $extension = image_type_to_extension($check[2]);
-
-      if ($extension === ".jpeg"){
-        $extension = ".jpg";
-      }
-
-      if ($check !== false){
-        $uploadOk = 1;
-      } else {
-        $uploadOk = 0;
-      }
-
-      if (file_exists($target_file)) {
-        $app->set_flash("Sorry, file already exists");
-        $uploadOk = 0;
-      }
-
-      if ($uploadOk === 1){
-        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-        $productImgPath = "$target_dir" . "$imgName" . "$extension";
-        addProduct($productName, $productPrice, $productSize, $productImgPath);
-      }
-
-    } else {
-      $app->set_flash("You are not signed in as admin");
-      $app->redirect_to("/admin");
-    }
-  }
-  catch(Exception $e){
-       $app->set_flash($e->getMessage());
-       $app->redirect_to("/admin");
-     }
-  $app->redirect_to("/admin");
-});
-
-//Cart checkout information handling function
-post("/cart",function($app){
-    session_start();
-    require MODEL;
-    date_default_timezone_set("Australia/North");
-    $cart= $_SESSION['cart'];
-    $CustEmail= $_SESSION["email"];
-    $OrderDate = date('Y/m/d H:m:s');
-    $list_products = array();
-
-    if(!empty($_SESSION["cart"])){
-    foreach($_SESSION['cart'] as $select=>$val){
-          $ProductID= $val;
-          array_push($list_products, $ProductID);
-     }
-    }
-    $ProductIDs = implode(" ", $list_products);
-    if($ProductIDs){
-      try{
-        checkout($CustEmail, $OrderDate, $ProductIDs);
-        resetCart();
-        $app->set_flash("Lovely, your order has been placed. An email containing purchase details will be sent to you soon.");
-
-}
-    catch(Exception $e){
-    $app->  set_flash($e->getMessage());
-      $app->redirect_to("/cart");
-    }
-  }
-  else{
-     $app->set_flash("You have not placed your order yet.");
-     $app->redirect_to("/");
-  }
-  $app->redirect_to("/cart");
-});
-
-//Sign in information handling function
 post("/signin",function($app){
-  $email = $app->form('email');
+  $name = $app->form('name');
   $password = $app->form('password');
-  if($email && $password){
+  if($name && $password){
     require MODEL;
     try{
-       sign_in($email,$password);
+       sign_in($name,$password);
     }
     catch(Exception $e){
       $app->set_flash("Could not sign you in. Try again. {$e->getMessage()}");
@@ -371,16 +346,15 @@ post("/signin",function($app){
     }
   }
   else{
-       $app->set_flash("Something wrong with email or password. Try again.");
+       $app->set_flash("Something wrong with name or password. Try again.");
        $app->redirect_to("/signin");
   }
   $app->set_flash("Lovely, you are now signed in!");
   $app->redirect_to("/");
 });
 
-//Admin sign in information handling
-post("/adminsignin",function($app){
-  $admin = $app->form('admin');
+post("/admin_signin",function($app){
+  $admin = $app->form('name');
   $password = $app->form('password');
   if($admin && $password){
     require MODEL;
@@ -397,37 +371,120 @@ post("/adminsignin",function($app){
        $app->redirect_to("/admin_signin");
   }
   $app->set_flash("Welcome admin");
-  $app->redirect_to("/admin");
-});
-
-//Change password information handling function
-post("/change/:id;[\d]+", function($app){
-  $id = $app->route_var("id");
-  require MODEL;
-  $email = getUserEmail();
-  $oldPassword = $app->form('old-Password');
-  $password = $app->form('password');
-  $pwConfirm = $app->form('password-confirm');
-  try{
-    change_password($email, $oldPassword, $password, $pwConfirm);
-    sign_out();
-  }
-  catch (Exception $e){
-    $app->set_flash("Incorrect credentials, try again. {$e->getMessage()}");
-    $app->redirect_to("/change");
-  }
-
-
-  $app->set_flash("Password is changed, please sign in again");
   $app->redirect_to("/");
 });
 
-//Not functional, as complex routes were not achieved
-delete("/user",function($app){
-  $app->set_flash("user has been deleted");
+#doesnt work
+put("/change",function($app){
+  // Not complete because can't handle complex routes like /change/23
+  $app->set_flash("Password is changed");
   $app->redirect_to("/");
-
 });
 
+
+post("/addbin",function($app){
+      require MODEL;
+      $type = $app->form('type');
+      $location = $app->form('loc');
+      $used = $app->form('use');
+
+      if($type && $location && $used){
+      addbin($type, $location, $used);
+      $app->set_flash(htmlspecialchars($app->form('type'))." bin is now added at ". htmlspecialchars($app->form('loc')) );
+          }
+      $app->redirect_to("/bins");
+
+      });
+
+      post("/addrubbish_item",function($app){
+            require MODEL;
+            $type = $app->form('type');
+            $description = $app->form('desc');
+
+            if($type && $description){
+            addrubbish($type, $description);
+            $app->set_flash(htmlspecialchars($app->form('desc'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
+                }
+            $app->redirect_to("/rubbish_items");
+
+            });
+
+
+
+post("/cart",function($app){
+      session_start();
+      require MODEL;
+      $cart= $_SESSION['cart'];
+
+      #for purchase table
+      $date = date("l jS \of F Y h:i:s A");
+      $purchaseno= mt_rand(1,255);
+      $email= $_SESSION["email"];
+
+      #purchase item table
+      $autogen= mt_rand(1,255);
+
+      if(!empty($_SESSION["cart"])){
+        foreach($_SESSION['cart'] as $key=>$value)
+            { $productno= $value;
+              $itemno= $autogen;
+                      }
+                }
+      if($productno && $itemno){
+        placeorder($date, $email, $purchaseno, $itemno, $productno);
+        $app->set_flash(htmlspecialchars(" Your order is now placed "));
+        }
+        $app->redirect_to("/myaccount");
+
+      })
+;
+
+post("/addpoints",function($app){
+      session_start();
+      require MODEL;
+      $db = get_db();
+      $email= $_SESSION["email"];
+
+
+//Will propbably seperate some of this code into models to make cleaner
+
+//select points from users account
+      $query = "SELECT points FROM user where email = '$email'";
+      $statement= $db->prepare($query);
+      $statement->execute();
+      $list = $statement->fetch(PDO::FETCH_ASSOC);
+//select usage points from bin with id=1
+      $query_bin = "SELECT used FROM bin where id = '1'";
+      $statement= $db->prepare($query_bin);
+      $statement->execute();
+      $bin_list = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+//cast the results into an integer
+      $points= (int) $list['points'];
+      $bin_used= (int) $bin_list['used'];
+
+//add 1 point to their totals
+      $updated_points = $points+ 1;
+      $updated_bin= $bin_used+1;
+
+//update their totals in the database
+      $query2 = "UPDATE user set points = '$updated_points' where email = '$email'";
+      $query3 = "UPDATE bin set used = '$updated_bin' where id = '1'";
+
+      $statement = $db->prepare($query2);
+      $statement -> execute();
+
+      $statement = $db->prepare($query3);
+      $statement -> execute();
+
+//redirect to points page (which they should be on anyway)
+      $app->redirect_to("/points");
+
+      })
+;
+
+
+# The Delete call back is left for you to work out
 // New. If it get this far then page not found
 resolve();

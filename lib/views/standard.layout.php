@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta charset='utf-8' />
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $title ?></title>
  <link rel="stylesheet" href="/css/standard.css" />
 </head>
@@ -12,12 +11,17 @@
 <nav>
 <ul>
   <li><a href='/'>Home</a></li>
-  <li><a href='/cart'>Cart</a></li>
+  <!--<li><a href='/bins'>Bins</a></li>
+  <li><a href='/addbin'>Add a Bin</a></li>
+  <li><a href='/cart'>My Cart</a></li>-->
+  <li><a href='/myaccount'>My Account</a></li>
+  <li><a href='/leaderboard'>Leader Board</a></li>
   <li><a href='/signin'>Sign in</a></li>
   <li><a href='/signup'>Sign up</a></li>
-  <li><a href='/change_password'>Change password</a></li>
-  <li><a href='/admin_signin'>Admin</a></li>
-  <li><a href='/signout' onclick = "return confirm ('Are you sure you want to sign out?')">Sign out</a></li>
+  <li><a href='/signout'>Sign out</a></li>
+  <li><a href='/points'>Points</a></li>
+  <li><a href='/rubbish_items'>Rubbish Items</a></li>
+
 </ul>
 </nav>
 
