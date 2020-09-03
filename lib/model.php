@@ -150,6 +150,38 @@ function product_list(){
     }
     }
 
+#still working on it
+function update_details($id,$title,$fname,$lname,$email,$phone,$city,$state,$country,$postcode,$shipping_address){
+   try{
+     $db = get_db();
+     if(validate_user_name($db,$fname)){
+         $query = "UPDATE users SET title=?, fname=?, lname=?, email=?, phone=?, city=?, shipping_state=?, shipping_address=?, country=?, postcode=? WHERE id=?";
+         if($statement = $db->prepare($query)){
+            $binding = array($title,$fname,$lname,$email,$phone,$city,$state,$shipping_address,$country,$postcode,$id);
+            if(!$statement -> execute($binding)){
+               throw new Exception("Could not execute query.");
+            }else{
+               session_start();
+               $_SESSION["email"] = $email;
+               session_write_close();
+            }
+         }
+         else{
+         throw new Exception("Could not prepare statement.");
+         }
+     }
+     else{
+        throw new Exception("Invalid data.");
+     }
+
+
+   }
+   catch(Exception $e){
+       throw new Exception($e->getMessage());
+   }
+
+}
+
     function leaderboard(){
       session_start();
       try{

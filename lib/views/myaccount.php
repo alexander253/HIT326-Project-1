@@ -30,3 +30,10 @@ echo "<h1>$message</h1>";
    echo "<h2>You are not signed in yet</h2>";}
 
  ?>
+
+ <div class="blue">
+  <a href= "/signup"><p>Sign up here</p></a>
+  <a href= "/signin"><p>Sign in here</p></a>
+  <a href= "/admin_signin"><p>Admin sign in here</p></a>
+  <a href= "/signout"><p>Sign out here</p></a>
+ </div>

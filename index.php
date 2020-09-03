@@ -445,7 +445,6 @@ post("/addpoints",function($app){
       $db = get_db();
       $email= $_SESSION["email"];
 
-
 //Will propbably seperate some of this code into models to make cleaner
 
 //select points from users account
@@ -479,11 +478,50 @@ post("/addpoints",function($app){
       $statement -> execute();
 
 //redirect to points page (which they should be on anyway)
-      $app->redirect_to("/points");
+      $app->set_flash(htmlspecialchars(" Congrats you have earned 1 point"));
+      $app->redirect_to("/");
 
       })
 ;
 
+//update details still in progress
+put("/myaccount/:id[\d]+",function($app){
+   $app->set_message("title","Darwin Art Company Account");
+   require MODEL;
+   try{
+       if(is_authenticated()){
+         $id = get_user_id();
+         $title = $app->form('title');
+         $fname = $app->form('fname');
+         $lname = $app->form('lname');
+         $email = $app->form('email');
+         $phone = $app->form('phone');
+         $city = $app->form('city');
+         $state = $app->form('state');
+         $country = $app->form('country');
+         $postcode = $app->form('postcode');
+         $shipping_address = $app->form('address');
+
+         try{
+            update_details($id,$title,$fname,$lname,$email,$phone,$city,$state,$country,$postcode,$shipping_address);
+            $app->set_flash("Details Successfully updated");
+            $app->redirect_to("/");
+         }
+         catch(Exception $e){
+            $app->set_flash($e->getMessage());
+            $app->redirect_to("/");
+         }
+       }
+       else{
+          $app->set_flash("You are not authenticated, please login correctly");
+          $app->redirect_to("/");
+       }
+   }
+   catch(Exception $e){
+        $app->set_flash("{$e->getMessage()}");
+        $app->redirect_to("/");
+   }
+});
 
 # The Delete call back is left for you to work out
 // New. If it get this far then page not found
