@@ -4,7 +4,7 @@ function get_db(){
     $db = null;
 
     try{
-        $db = new PDO('mysql:host=localhost;dbname=dac_db', 'root','');
+        $db = new PDO('mysql:z8dl7f9kwf2g82re.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306;dbname=	tvbaxqh5jmj2tvsv', 'o58vr5pp33jjnj9s','vzerfcgkqgibynf2');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(PDOException $e){
