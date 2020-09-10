@@ -56,7 +56,7 @@ get("/rubbish_items",function($app){
   require MODEL;
   if (is_admin_authenticated()){
    $app->set_message("title","Darwin Art Company");
-   $app->set_message("message","Rubbish Items");
+   $app->set_message("message","Rubbish Classification");
    $app->set_message("list", rubbish_list());
    $app->render(ADMIN,"rubbish_items");
 
@@ -64,7 +64,7 @@ get("/rubbish_items",function($app){
 
    else {
      $app->set_message("title","Darwin Art Company");
-     $app->set_message("message","Rubbish Items");
+     $app->set_message("message","Rubbish Classification");
      $app->set_message("list", rubbish_list());
      $app->render(LAYOUT,"rubbish_items");
    }
@@ -210,9 +210,7 @@ get("/signup",function($app){
         $app->set_message("error","Create more accounts for other users.");
     }
     else if(!$is_authenticated && $is_db_empty){
-       $app->set_message("error","You are the SUPER USER. This account cannot be deleted. You are the boss.
-       The only way to clear the SUPER USER from the database is to DROP the entire table.
-       Please sign in after you have finished signing up.");
+       $app->set_message("error","");
     }
     else{
        $app->set_flash("You are not authorised to access this resource yet. I'm gonna tell your mum if you don't sign in.");
@@ -386,10 +384,9 @@ post("/addbin",function($app){
       require MODEL;
       $type = $app->form('type');
       $location = $app->form('loc');
-      $used = $app->form('use');
 
-      if($type && $location && $used){
-      addbin($type, $location, $used);
+      if($type && $location){
+      addbin($type, $location);
       $app->set_flash(htmlspecialchars($app->form('type'))." bin is now added at ". htmlspecialchars($app->form('loc')) );
           }
       $app->redirect_to("/bins");

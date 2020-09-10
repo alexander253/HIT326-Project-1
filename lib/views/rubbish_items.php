@@ -13,25 +13,31 @@ td, th {
   padding: 8px;
 }
 
+th {
+  background-color: orange;
+}
+
 tr:nth-child(even) {
   background-color: #dddddd;
 }
 </style>
+
 
 <?php
 
 echo "<h1>$message</h1>";
 
 
- echo "<table>
-   <tr>
-     <th>ID</th>
-     <th>Type</th>
-     <th>Description</th>
-   </tr>
- </table>";
 
 
+echo "
+<table>
+<tr>
+  <th>Commingled</th>
+</tr>
+"
+
+;
 
 
  //Print the list of products
@@ -41,34 +47,65 @@ echo "<h1>$message</h1>";
      $type = htmlspecialchars($product['type'],ENT_QUOTES, 'UTF-8');
      $desc = htmlspecialchars($product['description'],ENT_QUOTES, 'UTF-8');
 
-
-
+   if($type == "Commingled"){
      echo "
 
-     <table>
-
        <tr>
-         <td>{$id}</td>
-         <td>{$type}</td>
          <td>{$desc}</td>
-       </tr>
-     </table>
-
-
+      </tr>
      ";
-
  }
 }
+}
+
+echo "
+<tr>
+  <th>Recycle</th>
+</tr>";
+
+if(!empty($list)){
+  foreach($list As $product){
+    $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
+    $type = htmlspecialchars($product['type'],ENT_QUOTES, 'UTF-8');
+    $desc = htmlspecialchars($product['description'],ENT_QUOTES, 'UTF-8');
+
+  if($type == "Recycle"){
+    echo "
+      <tr>
+        <td>{$desc}</td>
+      </tr>
+    ";
+}
+}
+}
+
+echo "
+<tr>
+  <th>General</th>
+</tr>
+"
+;
+
+if(!empty($list)){
+  foreach($list As $product){
+    $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
+    $type = htmlspecialchars($product['type'],ENT_QUOTES, 'UTF-8');
+    $desc = htmlspecialchars($product['description'],ENT_QUOTES, 'UTF-8');
+
+  if($type == "General Waste"){
+    echo "
+      <tr>
+        <td>{$desc}</td>
+      </tr>
+    ";
+}
+}
+}
+
+echo "
+</table>";
 
 
- else{
-   echo "<h2>Product list is empty</h2>";}
-
-   if(isset($_POST['addtocart'])) {
-     session_start();
-     $code = $_POST['code'];
-     array_push($_SESSION['cart'],$code);
-   }
 
 
 

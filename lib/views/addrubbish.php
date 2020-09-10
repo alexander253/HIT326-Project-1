@@ -4,8 +4,12 @@
  <input type='hidden' name='_method' value='post' />
 
 
- <label for='type'>Type</label>
- <input type='text' id='type' name='type' />
+ <label for="type">Choose a Classification:</label> <br>
+ <select name="type" id="type">
+   <option value="Recycle">Recycle</option>
+   <option value="Commingled">Commingled</option>
+   <option value="General Waste">General Waste</option>
+ </select> <br><br>
 
  <label for='desc'>Description</label>
  <input type='text' id='desc' name='desc' />

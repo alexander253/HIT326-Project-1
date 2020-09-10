@@ -43,11 +43,11 @@ function cart(){
 }
 
 #Add product
-function addbin($type, $location, $used){
+function addbin($type, $location){
     $db = get_db();
-    $query = "INSERT INTO bin (type, location, used) VALUES (?,?,?)";
+    $query = "INSERT INTO bin (type, location) VALUES (?,?)";
     $statement = $db->prepare($query);
-    $binding = array($type, $location, $used);
+    $binding = array($type, $location);
     $statement -> execute($binding);
 }
 
@@ -126,10 +126,13 @@ function product_list(){
       $list = $statement->fetchall(PDO::FETCH_ASSOC);
       return $list;
     }
+
     catch(PDOException $e){
       throw new Exception($e->getMessage());
       return "";
     }
+
+
     }
 #get all account details from database
   function my_account(){

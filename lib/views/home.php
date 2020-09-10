@@ -29,13 +29,18 @@ if(!empty($_SESSION["email"])){
          <div class="row">
            <div class="col-md-12">
              <div class="cardContainer">
+               <div class="card" style="background-color:rgb(50, 41, 91);">
+                 <h2><span class="glyphicon glyphicon-star"></span></h2>
+                 <p>Info on Waste Management</p>
+               </div>
                <div class="card" style="background-color:rgb(207, 41, 91);">
                  <h2><span class="glyphicon glyphicon-heart"></span></h2>
-                 <p>General Waste</p>
+                 <p>Nearest Bins</p>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
+                 <a href="/rubbish_items">
                  <h2><span class="glyphicon glyphicon-trash"></span></h2>
-                 <p>Recyclable Waste</p>
+                 <p>Waste Classification</p></a>
                </div>
                <div class="card" style="background-color:rgb(153, 29, 224);">
                  <a href="/leaderboard"><h2><span class="glyphicon glyphicon-equalizer"></span></h2>
