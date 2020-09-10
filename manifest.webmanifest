@@ -8,9 +8,22 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-
-
+      "src": "lib/icons/64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "lib/icons/128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "lib/icons/256.png",
+      "type": "image/png",
+      "sizes": "256x256"
     }
+
+
 
   ]
 }
