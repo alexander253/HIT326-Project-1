@@ -1,10 +1,10 @@
 {
   "name": "CDU Waste",
   "short_name": "CDUWaste",
-  "start_url": "index.php",
+  "start_url": "",
   "display": "standalone",
-  "background_color": "green",
-  "theme_color": "green",
+  "background_color": "#007a87",
+  "theme_color": "#007a87",
   "orientation": "portrait-primary",
   "icons": [
     {
