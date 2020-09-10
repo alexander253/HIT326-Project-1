@@ -1,7 +1,7 @@
 {
   "name": "CDU Waste",
   "short_name": "CDUWaste",
-  "start_url": "",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#007a87",
   "theme_color": "#007a87",
