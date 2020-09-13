@@ -20,6 +20,9 @@ th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+
+
 </style>
 
 
@@ -31,10 +34,13 @@ echo "<h1>$message</h1>";
 
 
 echo "
+
 <table>
 <tr>
   <th>Commingled</th>
 </tr>
+
+
 "
 
 ;
@@ -53,12 +59,15 @@ echo "
        <tr>
          <td>{$desc}</td>
       </tr>
+
      ";
  }
 }
 }
 
+
 echo "
+
 <tr>
   <th>Recycle</th>
 </tr>";

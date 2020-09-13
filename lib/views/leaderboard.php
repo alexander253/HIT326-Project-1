@@ -1,3 +1,16 @@
+<style media="screen">
+
+tr:nth-child(2) {
+  background-color: gold;
+}
+tr:nth-child(3) {
+  background-color: silver;
+}
+tr:nth-child(4) {
+  background-color: brown;
+}
+</style>
+
 
 <?php
 echo "<h1>Leader Board</h1>";
@@ -9,7 +22,7 @@ echo "<h1>Leader Board</h1>";
      <th>Name</th>
      <th>Points</th>
    </tr>
- </table>";
+";
   //Print the list of account details
  if(!empty($list)){
    foreach($list As $detail){
@@ -28,21 +41,12 @@ echo "<h1>Leader Board</h1>";
 
 
    echo "
-
-   <table>
-
      <tr>
-     <td>{$rank}</td>
+       <td>{$rank}</td>
        <td>{$fname}</td>
        <td>{$points}</td>
      </tr>
-   </table>
-
-
    "
-
-
-
    ;
 
 
@@ -50,12 +54,14 @@ echo "<h1>Leader Board</h1>";
 }
 
 
+echo "
+</table>
+"
+;
 
 
 
 
- else{
-   echo "<h2>Something went wrong</h2>";}
 
 
 
