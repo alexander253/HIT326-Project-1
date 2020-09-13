@@ -204,6 +204,25 @@ function update_details($id,$title,$fname,$lname,$email,$phone,$city,$state,$cou
 
       }
 
+      function leaderboardFirst(){
+        session_start();
+        try{
+          $db = get_db();
+          $query = "SELECT MAX(points) as points FROM user ";
+          $statement = $db->prepare($query);
+          $email= $_SESSION["email"];
+          $binding = array($email);
+          $statement -> execute($binding);
+          $list = $statement->fetchall(PDO::FETCH_ASSOC);
+          return $test;
+        }
+        catch(PDOException $e){
+          throw new Exception($e->getMessage());
+          return "";
+        }
+
+        }
+
     #get point details from database
       function points(){
         session_start();
