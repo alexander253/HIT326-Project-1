@@ -99,16 +99,14 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
   min-width: 50px;
-  max-width: 50px;
+  height: 80px;
   text-align: left;
   padding: 8px;
+  font-size: 1.3em;
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
+
 
 
 @media screen and (max-width: 480px) {
