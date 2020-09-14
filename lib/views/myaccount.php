@@ -20,20 +20,27 @@ echo "<h1>$message</h1>";
    <li>First Name: {$fname}</li>
    <li>Last Name: {$lname}</li>
    <li>Points: {$points}</li>
-   </ul>";
+   </ul>
+
+<button type='button' class='btn btn-primary'><a href= '/signup'><a href= '/signout'><p>Sign out</p></a></button>
+   "
+   ;
+
 
 
  }
 }
 
  else{
-   echo "<h2>You are not signed in yet</h2>";}
+   echo "<h2>You are not signed in yet</h2>
+   <button type='button' class='btn btn-primary'><a href= '/signup'><p>Sign up</p></a></button>
+   <button type='button' class='btn btn-primary'><a href= '/signup'><a href= '/signin'><p>Sign in</p></a></button>
+   <button type='button' class='btn btn-primary'><a href= '/signup'><a href= '/admin_signin'><p>Admin sign in</p></a></button>
+
+
+   ";
+
+
+ }
 
  ?>
-
- <div class="blue">
-  <a href= "/signup"><p>Sign up here</p></a>
-  <a href= "/signin"><p>Sign in here</p></a>
-  <a href= "/admin_signin"><p>Admin sign in here</p></a>
-  <a href= "/signout"><p>Sign out here</p></a>
- </div>

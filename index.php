@@ -84,7 +84,9 @@ get("/leaderboard",function($app){
    $app->set_message("message","Leader Board");
    require MODEL;
    $app->set_message("list", leaderboard());
-   $app->set_message("test", leaderboardFirst());
+   $app->set_message("first", leaderboardFirst());
+   $app->set_message("second", leaderboardSecond());
+   $app->set_message("third", leaderboardThird());
 
    if (is_admin_authenticated()){
      $app->render(ADMIN,"adminleaderboard");}

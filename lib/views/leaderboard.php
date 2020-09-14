@@ -1,44 +1,196 @@
 <style media="screen">
 
-
-
-.rank, .points {
+.rank {
   width: 20px;
 }
+
+.points {
+  width: 65px;
+}
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 355px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: white;
+}
+
+.top_three{
+  background-color: white;
+}
+
+
 </style>
 
 <head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 
+<div class="dropdown">
+  <h1 class="dropbtn" id= "leaderboard_heading"> <span class="glyphicon glyphicon-chevron-down"></span> Leaderboard - 2020</h1>
+  <div class="dropdown-content">
+    <a href="#"><h1>September</h1></a>
+    <a href="#"><h1>October</h1> </a>
+    <a href="#"><h1>November</h1> </a>
+  </div>
+</div>
+
 <?php
-echo "<h1>Leader Board-2020</h1>";
 
-
- echo "<table>
- <tr>
+ echo "
+<table>
+ <tr class = 'top_three'>
  <td>
  <svg width='2em' height='2em' viewBox='0 0 16 16' class='bi bi-trophy-fill' fill='gold' xmlns='http://www.w3.org/2000/svg'>
    <path fill-rule='evenodd' d='M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z'/>
  </svg>
  </td>
+
+ ";
+
+ if(!empty($first)){
+   foreach($first As $detail){
+     $email = htmlspecialchars($detail['email'],ENT_QUOTES, 'UTF-8');
+     $fname = htmlspecialchars($detail['fname'],ENT_QUOTES, 'UTF-8');
+     $lname = htmlspecialchars($detail['lname'],ENT_QUOTES, 'UTF-8');
+     $title= htmlspecialchars($detail['title'],ENT_QUOTES, 'UTF-8');
+     $address = htmlspecialchars($detail['address'],ENT_QUOTES, 'UTF-8');
+     $city = htmlspecialchars($detail['city'],ENT_QUOTES, 'UTF-8');
+     $state = htmlspecialchars($detail['state'],ENT_QUOTES, 'UTF-8');
+     $country = htmlspecialchars($detail['country'],ENT_QUOTES, 'UTF-8');
+     $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
+     $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
+     $points= htmlspecialchars($detail['points'],ENT_QUOTES, 'UTF-8');
+
+
+
+   echo "
+
+      <td class ='rank'>{$rank}</td>
+       <td>{$fname}</td>
+       <td class = 'points'>{$points} pts</td>
+     </tr>
+   "
+   ;
+
+
+ }
+}
+ echo "
  </tr>
 
- <tr>
+ <tr class = 'top_three'>
  <td>
  <svg width='2em' height='2em' viewBox='0 0 16 16' class='bi bi-trophy-fill' fill='silver' xmlns='http://www.w3.org/2000/svg'>
    <path fill-rule='evenodd' d='M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z'/>
  </svg>
  </td>
+";
+
+if(!empty($second)){
+  foreach($second As $detail){
+    $email = htmlspecialchars($detail['email'],ENT_QUOTES, 'UTF-8');
+    $fname = htmlspecialchars($detail['fname'],ENT_QUOTES, 'UTF-8');
+    $lname = htmlspecialchars($detail['lname'],ENT_QUOTES, 'UTF-8');
+    $title= htmlspecialchars($detail['title'],ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($detail['address'],ENT_QUOTES, 'UTF-8');
+    $city = htmlspecialchars($detail['city'],ENT_QUOTES, 'UTF-8');
+    $state = htmlspecialchars($detail['state'],ENT_QUOTES, 'UTF-8');
+    $country = htmlspecialchars($detail['country'],ENT_QUOTES, 'UTF-8');
+    $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
+    $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
+    $points= htmlspecialchars($detail['points'],ENT_QUOTES, 'UTF-8');
+
+
+
+  echo "
+
+     <td class ='rank'>{$rank}</td>
+      <td>{$fname}</td>
+      <td class = 'points'>{$points} pts</td>
+    </tr>
+  "
+  ;
+
+
+}
+}
+
+echo "
+
+
  </tr>
 
- <tr>
+ <tr class = 'top_three'>
  <td>
  <svg width='2em' height='2em' viewBox='0 0 16 16' class='bi bi-trophy-fill' fill='brown' xmlns='http://www.w3.org/2000/svg'>
    <path fill-rule='evenodd' d='M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z'/>
  </svg>
  </td>
+";
+if(!empty($third)){
+  foreach($third As $detail){
+    $email = htmlspecialchars($detail['email'],ENT_QUOTES, 'UTF-8');
+    $fname = htmlspecialchars($detail['fname'],ENT_QUOTES, 'UTF-8');
+    $lname = htmlspecialchars($detail['lname'],ENT_QUOTES, 'UTF-8');
+    $title= htmlspecialchars($detail['title'],ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($detail['address'],ENT_QUOTES, 'UTF-8');
+    $city = htmlspecialchars($detail['city'],ENT_QUOTES, 'UTF-8');
+    $state = htmlspecialchars($detail['state'],ENT_QUOTES, 'UTF-8');
+    $country = htmlspecialchars($detail['country'],ENT_QUOTES, 'UTF-8');
+    $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
+    $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
+    $points= htmlspecialchars($detail['points'],ENT_QUOTES, 'UTF-8');
+
+
+
+  echo "
+
+     <td class ='rank'>{$rank}</td>
+      <td>{$fname}</td>
+      <td class = 'points'>{$points} pts</td>
+    </tr>
+  "
+  ;
+
+
+}
+}
+
+echo "
  </tr>
+ </div>
 
 ";
   //Print the list of account details
@@ -60,14 +212,15 @@ echo "<h1>Leader Board-2020</h1>";
 
    echo "
 
+
       <td class ='rank'>{$rank}</td>
       <td>
-      <svg width='2em' height='2em' viewBox='0 0 16 16' class='bi bi-trophy-fill' fill='black' xmlns='http://www.w3.org/2000/svg'>
+      <svg width='1.2em' height='1.2em' viewBox='0 0 16 16' class='bi bi-trophy-fill' fill='black' xmlns='http://www.w3.org/2000/svg'>
         <path fill-rule='evenodd' d='M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z'/>
       </svg>
       </td>
        <td>{$fname}</td>
-       <td>{$points} pts</td>
+       <td class = 'points'>{$points} pts</td>
      </tr>
    "
    ;
@@ -89,3 +242,20 @@ echo "
 
 
  ?>
+ <script>
+ /* When the user clicks on the button,
+ toggle between hiding and showing the dropdown content */
+ function test() {
+   document.getElementById("myDropdown").classList.toggle("show");
+ }
+
+ // Close the dropdown if the user clicks outside of it
+ window.onclick = function(e) {
+   if (!e.target.matches('.dropbtn')) {
+   var myDropdown = document.getElementById("myDropdown");
+     if (myDropdown.classList.contains('show')) {
+       myDropdown.classList.remove('show');
+     }
+   }
+ }
+ </script>

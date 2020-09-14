@@ -208,13 +208,13 @@ function update_details($id,$title,$fname,$lname,$email,$phone,$city,$state,$cou
         session_start();
         try{
           $db = get_db();
-          $query = "SELECT MAX(points) as points FROM user ";
+          $query = "SELECT email,fname,lname, points FROM user ORDER BY points DESC LIMIT 1 ";
           $statement = $db->prepare($query);
           $email= $_SESSION["email"];
           $binding = array($email);
           $statement -> execute($binding);
-          $list = $statement->fetchall(PDO::FETCH_ASSOC);
-          return $test;
+          $first = $statement->fetchall(PDO::FETCH_ASSOC);
+          return $first;
         }
         catch(PDOException $e){
           throw new Exception($e->getMessage());
@@ -222,6 +222,43 @@ function update_details($id,$title,$fname,$lname,$email,$phone,$city,$state,$cou
         }
 
         }
+
+        function leaderboardSecond(){
+          session_start();
+          try{
+            $db = get_db();
+            $query = "SELECT email,fname,lname, points FROM user ORDER BY points DESC LIMIT 1 OFFSET 1 ";
+            $statement = $db->prepare($query);
+            $email= $_SESSION["email"];
+            $binding = array($email);
+            $statement -> execute($binding);
+            $second = $statement->fetchall(PDO::FETCH_ASSOC);
+            return $second;
+          }
+          catch(PDOException $e){
+            throw new Exception($e->getMessage());
+            return "";
+          }
+
+          }
+          function leaderboardThird(){
+            session_start();
+            try{
+              $db = get_db();
+              $query = "SELECT email,fname,lname, points FROM user ORDER BY points DESC LIMIT 1 OFFSET 2 ";
+              $statement = $db->prepare($query);
+              $email= $_SESSION["email"];
+              $binding = array($email);
+              $statement -> execute($binding);
+              $third = $statement->fetchall(PDO::FETCH_ASSOC);
+              return $third;
+            }
+            catch(PDOException $e){
+              throw new Exception($e->getMessage());
+              return "";
+            }
+
+            }
 
     #get point details from database
       function points(){
