@@ -1,13 +1,100 @@
+
+
 <?php
 echo "<h1>$message</h1>";
 
 if(!empty($_SESSION["email"])){
-  echo "<h4>You are currently signed in as:</h4>";
-  echo $_SESSION['email'];
+  echo "<h4></h4>";
+
 }
   else {
-    echo "You are not signed in, sign in or sign up to to start earning points";}
+    echo "Sign up to start earning points!";
+  }
 
+  if(!empty($first)){
+    foreach($first As $detail){
+      $email = htmlspecialchars($detail['email'],ENT_QUOTES, 'UTF-8');
+      $fname = htmlspecialchars($detail['fname'],ENT_QUOTES, 'UTF-8');
+      $lname = htmlspecialchars($detail['lname'],ENT_QUOTES, 'UTF-8');
+      $title= htmlspecialchars($detail['title'],ENT_QUOTES, 'UTF-8');
+      $address = htmlspecialchars($detail['address'],ENT_QUOTES, 'UTF-8');
+      $city = htmlspecialchars($detail['city'],ENT_QUOTES, 'UTF-8');
+      $state = htmlspecialchars($detail['state'],ENT_QUOTES, 'UTF-8');
+      $country = htmlspecialchars($detail['country'],ENT_QUOTES, 'UTF-8');
+      $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
+      $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
+      $points= htmlspecialchars($detail['points'],ENT_QUOTES, 'UTF-8');
+
+if($_SESSION["email"]==$email){
+  echo " <h1>YOU ARE CURRENTLY THE RUBBISH KING
+  <svg width='6em' height='6em' viewBox='0 0 16 16' class='bi bi-award' fill='gold' xmlns='http://www.w3.org/2000/svg'>
+  <path fill-rule='evenodd' d='M9.669.864L8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193l-1.51-.229L8 1.126l-1.355.702-1.51.229-.684 1.365-1.086 1.072L3.614 6l-.25 1.506 1.087 1.072.684 1.365 1.51.229L8 10.874l1.356-.702 1.509-.229.684-1.365 1.086-1.072L12.387 6l.248-1.506-1.086-1.072-.684-1.365z'/>
+  <path d='M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z'/>
+</svg>
+</h1>
+
+  ";
+}
+}
+}
+
+if(!empty($second)){
+  foreach($second As $detail){
+    $email = htmlspecialchars($detail['email'],ENT_QUOTES, 'UTF-8');
+    $fname = htmlspecialchars($detail['fname'],ENT_QUOTES, 'UTF-8');
+    $lname = htmlspecialchars($detail['lname'],ENT_QUOTES, 'UTF-8');
+    $title= htmlspecialchars($detail['title'],ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($detail['address'],ENT_QUOTES, 'UTF-8');
+    $city = htmlspecialchars($detail['city'],ENT_QUOTES, 'UTF-8');
+    $state = htmlspecialchars($detail['state'],ENT_QUOTES, 'UTF-8');
+    $country = htmlspecialchars($detail['country'],ENT_QUOTES, 'UTF-8');
+    $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
+    $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
+    $points= htmlspecialchars($detail['points'],ENT_QUOTES, 'UTF-8');
+
+if($_SESSION["email"]==$email){
+echo " <h1>YOU ARE CURRENTLY THE RUBBISH KNIGHT
+
+
+<svg width='6em' height='6em' viewBox='0 0 16 16' class='bi bi-award' fill='silver' xmlns='http://www.w3.org/2000/svg'>
+<path fill-rule='evenodd' d='M9.669.864L8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193l-1.51-.229L8 1.126l-1.355.702-1.51.229-.684 1.365-1.086 1.072L3.614 6l-.25 1.506 1.087 1.072.684 1.365 1.51.229L8 10.874l1.356-.702 1.509-.229.684-1.365 1.086-1.072L12.387 6l.248-1.506-1.086-1.072-.684-1.365z'/>
+<path d='M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z'/>
+</svg>
+</h1>
+
+";
+}
+}
+}
+
+if(!empty($third)){
+  foreach($third As $detail){
+    $email = htmlspecialchars($detail['email'],ENT_QUOTES, 'UTF-8');
+    $fname = htmlspecialchars($detail['fname'],ENT_QUOTES, 'UTF-8');
+    $lname = htmlspecialchars($detail['lname'],ENT_QUOTES, 'UTF-8');
+    $title= htmlspecialchars($detail['title'],ENT_QUOTES, 'UTF-8');
+    $address = htmlspecialchars($detail['address'],ENT_QUOTES, 'UTF-8');
+    $city = htmlspecialchars($detail['city'],ENT_QUOTES, 'UTF-8');
+    $state = htmlspecialchars($detail['state'],ENT_QUOTES, 'UTF-8');
+    $country = htmlspecialchars($detail['country'],ENT_QUOTES, 'UTF-8');
+    $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
+    $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
+    $points= htmlspecialchars($detail['points'],ENT_QUOTES, 'UTF-8');
+
+if($_SESSION["email"]==$email){
+echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
+
+
+<svg width='6em' height='6em' viewBox='0 0 16 16' class='bi bi-award' fill='brown' xmlns='http://www.w3.org/2000/svg'>
+<path fill-rule='evenodd' d='M9.669.864L8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193l-1.51-.229L8 1.126l-1.355.702-1.51.229-.684 1.365-1.086 1.072L3.614 6l-.25 1.506 1.087 1.072.684 1.365 1.51.229L8 10.874l1.356-.702 1.509-.229.684-1.365 1.086-1.072L12.387 6l.248-1.506-1.086-1.072-.684-1.365z'/>
+<path d='M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z'/>
+</svg>
+</h1>
+
+";
+}
+}
+}
 
  ?>
 
@@ -16,25 +103,26 @@ if(!empty($_SESSION["email"])){
    		<div class="row">
    			<div class="col-lg-12">
    				<div class="overview">
-             <h5>Weclome! CDU students and staff</h5>
-   					<p>This app is designed to help CDU Casuarina Campus to better manage waste. In order to do so,
-             we need you to participate in better waste management practices. </p>
    				</div>
    			</div>
    		</div>
    	</div>
    	</section>
+
+
+
+
      <section id="wastesorting">
        <div class="container">
          <div class="row">
            <div class="col-md-12">
              <div class="cardContainer">
                <div class="card" style="background-color:rgb(50, 41, 91);">
-                 <h2><span class="glyphicon glyphicon-star"></span></h2>
+                 <h2><span class="glyphicon glyphicon-info-sign"></span></h2>
                  <p>Info on Waste Management</p>
                </div>
                <div class="card" style="background-color:rgb(207, 41, 91);">
-                 <h2><span class="glyphicon glyphicon-heart"></span></h2>
+                 <h2><span class="glyphicon glyphicon-map-marker"></span></h2>
                  <p>Nearest Bins</p>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
@@ -50,3 +138,4 @@ if(!empty($_SESSION["email"])){
          </div>
        </div>
      </div>
+     </section>

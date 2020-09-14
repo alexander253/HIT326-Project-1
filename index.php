@@ -56,7 +56,7 @@ get("/rubbish_items",function($app){
   require MODEL;
   if (is_admin_authenticated()){
    $app->set_message("title","Darwin Art Company");
-   $app->set_message("message","Rubbish Classification");
+   $app->set_message("message","Waste Classification");
    $app->set_message("list", rubbish_list());
    $app->render(ADMIN,"rubbish_items");
 
@@ -64,7 +64,7 @@ get("/rubbish_items",function($app){
 
    else {
      $app->set_message("title","Darwin Art Company");
-     $app->set_message("message","Rubbish Classification");
+     $app->set_message("message","Waste Classification");
      $app->set_message("list", rubbish_list());
      $app->render(LAYOUT,"rubbish_items");
    }
@@ -149,8 +149,10 @@ get("/",function($app){
   $app->force_to_http("/");
   require MODEL;
    $app->set_message("title","Home");
-   $app->set_message("message","Home");
    $app->set_message("name",get_user_name());
+   $app->set_message("first", leaderboardFirst());
+   $app->set_message("second", leaderboardSecond());
+   $app->set_message("third", leaderboardThird());
 
    if (is_admin_authenticated()){
      $app->render(ADMIN,"home");}

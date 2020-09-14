@@ -57,6 +57,7 @@
   <div class="footer-nav">
     <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto;">Home</p></a>
     <a href="index.html" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">location_on</span><p style="margin: auto;">Nearest Bins</p></a>
+    <a href="/leaderboard"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto;">Leaderboard</p></a>
     <a href="/rubbish_items"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto;">Waste Classification</p></a>
     <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto;">My Account</p></a>
   </div>

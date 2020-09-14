@@ -245,7 +245,7 @@ function update_details($id,$title,$fname,$lname,$email,$phone,$city,$state,$cou
             session_start();
             try{
               $db = get_db();
-              $query = "SELECT email,fname,lname, points FROM user ORDER BY points DESC LIMIT 1 OFFSET 2 ";
+              $query = "SELECT email,fname,lname,points FROM user ORDER BY points DESC LIMIT 1 OFFSET 2 ";
               $statement = $db->prepare($query);
               $email= $_SESSION["email"];
               $binding = array($email);
