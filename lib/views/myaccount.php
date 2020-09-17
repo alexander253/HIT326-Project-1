@@ -9,9 +9,9 @@
 
 .profile_img{
   width: 100px;
-  position: absolute;
-  bottom: 0px;
-  left: 120px;
+  position: relative;
+  bottom: -100px;
+
 }
 
 .profile_background{
