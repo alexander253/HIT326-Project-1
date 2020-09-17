@@ -7,14 +7,16 @@ table {
 
 td, th {
   border: 1px solid #dddddd;
-  min-width: 120px;
-  max-width: 120px;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.small{
+  width: 80px;
 }
 </style>
 
@@ -54,11 +56,11 @@ echo "<h1>Leader Board</h1>";
    <table>
 
      <tr>
-       <td>{$rank}</td>
+       <td class = 'small'>{$rank}</td>
        <td>{$email}</td>
        <td>{$fname}</td>
        <td>{$lname}</td>
-       <td>{$points}</td>
+       <td class = 'small'>{$points}</td>
      </tr>
    </table>
 
