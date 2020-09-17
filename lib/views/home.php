@@ -1,5 +1,9 @@
 
-
+<style media="screen">
+  h5{
+    text-align: center;
+  }
+</style>
 <?php
 echo "<h1>$message</h1>";
 
@@ -8,7 +12,7 @@ if(!empty($_SESSION["email"])){
 
 }
   else {
-    echo "Sign up to start earning points!";
+    echo "<h5>Sign in to start earning points!</h5>";
   }
 
   if(!empty($first)){

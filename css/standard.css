@@ -1,9 +1,13 @@
 #main{
   margin:0 auto;
 }
+html{
+  background: #eeee;
 
+}
 body{
    font-family:Arial;
+
 }
 
 #content{

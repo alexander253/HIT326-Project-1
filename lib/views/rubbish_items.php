@@ -22,7 +22,6 @@ tr:nth-child(even) {
 }
 
 
-
 </style>
 
 
@@ -30,21 +29,14 @@ tr:nth-child(even) {
 
 echo "<h1>$message</h1>";
 
-
-
-
 echo "
-
 <table>
 <tr>
   <th>Commingled</th>
 </tr>
 
-
 "
-
 ;
-
 
  //Print the list of products
  if(!empty($list)){
