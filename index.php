@@ -79,6 +79,13 @@ get("/myaccount",function($app){
    $app->render(LAYOUT,"myaccount");
 });
 
+get("/map", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Map");
+   $app->render(LAYOUT,"map");
+});
+
+
 get("/leaderboard",function($app){
    $app->set_message("title","Darwin Art Company");
    $app->set_message("message","Leader Board");
