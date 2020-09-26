@@ -10,12 +10,12 @@ body{
 
 }
 
-#content{
-  clear:both;
-  background:#eee;
-  padding:1em;
-  border-radius: 3px 3px 0 0;
-  margin-bottom: 100px;
+#content {
+    clear: both;
+    background: #eee;
+    padding: 1em;
+    border-radius: 3px 3px 0 0;
+    margin-bottom: 100px;
 }
 
 .flash{
