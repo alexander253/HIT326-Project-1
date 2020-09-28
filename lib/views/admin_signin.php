@@ -1,10 +1,17 @@
 <style media="screen">
 
-body {
-  font-family: Arial;
-}
+body  
+{  
+    margin: 0;  
+    padding: 0;  
+    background-color: #B8CCC2;
+    font-family: 'Arial';  
+}  
   h1{
     text-align: center;
+    padding: 20px;  
+    color: #277582;  
+
   }
 
 .form-signin label{
@@ -47,10 +54,7 @@ body {
 }
 
 .adminname{
-    display: block;
-
-  margin-left: auto;
-  margin-right: auto;
+  display: block;
   width: 100px;
   margin-bottom: 1rem;
 
@@ -58,10 +62,7 @@ body {
 }
 
 .adminpassword{
-    display: block;
-
-  margin-left: auto;
-  margin-right: auto;
+  display: block;
   width: 100px;
   margin-bottom: 1rem;
 
@@ -69,24 +70,49 @@ body {
 
 }
 
-.adminbody{
-  background-color: #B8CCC2;
-  height: 300px;
-  position: relative;
-  text-align: center;
-  margin-left: auto;
-    margin-right: auto;
+.container{
+   width: 382px;  
+   overflow: hidden;  
+   margin: auto;  
+   margin: 20 0 0 450px;  
+   padding: 80px;  
+   background: #007a87;  
+   border-radius: 15px ;  
+
+}
+
+.user p{
+    color: white;  
+
+}
+
+@media screen and (max-width:768px) {
+  .container {
+    width: 100%;
+ margin-left: 10px;
+            margin-right: 10px;
+  }
+
+  .adminname{
+  display: block;
+  width: 100px;
+  margin-bottom: 1rem;
+
+
+}
+
+.adminpassword{
+  display: block;
+  width: 100px;
+  margin-bottom: 1rem;
 
 }
 
 </style>
 <h1>Admin sign in</h1>
 
-<body>
+
 <div class="container" >
-    <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5" >
           <div class="adminbody">
             <form class="form-signin" action='/admin_signin' method='POST'>
               <input type='hidden' name='_method' value='post' />
@@ -102,16 +128,10 @@ body {
               </div>
 
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Sign in">Sign in</button>
-              <hr class="my-4">
+
             </form>
-          </div>
-        </div>
-      </div>
-    </div>
+            </div>
+            <div class="user">
+                <a href= "/signin"><p>User sign in here</p></a>
+            </div>
   </div>
-
-<div class="">
-  <a href= "/signin"><p>User sign in here</p></a>
-
-</div>
-</body>
