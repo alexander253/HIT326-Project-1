@@ -13,31 +13,22 @@ td, th {
   padding: 8px;
 }
 
-th {
-  background-color: orange;
-}
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: white;
 }
 
 
 </style>
 
 
-<?php
-
-echo "<h1>$message</h1>";
-
-echo "
 <table>
-<tr>
-  <th>Commingled</th>
+<tr style="background-color: orange;">
+  <th style="color: white;">Commingled</th>
 </tr>
 
-"
-;
 
+<?php
  //Print the list of products
  if(!empty($list)){
    foreach($list As $product){
@@ -56,14 +47,14 @@ echo "
  }
 }
 }
+?>
+
+<tr style="background-color: green;">
+  <th style="color: white;">Recycle</th>
+</tr>
 
 
-echo "
-
-<tr>
-  <th>Recycle</th>
-</tr>";
-
+<?php
 if(!empty($list)){
   foreach($list As $product){
     $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
@@ -79,14 +70,13 @@ if(!empty($list)){
 }
 }
 }
+?>
 
-echo "
-<tr>
-  <th>General</th>
+<tr style="background-color: red;">
+  <th style="color: white;">General</th>
 </tr>
-"
-;
 
+<?php
 if(!empty($list)){
   foreach($list As $product){
     $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
@@ -102,12 +92,5 @@ if(!empty($list)){
 }
 }
 }
+?>
 
-echo "
-</table>";
-
-
-
-
-
- ?>
