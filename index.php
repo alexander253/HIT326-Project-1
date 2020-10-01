@@ -39,7 +39,7 @@ get("/bins",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Bins");
    $app->set_message("list", product_list());}
    else {$app->set_message("message","You are not authorised");}
@@ -55,7 +55,7 @@ get("/rubbish_items",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Waste Classification");
    $app->set_message("list", rubbish_list());
    $app->render(ADMIN,"rubbish_items");
@@ -63,7 +63,7 @@ get("/rubbish_items",function($app){
  }
 
    else {
-     $app->set_message("title","Darwin Art Company");
+     $app->set_message("title","CDU Waste");
      $app->set_message("message","Waste Classification");
      $app->set_message("list", rubbish_list());
      $app->render(LAYOUT,"rubbish_items");
@@ -72,7 +72,7 @@ get("/rubbish_items",function($app){
 });
 
 get("/myaccount",function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", my_account());
@@ -94,22 +94,20 @@ get("/myaccount",function($app){
 //});
 
 get("/map/map",function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
-   $app->render(LAYOUT,"map");
 });
 
 get("/map/index",function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
-   $app->render(ADMIN,"index");
 });
 
 
 get("/leaderboard",function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Leader Board");
    require MODEL;
    $app->set_message("list", leaderboard());
@@ -125,7 +123,7 @@ get("/leaderboard",function($app){
 });
 
 get("/points",function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", points());
