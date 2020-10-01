@@ -76,13 +76,35 @@ get("/myaccount",function($app){
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", my_account());
-   $app->render(LAYOUT,"myaccount");
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"admin_myaccount");}
+     else {
+       $app->render(LAYOUT,"myaccount");
+     }
+
+
+
 });
 
-get("/map", function($app){
+//get("/map", function($app){
+//   $app->set_message("title","Darwin Art Company");
+//   $app->set_message("message","Map");
+//   $app->render(LAYOUT,"map");
+//});
+
+get("/map/map",function($app){
    $app->set_message("title","Darwin Art Company");
-   $app->set_message("message","Map");
+   $app->set_message("message","My Account");
+   require MODEL;
    $app->render(LAYOUT,"map");
+});
+
+get("/map/index",function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","My Account");
+   require MODEL;
+   $app->render(ADMIN,"index");
 });
 
 
@@ -162,7 +184,7 @@ get("/",function($app){
    $app->set_message("third", leaderboardThird());
 
    if (is_admin_authenticated()){
-     $app->render(ADMIN,"home");}
+     $app->render(ADMIN,"admin_home");}
      else {
        $app->render(LAYOUT,"home");
      }

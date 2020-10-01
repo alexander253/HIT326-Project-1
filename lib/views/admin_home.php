@@ -22,13 +22,6 @@
 
 echo "<h1>$message</h1>";
 
-if(!empty($_SESSION["email"])){
-  echo "<h4></h4>";
-
-}
-  else {
-    echo "<h5>Sign in to start earning points!</h5>";
-  }
 
   if(!empty($first)){
     foreach($first As $detail){
@@ -137,21 +130,23 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
            <div class="col-md-12">
              <div class="cardContainer">
                <div class="card" style="background-color:rgb(50, 41, 91);">
+                 <a href="/map/index">
                  <h2><span class="glyphicon glyphicon-info-sign"></span></h2>
-                 <p>Info on Waste Management</p>
+                 <p>View/Add a bin to map</p> </a>
                </div>
                <div class="card" style="background-color:rgb(207, 41, 91);">
+                 <a href='/addrubbish_item'>
                  <h2><span class="glyphicon glyphicon-map-marker"></span></h2>
-                 <p>Nearest Bins</p>
+                 <p>Add a rubbish item</p></a>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
                  <a href="/rubbish_items">
                  <h2><span class="glyphicon glyphicon-trash"></span></h2>
-                 <p>Waste Classification</p></a>
+                 <p>View Rubbish Items</p></a>
                </div>
                <div class="card" style="background-color:rgb(153, 29, 224);">
                  <a href="/leaderboard"><h2><span class="glyphicon glyphicon-equalizer"></span></h2>
-                 <p>Leaderboard</p></a>
+                 <p>View Leaderboard</p></a>
                </div>
            </div>
          </div>

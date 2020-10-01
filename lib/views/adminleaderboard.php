@@ -9,6 +9,8 @@ td, th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+  min-width: 200px;
+  max-width: 200px;
 }
 
 tr:nth-child(even) {
@@ -16,8 +18,10 @@ tr:nth-child(even) {
 }
 
 .small{
-  width: 80px;
+  min-width: 50px;
+  max-width: 50px;
 }
+
 </style>
 
 
@@ -27,11 +31,12 @@ echo "<h1>Leader Board</h1>";
 
  echo "<table>
    <tr>
-     <th>Rank</th>
+     <th class = 'small'>Rank</th>
+     <th class = 'small'>Points</th>
      <th>Email</th>
      <th>First Name</th>
      <th>Last Name</th>
-     <th>Points</th>
+
    </tr>
  </table>";
   //Print the list of account details
@@ -57,10 +62,10 @@ echo "<h1>Leader Board</h1>";
 
      <tr>
        <td class = 'small'>{$rank}</td>
+       <td class = 'small'>{$points}</td>
        <td>{$email}</td>
        <td>{$fname}</td>
        <td>{$lname}</td>
-       <td class = 'small'>{$points}</td>
      </tr>
    </table>
 

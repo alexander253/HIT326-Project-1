@@ -19,15 +19,16 @@
 <div id="main">
 <nav>
 <ul>
+    <!--
   <li><a href='/'>Home</a></li>
   <li><a href='/bins'>Bins</a></li>
   <li><a href='/addbin'>Add a Bin</a></li>
-  <!--<li><a href='/cart'>My Cart</a></li>
+<li><a href='/cart'>My Cart</a></li>
       <li><a href='/myaccount'>My Account</a></li>
       <li><a href='/signin'>Sign in</a></li>
       <li><a href='/signup'>Sign up</a></li>
       <li><a href='/points'>Points</a></li>
--->
+
 
   <li><a href='/leaderboard'>Leader Board</a></li>
 
@@ -35,6 +36,7 @@
 
   <li><a href='/addrubbish_item'>Add rubbish item</a></li>
   <li><a href='/rubbish_items'>Rubbish items</a></li>
+  -->
 
 
 </ul>
@@ -56,10 +58,11 @@
 </div> <!-- end main -->
 <section class="quickicon">
   <div class="footer-nav" id="footer-nav-admin">
-    <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 1.6rem;">home</span><p style="margin: auto;">Home</p></a>
-    <a href="index.html" style="width: 85%;"><span class="material-icons" style="font-size: 1.6rem;">location_on</span><p style="margin: auto;">Nearest Bins</p></a>
-    <a href="/rubbish_items"><span class="material-icons" style="font-size: 1.6rem;">auto_delete</span><p style="margin: auto;">Waste Classification</p></a>
-    <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 1.6rem;">home</span><p style="margin: auto;">My Account</p></a>
+    <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto;">Home</p></a>
+    <a href="/map/index" style="width: 85%;"><span class="material-icons" style="font-size:3rem;">location_on</span><p style="margin: auto;">Bins</p></a>
+    <a href="/leaderboard"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto;">Leaderboard</p></a>
+    <a href="/rubbish_items"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto;">Waste Items</p></a>
+    <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto;">Account</p></a>
   </div>
 </section>
 
