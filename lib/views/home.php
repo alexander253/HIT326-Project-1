@@ -141,8 +141,8 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                  <p>Info on Waste Management</p>
                </div>
                <div class="card" style="background-color:rgb(207, 41, 91);">
-                 <h2><span class="glyphicon glyphicon-map-marker"></span></h2>
-                 <p>Nearest Bins</p>
+                 <a href="/map/map"><h2><span class="glyphicon glyphicon-map-marker"></span></h2>
+                 <p>Nearest Bins</p></a>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
                  <a href="/rubbish_items">
@@ -153,6 +153,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                  <a href="/leaderboard"><h2><span class="glyphicon glyphicon-equalizer"></span></h2>
                  <p>Leaderboard</p></a>
                </div>
+                <input type="file" accept="image/*" capture="camera">
            </div>
          </div>
        </div>

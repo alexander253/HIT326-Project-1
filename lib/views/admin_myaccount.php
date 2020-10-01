@@ -23,7 +23,7 @@
 
 </style>
 
-<h4>My Account</h4>
+<h4>Admin Account</h4>
 <div class="profile_background">
 <img class = 'profile_img 'src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/200px-Circle-icons-profile.svg.png' alt='profile img'>
 </div>
