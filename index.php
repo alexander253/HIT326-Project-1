@@ -93,17 +93,7 @@ get("/myaccount",function($app){
 //   $app->render(LAYOUT,"map");
 //});
 
-get("/map/map",function($app){
-   $app->set_message("title","CDU Waste");
-   $app->set_message("message","My Account");
-   require MODEL;
-});
 
-get("/map/index",function($app){
-   $app->set_message("title","CDU Waste");
-   $app->set_message("message","My Account");
-   require MODEL;
-});
 
 
 get("/leaderboard",function($app){
