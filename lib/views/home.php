@@ -143,12 +143,13 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                  <p>Info on Waste Management</p>
                </div>
 
-               <a href="document.getElementById('getFile').click()" id="scan">
+              
                <div class="card" style="background-color:rgb(153, 29, 2);">
                 <h2><span class="glyphicon glyphicon-camera"></span></h2>
+
                 <p><button id= "scan" style="display:block;width:120px; height:30px;" onclick="document.getElementById('getFile').click()"><p style="color: black">Scan QR Code</button><p>
                 <input type='file' id="getFile" style="display:none">
-              </a>
+
 
               </div>
 
