@@ -69,6 +69,8 @@ function initMap() {
         fillColor: 'red',
         fillOpacity: 0.35
     });
+
+
   }
   // Click event for coordinate picking
   map.addListener('click', function(e) {
