@@ -91,14 +91,14 @@ get("/map_main", function($app){
    $app->render(LAYOUT,"map");
 });
 
-get("/map2",function($app){
+get("/map/map2",function($app){
    $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
    $app->render(LAYOUT,"map2");
 });
 
-get("/map/index",function($app){
+get("/map",function($app){
    $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;

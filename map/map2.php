@@ -51,7 +51,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
     <!-- Custom script file -->
-    <script src="../map/scripts/scripts.js"></script>
+    <script src="scripts/scripts.js"></script>
     <!-- Google Maps JS API -->
     <script src="https://maps.googleapis.com/maps/api/js?AIzaSyCj5zDO28mkK69xOKt0W48qwZm9GRNPPQk"></script>
 </body>
