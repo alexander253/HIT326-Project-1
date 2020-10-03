@@ -63,10 +63,10 @@ function initMap() {
         center: latLng,
         radius: 1,
         map: map,
-        strokeColor: 'grey',
+        strokeColor: 'red',
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: 'grey',
+        fillColor: 'red',
         fillOpacity: 0.35
     });
   }
