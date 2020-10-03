@@ -153,7 +153,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
               </div>
 
                <div class="card" style="background-color:rgb(207, 41, 91);">
-                 <a href="/map/map"><h2><span class="glyphicon glyphicon-map-marker"></span></h2>
+                 <a href="/map_main"><h2><span class="glyphicon glyphicon-map-marker"></span></h2>
                  <p>Nearest Bins</p></a>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
