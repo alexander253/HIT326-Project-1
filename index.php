@@ -83,29 +83,27 @@ get("/myaccount",function($app){
        $app->render(LAYOUT,"myaccount");
      }
 
-
-
 });
 
-//get("/map", function($app){
-//   $app->set_message("title","Darwin Art Company");
-//   $app->set_message("message","Map");
-//   $app->render(LAYOUT,"map");
-//});
-
-get("/map/map",function($app){
-   $app->set_message("title","CDU Waste");
-   $app->set_message("message","My Account");
-   require MODEL;
+get("/map", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Map");
    $app->render(LAYOUT,"map");
 });
 
-get("/map/index",function($app){
-   $app->set_message("title","CDU Waste");
-   $app->set_message("message","My Account");
-   require MODEL;
-   $app->render(ADMIN,"index");
-});
+//get("/map/map",function($app){
+  // $app->set_message("title","CDU Waste");
+   //$app->set_message("message","My Account");
+   //require MODEL;
+   //$app->render(LAYOUT,"map");
+//});
+
+//get("/map/index",function($app){
+  // $app->set_message("title","CDU Waste");
+   //$app->set_message("message","My Account");
+   //require MODEL;
+   //$app->render(ADMIN,"index");
+//});
 
 
 get("/leaderboard",function($app){
