@@ -91,19 +91,16 @@ get("/map_main", function($app){
    $app->render(LAYOUT,"map");
 });
 
-get("/map2",function($app){
+
+
+get("/map_admin",function($app){
    $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
-   $app->render(LAYOUT,"map2");
+   $app->render(ADMIN,"map_admin");
 });
 
-get("/map",function($app){
-   $app->set_message("title","CDU Waste");
-   $app->set_message("message","My Account");
-   require MODEL;
-   $app->render(ADMIN,"index");
-});
+
 
 
 get("/leaderboard",function($app){

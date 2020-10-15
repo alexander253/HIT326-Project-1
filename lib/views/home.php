@@ -143,7 +143,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                  <p>Info on Waste Management</p>
                </div>
 
-              
+
                <div class="card" style="background-color:rgb(153, 29, 2);">
                 <h2><span class="glyphicon glyphicon-camera"></span></h2>
 

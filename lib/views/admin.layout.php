@@ -59,7 +59,8 @@
 <section class="quickicon">
   <div class="footer-nav" id="footer-nav-admin">
     <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto;">Home</p></a>
-    <a href="/map/index" style="width: 85%;"><span class="material-icons" style="font-size:3rem;">location_on</span><p style="margin: auto;">Bins</p></a>
+    <!--<a href="/map/index" style="width: 85%;"><span class="material-icons" style="font-size:3rem;">location_on</span><p style="margin: auto;">Bins</p></a>-->
+    <a href="/map_admin" style="width: 85%;"><span class="material-icons" style="font-size:3rem;">location_on</span><p style="margin: auto;">Bins</p></a>
     <a href="/leaderboard"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto;">Leaderboard</p></a>
     <a href="/rubbish_items"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto;">Waste Items</p></a>
     <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto;">Account</p></a>
