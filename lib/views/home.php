@@ -143,8 +143,8 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
            <div class="col-md-12">
              <div class="cardContainer">
                <div class="card" style="background-color:rgb(50, 41, 91);">
-                 <h2><span class="glyphicon glyphicon-info-sign"></span></h2>
-                 <p>Info on Waste Management</p>
+                 <a href="/info"><h2><span class="glyphicon glyphicon-info-sign"></span></h2>
+                 <p>Info on Waste Management</p></a>
                </div>
 
 
@@ -171,6 +171,12 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                  <a href="/leaderboard"><h2><span class="glyphicon glyphicon-equalizer"></span></h2>
                  <p>Leaderboard</p></a>
                </div>
+
+               <div class="card" style="background-color:rgb(193, 29, 2);">
+                 <a href="/quiz"><h2><span class="glyphicon glyphicon-question-sign"></span></h2>
+                 <p>Quiz</p></a>
+               </div>
+
 
 
 

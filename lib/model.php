@@ -131,9 +131,9 @@ function product_list(){
       throw new Exception($e->getMessage());
       return "";
     }
-
-
     }
+
+
 #get all account details from database
   function my_account(){
     session_start();

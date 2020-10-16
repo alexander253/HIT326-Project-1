@@ -91,6 +91,30 @@ get("/map_main", function($app){
    $app->render(LAYOUT,"map");
 });
 
+get("/info", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Info");
+   $app->render(LAYOUT,"info");
+});
+
+get("/quiz", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","quiz");
+   $app->render(LAYOUT,"quiz");
+});
+
+get("/quiz2", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","quiz2");
+   $app->render(LAYOUT,"quiz2");
+});
+
+get("/quiz3", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","quiz3");
+   $app->render(LAYOUT,"quiz3");
+});
+
 
 
 get("/map_admin",function($app){
@@ -185,6 +209,8 @@ get("/",function($app){
      }
 
 });
+
+
 
 get("/admin_signin",function($app){
    $app->force_to_http("/admin_signin");
