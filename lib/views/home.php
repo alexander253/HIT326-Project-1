@@ -154,6 +154,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                </div>
 
 
+               <!--
                <div class="card" style="background-color:rgb(153, 29, 2);">
                 <h2><span class="glyphicon glyphicon-camera"></span></h2>
 
@@ -162,7 +163,15 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                 <input type='file' id="getFile" style="display:none">
                     </div>
 
-              </div>
+                    </div>
+                  -->
+
+                  <div class="card" style="background-color:rgb(153, 29, 2);">
+                    <a href="/howtopoints"><h2><span class="glyphicon glyphicon-camera"></span></h2>
+                    <p>How to earn points</p></a>
+                  </div>
+
+
 
                <div class="card" style="background-color:rgb(207, 41, 91);">
                  <a href="/map_main"><h2><span class="glyphicon glyphicon-map-marker"></span></h2>

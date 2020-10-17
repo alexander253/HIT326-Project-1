@@ -1,6 +1,6 @@
 <style media="screen">
   input,textarea,select{
-    width: 300px;
+    width: 350px;
 
   }
 </style>
@@ -11,17 +11,17 @@
  <input type='hidden' name='_method' value='post' />
 
 
- <label for="type">Choose a Classification:</label> <br>
+ <label for="type"><h3>Choose a Classification:</h3></label> <br>
  <select name="type" id="type">
    <option value="Recycle">Recycle</option>
    <option value="Commingled">Commingled</option>
    <option value="General Waste">General Waste</option>
  </select> <br><br>
 
- <label for='name'>Name of Item</label>
+ <label for='name'><h3>Name of Item</h3></label>
  <input type='text' id='name' name='name' /> <br>
 
- <label for='desc'>Description</label> <br>
+ <label for='desc'><h3>Description</h3></label> <br>
  <textarea rows="5" type='text' id='desc' name='desc'></textarea>
 
 

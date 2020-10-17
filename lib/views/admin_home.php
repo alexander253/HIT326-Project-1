@@ -143,12 +143,12 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                <div class="card" style="background-color:rgb(207, 41, 91);">
                  <a href='/addrubbish_item'>
                  <h2><span class="glyphicon glyphicon-map-marker"></span></h2>
-                 <p>Add a rubbish item</p></a>
+                 <p>Add a Waste Item</p></a>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
                  <a href="/rubbish_items">
                  <h2><span class="glyphicon glyphicon-trash"></span></h2>
-                 <p>View Rubbish Items</p></a>
+                 <p>View Waste Items</p></a>
                </div>
                <div class="card" style="background-color:rgb(153, 29, 224);">
                  <a href="/leaderboard"><h2><span class="glyphicon glyphicon-equalizer"></span></h2>

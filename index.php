@@ -127,6 +127,12 @@ get("/info", function($app){
    $app->render(LAYOUT,"info");
 });
 
+get("/howtopoints", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Info");
+   $app->render(LAYOUT,"howtopoints");
+});
+
 get("/quiz", function($app){
    $app->set_message("title","Darwin Art Company");
    $app->set_message("message","quiz");
@@ -173,6 +179,7 @@ get("/leaderboard",function($app){
      }
 });
 
+//for gereral waste bins
 get("/points",function($app){
    $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
@@ -180,6 +187,26 @@ get("/points",function($app){
    $app->set_message("list", points());
    $app->render(LAYOUT,"points");
 });
+
+//for recycle bins
+get("/points_rec",function($app){
+   $app->set_message("title","CDU Waste");
+   $app->set_message("message","My Account");
+   require MODEL;
+   $app->set_message("list", points());
+   $app->render(LAYOUT,"points_rec");
+});
+
+//for commingled bins
+get("/points_comm",function($app){
+   $app->set_message("title","CDU Waste");
+   $app->set_message("message","My Account");
+   require MODEL;
+   $app->set_message("list", points());
+   $app->render(LAYOUT,"points_comm");
+});
+
+
 
 get("/cart",function($app){
    $app->set_message("title","My Cart");
@@ -562,6 +589,98 @@ post("/addpoints",function($app){
 
 //redirect to points page (which they should be on anyway)
       $app->set_flash(htmlspecialchars(" Congrats you have earned 1 point"));
+      $app->redirect_to("/");
+
+      })
+;
+
+//add 10 points to user account for recycle bins
+//updating bin usage not updated yet
+post("/addpoints_rec",function($app){
+      session_start();
+      require MODEL;
+      $db = get_db();
+      $email= $_SESSION["email"];
+
+//Will propbably seperate some of this code into models to make cleaner
+
+//select points from users account
+      $query = "SELECT points FROM user where email = '$email'";
+      $statement= $db->prepare($query);
+      $statement->execute();
+      $list = $statement->fetch(PDO::FETCH_ASSOC);
+//select usage points from bin with id=1
+      $query_bin = "SELECT used FROM bin where id = '1'";
+      $statement= $db->prepare($query_bin);
+      $statement->execute();
+      $bin_list = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+//cast the results into an integer
+      $points= (int) $list['points'];
+      $bin_used= (int) $bin_list['used'];
+
+//add 1 point to their totals
+      $updated_points = $points+ 10;
+      $updated_bin= $bin_used+1;
+
+//update their totals in the database
+      $query2 = "UPDATE user set points = '$updated_points' where email = '$email'";
+      $query3 = "UPDATE bin set used = '$updated_bin' where id = '1'";
+
+      $statement = $db->prepare($query2);
+      $statement -> execute();
+
+      $statement = $db->prepare($query3);
+      $statement -> execute();
+
+//redirect to points page (which they should be on anyway)
+      $app->set_flash(htmlspecialchars(" Congrats you have earned 10 points"));
+      $app->redirect_to("/");
+
+      })
+;
+
+post("/addpoints_comm",function($app){
+      session_start();
+      require MODEL;
+      $db = get_db();
+      $email= $_SESSION["email"];
+
+//Will propbably seperate some of this code into models to make cleaner
+
+//select points from users account
+      $query = "SELECT points FROM user where email = '$email'";
+      $statement= $db->prepare($query);
+      $statement->execute();
+      $list = $statement->fetch(PDO::FETCH_ASSOC);
+//select usage points from bin with id=1
+      $query_bin = "SELECT used FROM bin where id = '1'";
+      $statement= $db->prepare($query_bin);
+      $statement->execute();
+      $bin_list = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+//cast the results into an integer
+      $points= (int) $list['points'];
+      $bin_used= (int) $bin_list['used'];
+
+//add 1 point to their totals
+      $updated_points = $points+ 5;
+      $updated_bin= $bin_used+1;
+
+//update their totals in the database
+      $query2 = "UPDATE user set points = '$updated_points' where email = '$email'";
+      $query3 = "UPDATE bin set used = '$updated_bin' where id = '1'";
+
+      $statement = $db->prepare($query2);
+      $statement -> execute();
+
+      $statement = $db->prepare($query3);
+      $statement -> execute();
+
+//redirect to points page (which they should be on anyway)
+      $app->set_flash(htmlspecialchars(" Congrats you have earned 5 points"));
       $app->redirect_to("/");
 
       })
