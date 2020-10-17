@@ -20,24 +20,6 @@
 </header>
 
 <div id="main">
-<nav>
-<ul>
-  <!--<li><a href='/'>Home</a></li>
-  <li><a href='/bins'>Bins</a></li>
-  <li><a href='/addbin'>Add a Bin</a></li>
-  <li><a href='/cart'>My Cart</a></li>
-  <li><a href='/myaccount'>My Account</a></li>
-  <li><a href='/leaderboard'>Leader Board</a></li>
-  <li><a href='/signin'>Sign in</a></li>
-  <li><a href='/signup'>Sign up</a></li>
-  <li><a href='/signout'>Sign out</a></li>
-  <li><a href='/points'>Points</a></li>
-  <li><a href='/rubbish_items'>Rubbish Items</a></li>
-  -->
-
-</ul>
-</nav>
-
 
 <div id='content'>
 <?php
@@ -55,13 +37,14 @@
 
 <section class="quickicon">
   <div class="footer-nav">
-    <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto; font-size: 1.2rem;">Home</p></a>
-    <a href="/map_main" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">location_on</span><p style="margin: auto; font-size: 1.2rem;">Bins</p></a>
-    <a href="/leaderboard"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto; font-size: 1.2rem;">Leaderboard</p></a>
-    <a href="/all_rubbish"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
-    <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
+    <a href="/" style="width: 85%; color: #007a87;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto; font-size: 1.2rem;">Home</p></a>
+    <a href="/map_main" style="width: 85%; color: #007a87;"><span class="material-icons" style="font-size: 3rem;">location_on</span><p style="margin: auto; font-size: 1.2rem;">Bins</p></a>
+    <a href="/leaderboard" style="width: 85%; color: #007a87;"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto; font-size: 1.2rem;">Leaderboard</p></a>
+    <a href="/all_rubbish" style="width: 85%; color: #007a87;"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
+    <a href="/myaccount" style="width: 85%; color: #007a87;"><span class="material-icons" style="font-size: 3rem;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
   </div>
 </section>
+
 
 </body>
 </html>

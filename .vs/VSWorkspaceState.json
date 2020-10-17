@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\css",
     "\\lib",
     "\\lib\\views"
   ],
-  "SelectedNode": "\\lib\\views\\rubbish_items.php",
+  "SelectedNode": "\\lib\\views\\admin_home.php",
   "PreviewInSolutionExplorer": false
 }
