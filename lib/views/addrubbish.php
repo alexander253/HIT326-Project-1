@@ -11,8 +11,14 @@
    <option value="General Waste">General Waste</option>
  </select> <br><br>
 
+ <label for='name'>Name of Item</label>
+ <input type='text' id='name' name='name' /> <br>
+
  <label for='desc'>Description</label>
- <input type='text' id='desc' name='desc' />
+ <input type='text' id='desc' name='desc' /> <br>
+
+ <label for='desc'>Description</label> <br>
+ <textarea form="rubbish_form" rows="10" type='textfield' id='desc' name='desc'></textarea>
 
 
 <!--

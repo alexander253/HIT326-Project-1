@@ -58,7 +58,7 @@
     <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto; font-size: 1.2rem;">Home</p></a>
     <a href="/map_main" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">location_on</span><p style="margin: auto; font-size: 1.2rem;">Bins</p></a>
     <a href="/leaderboard"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto; font-size: 1.2rem;">Leaderboard</p></a>
-    <a href="/rubbish_items"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
+    <a href="/all_rubbish"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
     <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
   </div>
 </section>

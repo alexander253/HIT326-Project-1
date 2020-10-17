@@ -51,11 +51,11 @@ function addbin($type, $location){
     $statement -> execute($binding);
 }
 
-function addrubbish($type, $description){
+function addrubbish($type, $name, $description){
     $db = get_db();
-    $query = "INSERT INTO rubbish (type, description) VALUES (?,?)";
+    $query = "INSERT INTO rubbish (type,name,description) VALUES (?,?,?)";
     $statement = $db->prepare($query);
-    $binding = array($type, $description);
+    $binding = array($type, $name, $description);
     $statement -> execute($binding);
 }
 

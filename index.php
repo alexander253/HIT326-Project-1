@@ -91,6 +91,36 @@ get("/map_main", function($app){
    $app->render(LAYOUT,"map");
 });
 
+get("/all_rubbish", function($app){
+   $app->set_message("title","Darwin Art Company");
+   $app->set_message("message","Info");
+   $app->render(LAYOUT,"all_rubbish");
+});
+
+get("/recycle", function($app){
+  require MODEL;
+   $app->set_message("title","Recycle Items");
+   $app->set_message("message","Recycle");
+   $app->set_message("list", rubbish_list());
+   $app->render(LAYOUT,"recycle");
+});
+
+get("/general", function($app){
+  require MODEL;
+   $app->set_message("title","Recycle Items");
+   $app->set_message("message","general");
+      $app->set_message("list", rubbish_list());
+   $app->render(LAYOUT,"general");
+});
+
+get("/commingled", function($app){
+  require MODEL;
+   $app->set_message("title","Recycle Items");
+   $app->set_message("message","commingled");
+      $app->set_message("list", rubbish_list());
+   $app->render(LAYOUT,"commingled");
+});
+
 get("/info", function($app){
    $app->set_message("title","Darwin Art Company");
    $app->set_message("message","Info");
@@ -451,11 +481,12 @@ post("/addbin",function($app){
       post("/addrubbish_item",function($app){
             require MODEL;
             $type = $app->form('type');
+            $name = $app->form('name');
             $description = $app->form('desc');
 
-            if($type && $description){
-            addrubbish($type, $description);
-            $app->set_flash(htmlspecialchars($app->form('desc'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
+            if($type && $name && $description){
+            addrubbish($type, $name, $description);
+            $app->set_flash(htmlspecialchars($app->form('name'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
                 }
             $app->redirect_to("/rubbish_items");
 

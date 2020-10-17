@@ -34,13 +34,14 @@ tr:nth-child(even) {
    foreach($list As $product){
      $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
      $type = htmlspecialchars($product['type'],ENT_QUOTES, 'UTF-8');
+      $name = htmlspecialchars($product['name'],ENT_QUOTES, 'UTF-8');
      $desc = htmlspecialchars($product['description'],ENT_QUOTES, 'UTF-8');
 
    if($type == "Commingled"){
      echo "
 
        <tr>
-         <td>{$desc}</td>
+         <td> <h3>{$name}</h3>{$desc}</td>
       </tr>
 
      ";
@@ -59,12 +60,13 @@ if(!empty($list)){
   foreach($list As $product){
     $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
     $type = htmlspecialchars($product['type'],ENT_QUOTES, 'UTF-8');
+      $name = htmlspecialchars($product['name'],ENT_QUOTES, 'UTF-8');
     $desc = htmlspecialchars($product['description'],ENT_QUOTES, 'UTF-8');
 
   if($type == "Recycle"){
     echo "
       <tr>
-        <td>{$desc}</td>
+        <td><h3>{$name}</h3>{$desc}</td>
       </tr>
     ";
 }
@@ -81,16 +83,16 @@ if(!empty($list)){
   foreach($list As $product){
     $id = htmlspecialchars($product['id'],ENT_QUOTES, 'UTF-8');
     $type = htmlspecialchars($product['type'],ENT_QUOTES, 'UTF-8');
+      $name = htmlspecialchars($product['name'],ENT_QUOTES, 'UTF-8');
     $desc = htmlspecialchars($product['description'],ENT_QUOTES, 'UTF-8');
 
   if($type == "General Waste"){
     echo "
       <tr>
-        <td>{$desc}</td>
+        <td><h3>{$name}</h3>{$desc}</td>
       </tr>
     ";
 }
 }
 }
 ?>
-

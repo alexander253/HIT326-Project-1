@@ -1,50 +1,56 @@
-/*USE dac_db; dac short for Darwin Art Company*/
+USE waste_app;
 
-CREATE TABLE `CustomerDetails` (
-  CustId int (12) NOT NULL auto_increment,
-  CustFName varchar(255) NOT NULL,
-  CustLName varchar(255) NOT NULL,
-  CustTitle varchar(5) NOT NULL,
-  CustEmail varchar(254) NOT NULL,
-  Cust_hashed_Password varchar(64) NOT NULL,
-  Cust_salt char(16) NOT NULL,
-  CustAddress varchar(255) NOT NULL,
-  CustCity varchar(150) NOT NULL,
-  CustState varchar(150) NOT NULL,
-  CustCountry varchar(150) NOT NULL,
-  CustPostCode int(10) NOT NULL,
-  CustPhone int (25) NOT NULL,
-  PRIMARY KEY (CustId)
+CREATE TABLE `user` (
+  email varchar(255) NOT NULL,
+  fname varchar(255) NOT NULL,
+  lname varchar(255) NOT NULL,
+  points INT (99),
+  # Assuming SHA256 hash
+  hashed_password char(64) NOT NULL,
+  # Assuming 16 chars in salt
+  salt char(16) NOT NULL,
+  PRIMARY KEY (email)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `PurchaseDetails` (
-  PurchaseID int(12) NOT NULL auto_increment,
-  CustEmail varchar(254) references `CustomerDetails` (CustEmail),
-  OrderDate varchar(255) NOT NULL,
-  PRIMARY KEY (PurchaseID)
+CREATE TABLE `bin` (
+  id int(255) NOT NULL auto_increment,
+  type varchar(255) NOT NULL,
+  location varchar(255) NOT NULL,
+  used int(255),
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `OrderDetails` (
-  OrderID int(12) NOT NULL auto_increment,
-  ProductID char(100) NOT NULL,
-  OrderDate varchar(255) NOT NULL,
-  PRIMARY KEY (OrderID)
+CREATE TABLE `rubbish` (
+  id int(255) NOT NULL auto_increment,
+  type varchar(255) NOT NULL,
+  name  varchar(255) NOT NULL,
+  description varchar(255) NOT NULL,
+
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-
-CREATE TABLE `ProductDetails` (
-  ProductID int(11) NOT NULL auto_increment,
-  ProductName char(50) NOT NULL,
-  ProductPrice float(10) NOT NULL,
-  ProductSize varchar (50) NOT NULL,
-  ProductImage varchar(150) NOT NULL,
-  PRIMARY KEY (ProductID)
+CREATE TABLE `purchase` (
+  purchaseno varchar(255) NOT NULL,
+  date varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  PRIMARY KEY (purchaseno)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `Reviews` (
-  ReviewID int(11) NOT NULL auto_increment,
-  Title char(50) NOT NULL,
-  Review varchar(255) NOT NULL,
-  CustEmail varchar(254) references `CustomerDetails` (CustEmail),
-  PRIMARY KEY (ReviewID)
+CREATE TABLE `purchaseitem` (
+  itemno int(255) NOT NULL,
+  purchaseno int(255) NOT NULL,
+  productno int(255) NOT NULL
+
+
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE map (
+  id int (12) NOT NULL auto_increment,
+  title varchar(25) NOT NULL,
+  description varchar(255) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  lat FLOAT(10,6) NOT NULL,
+  lng FLOAT(10,6) NOT NULL,
+  rec bool,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

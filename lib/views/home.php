@@ -163,7 +163,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                  <p>Nearest Bins</p></a>
                </div>
                <div class="card" style="background-color:rgb(224, 214, 7);">
-                 <a href="/rubbish_items">
+                 <a href="/all_rubbish">
                  <h2><span class="glyphicon glyphicon-trash"></span></h2>
                  <p>Waste Classification</p></a>
                </div>
