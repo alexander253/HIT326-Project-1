@@ -19,8 +19,16 @@ tr:nth-child(even) {
 }
 
 
+
+
 </style>
 
+<a href= "/addrubbish_item">
+
+  <div class="info_card" style="background-color:rgb(50, 41, 91);">
+    <h4>+Add Waste Item</h4>
+   </div>
+</a>
 
 <table>
 <tr style="background-color: orange;">

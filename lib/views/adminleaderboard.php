@@ -22,23 +22,22 @@ tr:nth-child(even) {
   max-width: 50px;
 }
 
+h4{
+  text-align: left;
+}
+
+.info_card{
+  -webkit-box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
+  -moz-box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
+  box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
+}
+
 </style>
 
 
 <?php
 echo "<h1>Leader Board</h1>";
 
-
- echo "<table>
-   <tr>
-     <th class = 'small'>Rank</th>
-     <th class = 'small'>Points</th>
-     <th>Email</th>
-     <th>First Name</th>
-     <th>Last Name</th>
-
-   </tr>
- </table>";
   //Print the list of account details
  if(!empty($list)){
    foreach($list As $detail){
@@ -58,17 +57,12 @@ echo "<h1>Leader Board</h1>";
 
    echo "
 
-   <table>
-
-     <tr>
-       <td class = 'small'>{$rank}</td>
-       <td class = 'small'>{$points}</td>
-       <td>{$email}</td>
-       <td>{$fname}</td>
-       <td>{$lname}</td>
-     </tr>
-   </table>
-
+   <div class='info_card' style='background-color:rgb(50, 41, 91);'>
+     <h3>{$fname}&nbsp;{$lname}</h3>
+     <h4>Rank: {$rank}</h4>
+     <h4>Points: {$points}</h4>
+     <h4>Email: {$email}</h4>
+     </div>
 
    "
 

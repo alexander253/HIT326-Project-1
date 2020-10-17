@@ -1,3 +1,10 @@
+<style media="screen">
+  input,textarea,select{
+    width: 300px;
+
+  }
+</style>
+
 <h1>Add a Rubbish Item</h1>
 <div>
 <form action='/addrubbish_item' method='POST'>
@@ -14,11 +21,8 @@
  <label for='name'>Name of Item</label>
  <input type='text' id='name' name='name' /> <br>
 
- <label for='desc'>Description</label>
- <input type='text' id='desc' name='desc' /> <br>
-
  <label for='desc'>Description</label> <br>
- <textarea form="rubbish_form" rows="10" type='textfield' id='desc' name='desc'></textarea>
+ <textarea rows="5" type='text' id='desc' name='desc'></textarea>
 
 
 <!--
@@ -38,6 +42,6 @@
 </select>
 -->
 
- <input type='submit' value='Add rubbish item' />
+ <input type='submit' value='Add Waste Item' />
 </form>
 </div>

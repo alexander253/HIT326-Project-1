@@ -258,7 +258,7 @@ get("/admin_signin",function($app){
    catch(Exception $e){
        $app->set_message("error",$e->getMessage($app));
    }
-   $app->render(ADMINSIGN,"admin_signin");
+   $app->render(LAYOUT,"admin_signin");
 });
 
 get("/signin",function($app){

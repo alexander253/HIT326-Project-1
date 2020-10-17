@@ -3,6 +3,12 @@
   h5{
     text-align: center;
   }
+
+  .card{
+    -webkit-box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
+-moz-box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
+box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
+  }
 </style>
 
 <head>
