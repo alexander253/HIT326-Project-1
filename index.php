@@ -245,6 +245,7 @@ get("/",function($app){
   require MODEL;
    $app->set_message("title","Home");
    $app->set_message("name",get_user_name());
+   $app->set_message("list", leaderboard());
    $app->set_message("first", leaderboardFirst());
    $app->set_message("second", leaderboardSecond());
    $app->set_message("third", leaderboardThird());

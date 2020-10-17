@@ -29,6 +29,10 @@ width: 50%;
 
 }
 
+ul#choice{
+  padding-left: 0px;
+}
+
 li {
   float: left;
   padding: 0px;
