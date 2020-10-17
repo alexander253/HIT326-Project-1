@@ -22,10 +22,13 @@ width: 50%;
   z-index: 3;
 }
 
+ul#choice{
+  padding-left: 0px;
+}
 #choice li{
   display: inline-block;
-  padding: 50px;
   text-align: center;
+  width: 100px;
 
 }
 
@@ -134,7 +137,7 @@ a{
             <input type="checkbox" id="toggle3">
               <label for="toggle3">Comingled</label>
                 <dialog class="correct">
-                  <p>Correct! This item belongs to to recycling!</p>
+                  <p>Correct! This item belongs to commingled!</p>
 
                 <a href="/points"><label>Claim Points!</label></a>
             </dialog>

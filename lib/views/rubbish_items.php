@@ -21,6 +21,8 @@ tr:nth-child(even) {
 
 
 
+
+
 </style>
 
 <a href= "/addrubbish_item">
@@ -32,7 +34,7 @@ tr:nth-child(even) {
 
 <table>
 <tr style="background-color: orange;">
-  <th style="color: white;">Commingled</th>
+  <th style="color: white;"><h2>Commingled</h2></th>
 </tr>
 
 
@@ -59,7 +61,7 @@ tr:nth-child(even) {
 ?>
 
 <tr style="background-color: green;">
-  <th style="color: white;">Recycle</th>
+  <th style="color: white;"><h2>Recycle</h2></th>
 </tr>
 
 
@@ -83,7 +85,7 @@ if(!empty($list)){
 ?>
 
 <tr style="background-color: red;">
-  <th style="color: white;">General</th>
+  <th style="color: white;"><h2>General</h2></th>
 </tr>
 
 <?php
@@ -103,4 +105,7 @@ if(!empty($list)){
 }
 }
 }
+
+
 ?>
+</table>

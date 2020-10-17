@@ -24,13 +24,14 @@ width: 50%;
 
 #choice li{
   display: inline-block;
-  padding: 50px;
   text-align: center;
+  width: 100px;
 
 }
 
 li {
   float: left;
+  padding: 0px;
 }
 .correct{
   background-color: green;
