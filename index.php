@@ -88,7 +88,7 @@ get("/myaccount",function($app){
 get("/map_main", function($app){
    $app->set_message("title","Darwin Art Company");
    $app->set_message("message","Map");
-   $app->render(LAYOUT,"map");
+   header('Location: /lib/views/userMap.html');
 });
 
 get("/all_rubbish", function($app){
@@ -157,7 +157,7 @@ get("/map_admin",function($app){
    $app->set_message("title","CDU Waste");
    $app->set_message("message","My Account");
    require MODEL;
-   $app->render(ADMIN,"map_admin");
+   header('Location: /lib/views/index.html');
 });
 
 
