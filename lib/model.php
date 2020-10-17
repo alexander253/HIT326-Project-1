@@ -15,33 +15,6 @@ function get_db(){
 }
 
 
-#add to cart function
-function addtocart(){
-  if(isset($_POST['addtocart'])) {
-    session_start();
-    $code = $_POST['code'];
-    array_push($_SESSION['cart'],$code);
-  }
-}
-
-#get all cart items and return into "list" for later use
-function cart(){
-  session_start();
-  if(!empty($_SESSION["cart"])){
-  foreach($_SESSION['cart'] as $key=>$value)
-    {
-      $db = get_db();
-      $query = "SELECT description, price FROM product where productno = ? ";
-      $statement = $db->prepare($query);
-      $productno= $value;
-      $binding = array($value);
-      $statement -> execute($binding);
-      $list = $statement->fetchall(PDO::FETCH_ASSOC);
-      return $list;
-    }
-  }
-}
-
 #Add product
 function addbin($type, $location){
     $db = get_db();
@@ -58,34 +31,6 @@ function addrubbish($type, $name, $description){
     $binding = array($type, $name, $description);
     $statement -> execute($binding);
 }
-
-#place order stores data into "purchase" and "purchaseitem" tables
-function placeorder($date, $email, $purchaseno, $itemno, $productno){
-    session_start();
-    $db = get_db();
-
-    #store purchase number,date and email into database
-    $query1 = "INSERT INTO purchase (purchaseno, date, email) VALUES (?,?,?)";
-    $statement = $db->prepare($query1);
-    $binding = array($purchaseno, $date, $email);
-    $statement -> execute($binding);
-
-    #generate random number for item number
-    $autogen= mt_rand(1,255);
-    #iterate through cart array and store each item into database
-    if(!empty($_SESSION["cart"])){
-    foreach($_SESSION['cart'] as $key=>$value)
-        { $productno= $value;
-          $itemno= $autogen;
-
-    $query2 = "INSERT INTO purchaseitem (itemno, purchaseno, productno) VALUES (?,?,?)";
-    $statement = $db->prepare($query2);
-    $binding = array($itemno, $purchaseno, $productno);
-    $statement -> execute($binding);
-
-      }
-    }
-  }
 
   function addpoint($points){
       session_start();

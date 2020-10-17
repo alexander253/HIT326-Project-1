@@ -167,7 +167,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
                   -->
 
                   <div class="card" style="background-color:rgb(153, 29, 2);">
-                    <a href="/howtopoints"><h2><span class="glyphicon glyphicon-camera"></span></h2>
+                    <a href="/howtopoints"><h2><span class="glyphicon glyphicon-star"></span></h2>
                     <p>How to earn points</p></a>
                   </div>
 

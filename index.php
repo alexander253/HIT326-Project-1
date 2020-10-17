@@ -86,13 +86,13 @@ get("/myaccount",function($app){
 });
 
 get("/map_main", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Map");
    $app->render(LAYOUT,"map");
 });
 
 get("/all_rubbish", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Info");
    $app->render(LAYOUT,"all_rubbish");
 });
@@ -122,31 +122,31 @@ get("/commingled", function($app){
 });
 
 get("/info", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Info");
    $app->render(LAYOUT,"info");
 });
 
 get("/howtopoints", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","Info");
    $app->render(LAYOUT,"howtopoints");
 });
 
 get("/quiz", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","quiz");
    $app->render(LAYOUT,"quiz");
 });
 
 get("/quiz2", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","quiz2");
    $app->render(LAYOUT,"quiz2");
 });
 
 get("/quiz3", function($app){
-   $app->set_message("title","Darwin Art Company");
+   $app->set_message("title","CDU Waste");
    $app->set_message("message","quiz3");
    $app->render(LAYOUT,"quiz3");
 });
@@ -206,22 +206,12 @@ get("/points_comm",function($app){
    $app->render(LAYOUT,"points_comm");
 });
 
-
-
-get("/cart",function($app){
-   $app->set_message("title","My Cart");
-   $app->set_message("message","Your cart:");
-   require MODEL;
-   $app->set_message("list", cart());
-   $app->render(LAYOUT,"cart");
-});
-
 get("/addbin",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","My Cart");
-   $app->set_message("message","Your cart:");}
+   $app->set_message("title","CDU Waste");
+   $app->set_message("message","Your bin:");}
    else {$app->set_message("message","You are not authorised");}
 
    if (is_admin_authenticated()){
@@ -237,8 +227,8 @@ get("/addrubbish_item",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","My Cart");
-   $app->set_message("message","Your cart:");}
+   $app->set_message("title","CDU Waste");
+   $app->set_message("message","Your rubbish:");}
    else {$app->set_message("message","You are not authorised");}
 
    if (is_admin_authenticated()){
@@ -398,12 +388,6 @@ get("/signout",function($app){
 
 #POST Functions
 
-post("/addtocart",function($app){
-    require MODEL;
-    addtocart();
-    $app->set_flash(htmlspecialchars("Your cart has been updated"));
-    $app->redirect_to("/cart");
-  });
 
 post("/signup",function($app){
     require MODEL;
@@ -518,36 +502,6 @@ post("/addbin",function($app){
             $app->redirect_to("/rubbish_items");
 
             });
-
-
-
-post("/cart",function($app){
-      session_start();
-      require MODEL;
-      $cart= $_SESSION['cart'];
-
-      #for purchase table
-      $date = date("l jS \of F Y h:i:s A");
-      $purchaseno= mt_rand(1,255);
-      $email= $_SESSION["email"];
-
-      #purchase item table
-      $autogen= mt_rand(1,255);
-
-      if(!empty($_SESSION["cart"])){
-        foreach($_SESSION['cart'] as $key=>$value)
-            { $productno= $value;
-              $itemno= $autogen;
-                      }
-                }
-      if($productno && $itemno){
-        placeorder($date, $email, $purchaseno, $itemno, $productno);
-        $app->set_flash(htmlspecialchars(" Your order is now placed "));
-        }
-        $app->redirect_to("/myaccount");
-
-      })
-;
 
 post("/addpoints",function($app){
       session_start();
@@ -688,7 +642,7 @@ post("/addpoints_comm",function($app){
 
 //update details still in progress
 put("/myaccount/:id[\d]+",function($app){
-   $app->set_message("title","Darwin Art Company Account");
+   $app->set_message("title","CDU Account");
    require MODEL;
    try{
        if(is_authenticated()){

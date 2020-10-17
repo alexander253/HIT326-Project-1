@@ -10,6 +10,29 @@ width: 50%;
 }
 
 
+.overview a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #007a87;
+  color: white;
+  margin-top: -15px;
+  margin-left: -15px;
+
+}
+
+.round {
+  border-radius: 50%;
+}
+
 
 img{
   width: 50%;
@@ -37,6 +60,7 @@ img{
    		<div class="row">
    			<div class="col-lg-12">
    				<div class="overview">
+                    <a href="/" class="previous round">&#8249;</a>
    				</div>
    			</div>
    		</div>
