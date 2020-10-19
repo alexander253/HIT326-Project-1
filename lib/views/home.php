@@ -15,6 +15,7 @@ width: 50%;
 box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
 }
 
+
 </style>
 
 <head>
@@ -41,6 +42,9 @@ if(!empty($_SESSION["email"])){
     echo "<h5>Sign in to start earning points!</h5>";
 
 }
+?>
+<?php
+
 
 //get a title depending on how many points
 
@@ -221,12 +225,10 @@ if(!empty($list)){
                  <a href="/quiz"><h2><span class="glyphicon glyphicon-question-sign"></span></h2>
                  <p>Quiz</p></a>
                </div>
-
-
-
-
            </div>
          </div>
        </div>
      </div>
      </section>
+
+

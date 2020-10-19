@@ -31,14 +31,13 @@
 
 </div> <!-- end main -->
 <section class="quickicon">
-  <div class="footer-nav" id="footer-nav-admin">
-    <a href="/" style="width: 85%; color: white;"><span class="material-icons" style="font-size: 3rem; color: white;">home</span><p style="margin: auto;">Home</p></a>
-    <!--<a href="/map/index" style="width: 85%;"><span class="material-icons" style="font-size:3rem;">location_on</span><p style="margin: auto;">Bins</p></a>-->
-    <a href="/map_admin" style="width: 85%; color: white;"><span class="material-icons" style="font-size:3rem; color: white;">location_on</span><p style="margin: auto;">Bins</p></a>
-    <a href="/leaderboard" style="width: 85%; color: white;"><span class="material-icons" style="font-size: 3rem; color: white;">equalizer</span><p style="margin: auto;">Leaderboard</p></a>
-    <a href="/rubbish_items" style="width: 85%; color: white;"><span class="material-icons" style="font-size: 3rem; color: white;">auto_delete</span><p style="margin: auto;">Waste Items</p></a>
-    <a href="/myaccount" style="width: 85%; color: white;"><span class="material-icons" style="font-size: 3rem; color: white;">home</span><p style="margin: auto;">Account</p></a>
-  </div>
+        <div class="footer-nav">
+            <a href="/" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">home</span><p style="margin: auto; font-size: 1.2rem;">Home</p></a>
+            <a href="/map_admin" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">location_on</span><p style="margin: auto; font-size: 1.2rem;">Bins</p></a>
+            <a href="/leaderboard" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">equalizer</span><p style="margin: auto; font-size: 1.2rem;">Leaderboard</p></a>
+            <a href="/rubbish_items" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
+            <a href="/myaccount" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
+        </div>
 </section>
 
 </body>

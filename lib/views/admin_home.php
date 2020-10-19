@@ -136,7 +136,7 @@ echo " <h1>YOU ARE CURRENTLY THE RUBBISH WARRIOR
            <div class="col-md-12">
              <div class="cardContainer">
                <div class="card" style="background-color:rgb(50, 41, 91);">
-                 <a href="/map/index">
+                 <a href="/map_admin">
                  <h2><span class="glyphicon glyphicon-info-sign"></span></h2>
                  <p>View/Add a bin to map</p> </a>
                </div>

@@ -1,165 +1,578 @@
- <!DOCTYPE html>
-<html lang="en-US">
+﻿<style>
+    html {
+        height: 100%
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /*php things */
+
+    /* Side navigation and header Start - Code modifed from original (https://www.w3schools.com/howto/howto_js_sidenav.asp)*/
+    .blue a {
+        color: blue;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .header-nav {
+        border: 1px solid #007a87;
+        background-color: #a90329;
+        padding-bottom: 20px;
+        padding-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+        .header-nav h2 {
+            margin: auto;
+            color: white;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        .header-nav span {
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            padding: 1px 0 0 10px;
+        }
+
+    #header-nav-admin, #footer-nav-admin {
+        background-color: #a90329;
+    }
+
+    .overview {
+        padding-top: 10px;
+    }
+
+    .callaction {
+        background-color: #EEEEEE;
+    }
+
+    .icon-nav {
+        background-color: #f5f5fc;
+    }
+
+    .cardContainer:after {
+        display: table;
+        clear: both;
+    }
+
+    .card {
+        color: white;
+        width: calc(25% - 20px);
+        padding: 10px;
+        border-radius: 10px;
+        height: 100px;
+        margin: 20px auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+    }
+
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #ffffff;
+        overflow-x: hidden;
+        transition: 0.5s;
+    }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .sidenav a:hover {
+                color: #f1f1f1;
+            }
+
+        .sidenav .closebtn {
+            position: absolute;
+            padding-top: 0;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+    nav ul {
+        padding: 0;
+    }
+
+    nav li {
+        list-style-type: none;
+        float: left;
+        margin: 0 0 1.2em 0;
+    }
+
+    nav a {
+        font-size: 0.8em;
+        text-decoration: none;
+        margin: 0 1em 0 0;
+        background: #ddd;
+        padding: 0.5em 1em 0.5em 1em;
+        border-radius: 3px 3px 0 0;
+        color: #008;
+    }
+
+    .footer-nav {
+        border-top: solid grey 1px;
+        background-color: white;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        margin: auto;
+        display: flex;
+        position: fixed;
+        text-align: center;
+        color: black;
+        padding: 5px 0 5px 0;
+        font-size: .85rem;
+    }
+
+        .footer-nav a {
+            display: inline-block;
+            color: black;
+            text-decoration: none;
+            width: 100%;
+        }
+    /* Footer navigation End */
+    .material-icons {
+        color: #a90329;
+    }
+
+    a {
+        color: white;
+    }
+
+    .material-icons {
+        color: #007a87;
+    }
+
+    a {
+        color: white;
+    }
+
+    .material-icons {
+        color: #007a87;
+    }
+
+    /*end php*/
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    #map {
+        width: 100%;
+        height: 600px;
+        background-color: grey;
+    }
+
+    #userMap {
+        width: 100%;
+        height: 100%;
+        background-color: grey;
+    }
+
+    #mapSpace {
+        width: 100%;
+        height: 100%;
+    }
+
+    .filterButtonUserMap {
+        position: fixed;
+        bottom: 50px;
+        left: 0;
+    }
+
+    .pickingModeActive {
+        cursor: crosshair;
+    }
+
+    .functionSelectButton {
+        background-color: lightgrey;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        padding: 14px 200px;
+    }
+
+    .functionSelectButtonSelected {
+        background-color: grey;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        padding: 14px 200px;
+    }
+
+    .filterButtons {
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        padding: 14px 14px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        table td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        table tr:first-child td {
+            border-top: 0;
+        }
+
+        table tr td:first-child {
+            border-left: 0;
+        }
+
+        table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        table tr td:last-child {
+            border-right: 0;
+        }
+
+    .viewedTd {
+        background-color: grey;
+        color: white;
+    }
+
+    .listButtons {
+        background-color: white;
+        color: black;
+        border: 2px solid #555555;
+    }
+
+        .listButtons:hover {
+            cursor: pointer;
+            background-color: #555555;
+            color: white;
+        }
+
+    .pickingButton {
+        background-color: #4CAF50; /* Green */
+        /*border-radius: 10%;*/
+        color: white;
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    .viewNearMeButton {
+        background-color: #4CAF50; /* Green */
+        /*border-radius: 10%;*/
+        color: white;
+        width: 40%;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+        margin: 1px 1px;
+        cursor: pointer;
+    }
+
+    .formButton {
+        background-color: #4CAF50; /* Green */
+        /*border-radius: 10%;*/
+        color: white;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    .userFormButton {
+        background-color: #4CAF50; /* Green */
+        /*border-radius: 10%;*/
+        color: white;
+        width: 10%;
+        padding: 1px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 1px 1px;
+        cursor: pointer;
+    }
+
+    input[type=number] {
+        width: 45%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        background-color: grey;
+        color: white;
+    }
+
+    input[type=text] {
+        width: 50%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px;
+        background-color: lightgrey;
+        color: black;
+    }
+
+    input[type=text], select {
+        width: 25%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+
+    .container {
+        display: flex;
+        flex-flow: column wrap;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+        .container .item {
+            width: 100%;
+        }
+
+    .sideContainer {
+        display: flex;
+        flex-flow: row wrap;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+        .sideContainer .sideItem {
+            text-align: center;
+            width: 25%;
+        }
+
+        .sideContainer .sideItem50 {
+            text-align: center;
+            width: 50%;
+        }
+</style>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8"/>
-    <link rel = "stylesheet"
-   type = "text/css"
-   href = "css/mapGeneral.css" />
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
+<head>
+    <meta charset='utf-8' />
+    <title>CDU Waste Management</title>
+    <link rel="stylesheet" href="/css/different.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="libviews/css/mapGeneral.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="Description" content="CDU">
+</head>
+<body>
     <header class="header-nav">
-    <h2 style="font-size: 25px;">CDU Waste Management<span>&#9842;</span></h2>
-  </header>
+        <h2 style="font-size: 25px;">CDU Waste Management<span>&#9842;</span></h2>
+    </header>
 
     <div class="container">
-    <!--The div element for the map -->
-      <div class="item">
-        <div id="mapZone">
-          <div id="map"></div>
-        </div>
-      </div>
-
-    <div class="item">
-      <div id="form">
-        <h3 style="text-align: center"> Add new/Edit locations </h3>
-        <button id = "pickFromMapBtn" onclick="checkPicking();" class="pickingButton">Retrieve coordinate from map</button>
-        <br>
-        <h4> Location/Bin Name: </h4>
-        <div style="text-align: center">
-        <br>
-        <select name = "bColors" id = "bColors" onchange="changeColor();">
-          <option value="orange" style = "background-Color:orange; color:orange">Orange</option>
-          <option value="red" style = "background-Color:red; color:red">Red</option>
-          <option value="pink" style = "background-Color:pink; color:pink">Pink</option>
-          <option value="blue" style = "background-Color:blue; color:blue">Blue</option>
-          <option value="yellow" style = "background-Color:yellow; color:yellow">Yellow</option>
-          <option value="brown" style = "background-Color:brown; color:brown">Brown</option>
-          <option value="green" style = "background-Color:green; color:green">Green</option>
-        </select>
-        <select name = "bNumber" id = "bNumber">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-        </select>
-        <input type="number" placeholder="Bin index (number)" id="binIndex">
-      </div>
-        <h4> Coordinates: </h4>
-        <div class="sideContainer">
-          <div class="sideItem50">
-            <label for="latitude">Latitude:</label>
-            <input type="number" placeholder="latitude" id="ltdInput" readonly>
-          </div>
-          <div class="sideItem50">
-            <label for="longitude"> Longtitude: </label>
-            <input type="number" placeholder="longitude" id="lngInput" readonly>
-          </div>
+        <!--The div element for the map -->
+        <div class="item">
+            <div id="mapZone">
+                <div id="map"></div>
+            </div>
         </div>
 
-        <h4> Bin types: </h4>
-        <div class="sideContainer">
-          <div class="sideItem">
-            <label for="recycle">Recycle</label>
-            <input type="checkbox" id="recycle" name="wasteType" value="recycle">
-          </div>
-          <div class="sideItem">
-            <label for="comingled">Co-Mingled</label>
-            <input type="checkbox" id="comingled" name="wasteType" value="comingled">
-          </div>
-          <div class="sideItem">
-            <label for="general">General</label>
-            <input type="checkbox" id="general" name="wasteType" value="general">
-          </div>
-          <div class="sideItem">
-            <label for="special">Special</label>
-            <input type="checkbox" id="special" name="wasteType" value="special">
-          </div>
-        </div>
+        <div class="item">
+            <div id="form">
+                <h3 style="text-align: center"> Add new/Edit locations </h3>
+                <button id="pickFromMapBtn" onclick="checkPicking();" class="pickingButton">Retrieve coordinate from map</button>
+                <br>
+                <h4> Location/Bin Name: </h4>
+                <div style="text-align: center">
+                    <br>
+                    <select name="bColors" id="bColors" onchange="changeColor();">
+                        <option value="orange" style="background-Color:orange; color:orange">Orange</option>
+                        <option value="red" style="background-Color:red; color:red">Red</option>
+                        <option value="pink" style="background-Color:pink; color:pink">Pink</option>
+                        <option value="blue" style="background-Color:blue; color:blue">Blue</option>
+                        <option value="yellow" style="background-Color:yellow; color:yellow">Yellow</option>
+                        <option value="brown" style="background-Color:brown; color:brown">Brown</option>
+                        <option value="green" style="background-Color:green; color:green">Green</option>
+                    </select>
+                    <select name="bNumber" id="bNumber">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <input type="number" placeholder="Bin index (number)" id="binIndex">
+                </div>
+                <h4> Coordinates: </h4>
+                <div class="sideContainer">
+                    <div class="sideItem50">
+                        <label for="latitude">Latitude:</label>
+                        <input type="number" placeholder="latitude" id="ltdInput" readonly>
+                    </div>
+                    <div class="sideItem50">
+                        <label for="longitude"> Longtitude: </label>
+                        <input type="number" placeholder="longitude" id="lngInput" readonly>
+                    </div>
+                </div>
 
-        <div class="sideContainer">
-          <div class="sideItem50">
-            <button type="button" onclick="getInputValue();" class="formButton">Add/Edit location</button>
-          </div>
-          <div class="sideItem50">
-            <button type="button" onclick="clearForm();" class="formButton">Clear form</button>
-          </div>
-        </div>
+                <h4> Bin types: </h4>
+                <div class="sideContainer">
+                    <div class="sideItem">
+                        <label for="recycle">Recycle</label>
+                        <input type="checkbox" id="recycle" name="wasteType" value="recycle">
+                    </div>
+                    <div class="sideItem">
+                        <label for="comingled">Co-Mingled</label>
+                        <input type="checkbox" id="comingled" name="wasteType" value="comingled">
+                    </div>
+                    <div class="sideItem">
+                        <label for="general">General</label>
+                        <input type="checkbox" id="general" name="wasteType" value="general">
+                    </div>
+                    <div class="sideItem">
+                        <label for="special">Special</label>
+                        <input type="checkbox" id="special" name="wasteType" value="special">
+                    </div>
+                </div>
 
+                <div class="sideContainer">
+                    <div class="sideItem50">
+                        <button type="button" onclick="getInputValue();" class="formButton">Add/Edit location</button>
+                    </div>
+                    <div class="sideItem50">
+                        <button type="button" onclick="clearForm();" class="formButton">Clear form</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-  <h3 style="text-align:center">Locations</h3>
-  <p style="font-weight: bold">Note: Only use one filter at a time, reset filter when needed. </p>
-  <h4> Building filter</b3>
-    <br>
-  <select name = "bColorFilter" id = "bColorFilter" onchange="filterChangeColor(); filterCheck();">
-    <option value="---" style = "background-Color:white; color:black">---</option>
-    <option value="orange" style = "background-Color:orange; color:orange">Orange</option>
-    <option value="red" style = "background-Color:red; color:red">Red</option>
-    <option value="pink" style = "background-Color:pink; color:pink">Pink</option>
-    <option value="blue" style = "background-Color:blue; color:blue">Blue</option>
-    <option value="yellow" style = "background-Color:yellow; color:yellow">Yellow</option>
-    <option value="brown" style = "background-Color:brown; color:brown">Brown</option>
-    <option value="green" style = "background-Color:green; color:green">Green</option>
-  </select>
-  <select name = "bNumberFilter" id = "bNumberFilter" onchange="filterCheck();">
-    <option value="---">---</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
-  </select>
-  <input type="text" placeholder="Bin index (number)" id="binIndexFilter" onkeyup="filterCheck();">
-  <button type="button" style="width: 10%" onclick="clearFilter();" class="formButton">Clear filter</button>
-  <h4> Bin type filter </h4>
-    <table>
-      <thead>
-        <th>Name</th>
-        <!--<th>Latitude</th>
+    <h3 style="text-align:center">Locations</h3>
+    <p style="font-weight: bold">Note: Only use one filter at a time, reset filter when needed. </p>
+    <h4>
+        Building filter</b3>
+        <br>
+        <select name="bColorFilter" id="bColorFilter" onchange="filterChangeColor(); filterCheck();">
+            <option value="---" style="background-Color:white; color:black">---</option>
+            <option value="orange" style="background-Color:orange; color:orange">Orange</option>
+            <option value="red" style="background-Color:red; color:red">Red</option>
+            <option value="pink" style="background-Color:pink; color:pink">Pink</option>
+            <option value="blue" style="background-Color:blue; color:blue">Blue</option>
+            <option value="yellow" style="background-Color:yellow; color:yellow">Yellow</option>
+            <option value="brown" style="background-Color:brown; color:brown">Brown</option>
+            <option value="green" style="background-Color:green; color:green">Green</option>
+        </select>
+        <select name="bNumberFilter" id="bNumberFilter" onchange="filterCheck();">
+            <option value="---">---</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        <input type="text" placeholder="Bin index (number)" id="binIndexFilter" onkeyup="filterCheck();">
+        <button type="button" style="width: 10%" onclick="clearFilter();" class="formButton">Clear filter</button>
+        <h4> Bin type filter </h4>
+        <table>
+            <thead>
+            <th>Name</th>
+            <!--<th>Latitude</th>
         <th>Longitude</th> -->
-        <th>Recycle <input type="checkbox" id="recFilter" onclick="filterCheck();"></th>
-        <th>Co-mingled <input type="checkbox" id="coFilter" onclick="filterCheck();"></th>
-        <th>General <input type="checkbox" id="genFilter" onclick="filterCheck();"></th>
-        <th>Special <input type="checkbox" id="speFilter" onclick="filterCheck(); "></th>
-        <th>Edit</th>
-        <th>View</th>
-        <th>Delete</th>
-      </thead>
-      <tbody id="outputTable">
-
-      </tbody>
-    </table>
-
-    <div class="footer-nav">
-      <a href="/" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">home</span><p style="margin: auto; font-size: 1.2rem;">Home</p></a>
-      <a href="/map_main" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">location_on</span><p style="margin: auto; font-size: 1.2rem;">Bins</p></a>
-      <a href="/leaderboard"><span class="material-icons" style="font-size: 3rem;">equalizer</span><p style="margin: auto; font-size: 1.2rem;">Leaderboard</p></a>
-      <a href="/rubbish_items"><span class="material-icons" style="font-size: 3rem;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
-      <a href="/myaccount" style="width: 85%;"><span class="material-icons" style="font-size: 3rem;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
-    </div>
-  </body>
-  <script type="text/javascript" src="js/scripts.js"></script>
-  <script defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA72fO19fgBMBh0DeOR6e9f9-QCdtJo5Jw&callback=initMap">
-    </script>
+            <th>Recycle <input type="checkbox" id="recFilter" onclick="filterCheck();"></th>
+            <th>Co-mingled <input type="checkbox" id="coFilter" onclick="filterCheck();"></th>
+            <th>General <input type="checkbox" id="genFilter" onclick="filterCheck();"></th>
+            <th>Special <input type="checkbox" id="speFilter" onclick="filterCheck(); "></th>
+            <th>Edit</th>
+            <th>View</th>
+            <th>Delete</th>
+            </thead>
+            <tbody id="outputTable">
+            </tbody>
+        </table>
+        <div class="footer-nav">
+            <a href="/" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">home</span><p style="margin: auto; font-size: 1.2rem;">Home</p></a>
+            <a href="/map_admin" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">location_on</span><p style="margin: auto; font-size: 1.2rem;">Bins</p></a>
+            <a href="/leaderboard" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">equalizer</span><p style="margin: auto; font-size: 1.2rem;">Leaderboard</p></a>
+            <a href="/rubbish_items" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">auto_delete</span><p style="margin: auto; font-size: 1.2rem;">Waste Items</p></a>
+            <a href="/myaccount" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
+        </div>
+</body>
+<script type="text/javascript" src="js/scripts.js"></script>
+<script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA72fO19fgBMBh0DeOR6e9f9-QCdtJo5Jw&callback=initMap">
+</script>
 
 </html>

@@ -4,7 +4,6 @@
 <meta charset='utf-8' />
 <title><?php echo $title ?></title>
 <link rel="stylesheet" href="/css/standard.css" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
