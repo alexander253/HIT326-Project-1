@@ -55,7 +55,7 @@ get("/rubbish_items",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Waste Classification");
    $app->set_message("list", rubbish_list());
    $app->render(ADMIN,"rubbish_items");
@@ -63,7 +63,7 @@ get("/rubbish_items",function($app){
  }
 
    else {
-     $app->set_message("title","CDU Waste");
+     $app->set_message("title","CDU Waste Management");
      $app->set_message("message","Waste Classification");
      $app->set_message("list", rubbish_list());
      $app->render(LAYOUT,"rubbish_items");
@@ -72,7 +72,7 @@ get("/rubbish_items",function($app){
 });
 
 get("/myaccount",function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", my_account());
@@ -86,13 +86,13 @@ get("/myaccount",function($app){
 });
 
 get("/map_main", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Map");
    header('Location: /lib/views/userMap.html');
 });
 
 get("/all_rubbish", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Info");
    $app->render(LAYOUT,"all_rubbish");
 });
@@ -107,7 +107,7 @@ get("/recycle", function($app){
 
 get("/general", function($app){
   require MODEL;
-   $app->set_message("title","Recycle Items");
+   $app->set_message("title","General Items");
    $app->set_message("message","general");
       $app->set_message("list", rubbish_list());
    $app->render(LAYOUT,"general");
@@ -115,38 +115,38 @@ get("/general", function($app){
 
 get("/commingled", function($app){
   require MODEL;
-   $app->set_message("title","Recycle Items");
+   $app->set_message("title","Commingled Items");
    $app->set_message("message","commingled");
       $app->set_message("list", rubbish_list());
    $app->render(LAYOUT,"commingled");
 });
 
 get("/info", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Info");
    $app->render(LAYOUT,"info");
 });
 
 get("/howtopoints", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Info");
    $app->render(LAYOUT,"howtopoints");
 });
 
 get("/quiz", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","Quiz");
    $app->set_message("message","quiz");
    $app->render(LAYOUT,"quiz");
 });
 
 get("/quiz2", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","Quiz");
    $app->set_message("message","quiz2");
    $app->render(LAYOUT,"quiz2");
 });
 
 get("/quiz3", function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","Quiz");
    $app->set_message("message","quiz3");
    $app->render(LAYOUT,"quiz3");
 });
@@ -154,7 +154,7 @@ get("/quiz3", function($app){
 
 
 get("/map_admin",function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","My Account");
    require MODEL;
    header('Location: /lib/views/index.html');
@@ -164,7 +164,7 @@ get("/map_admin",function($app){
 
 
 get("/leaderboard",function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","Leaderboard");
    $app->set_message("message","Leader Board");
    require MODEL;
    $app->set_message("list", leaderboard());
@@ -181,7 +181,7 @@ get("/leaderboard",function($app){
 
 //for gereral waste bins
 get("/points",function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", points());
@@ -190,7 +190,7 @@ get("/points",function($app){
 
 //for recycle bins
 get("/points_rec",function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", points());
@@ -199,7 +199,7 @@ get("/points_rec",function($app){
 
 //for commingled bins
 get("/points_comm",function($app){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","My Account");
    require MODEL;
    $app->set_message("list", points());
@@ -210,7 +210,7 @@ get("/addbin",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Your bin:");}
    else {$app->set_message("message","You are not authorised");}
 
@@ -227,7 +227,7 @@ get("/addrubbish_item",function($app){
 
   require MODEL;
   if (is_admin_authenticated()){
-   $app->set_message("title","CDU Waste");
+   $app->set_message("title","CDU Waste Management");
    $app->set_message("message","Your rubbish:");}
    else {$app->set_message("message","You are not authorised");}
 
