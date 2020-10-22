@@ -34,10 +34,59 @@ h4{
 
 </style>
 
+<h1>Leader Board</h1>
+
+<!--search function by first name-->
+<form method="post">
+<input type="text" name="search" placeholder="search for user">
+<input type="submit" name="submit">
+
+</form>
+
+</body>
+</html>
 
 <?php
-echo "<h1>Leader Board</h1>";
 
+$con = get_db();
+
+if (isset($_POST["submit"])) {
+	$str = $_POST["search"];
+	$sth = $con->prepare("SELECT * FROM user WHERE fname = '$str'");
+
+	$sth->setFetchMode(PDO:: FETCH_OBJ);
+	$sth -> execute();
+
+	if($row = $sth->fetch())
+	{
+
+    echo "
+       <div class='info_card' style='background-color:purple;'>
+         <h3>$row->fname&nbsp;$row->lname</h3>
+         <h4>Rank: $row->rank</h4>
+         <h4>Points: $row->points</h4>
+         <h4>Email: $row->email</h4>
+         </div>
+    ";
+
+     ?>
+<?php
+	}
+
+
+		else{
+			echo "
+      <div class='info_card' style='background-color:red;'>
+            <h3>An error occurred</h3>
+             <p></p>
+      </div>
+
+             ";
+		}
+  }
+
+?>
+<?php
   //Print the list of account details
  if(!empty($list)){
    foreach($list As $detail){

@@ -56,6 +56,12 @@ li img{
 a{
   color: white;
 }
+
+.desc_activity{
+
+
+}
+
 </style>
 
 <head>

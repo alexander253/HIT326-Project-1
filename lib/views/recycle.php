@@ -58,6 +58,56 @@ box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
 </div> <br><br><br>
 
 <h2>Recycle Waste Items</h2>
+
+<form method="post">
+<input type="text" name="search" placeholder="Search waste item..">
+<input type="submit" name="submit">
+
+</form>
+
+</body>
+</html>
+
+<?php
+
+$con = get_db();
+
+if (isset($_POST["submit"])) {
+	$str = $_POST["search"];
+	$sth = $con->prepare("SELECT * FROM rubbish WHERE name = '$str'");
+
+	$sth->setFetchMode(PDO:: FETCH_OBJ);
+	$sth -> execute();
+
+	if($row = $sth->fetch())
+	{
+
+    echo "
+    <div class='info_card' style='background-color:purple;'>
+      <h3>$row->name</h3>
+       <p>$row->description</p>
+       </div>
+    ";
+
+     ?>
+<?php
+	}
+
+
+		else{
+			echo "
+      <div class='info_card' style='background-color:red;'>
+            <h3>Waste item does not exist</h3>
+             <p>Your searched item may not be in our database</p>
+      </div>
+
+             ";
+		}
+  }
+
+?>
+
+
 <?php
 if(!empty($list)){
   foreach($list As $product){

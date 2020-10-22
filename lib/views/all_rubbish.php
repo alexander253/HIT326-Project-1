@@ -74,6 +74,7 @@ box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
 
 
 <h3>Waste Items</h3>
+
 <h4>Click to see common items that belong to each group</h4>
 
      <section id="">
@@ -101,6 +102,8 @@ box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
                  <p>Commingled waste items are items that belong in commingled</p>
                </div>
              </a>
+
+
 
 
 

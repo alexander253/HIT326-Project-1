@@ -67,6 +67,53 @@
 </div>
 
 <td></td>
+<form method="post">
+<input type="text" name="search" placeholder="search for user">
+<input type="submit" name="submit">
+
+</form>
+
+</body>
+</html>
+
+<?php
+
+$con = get_db();
+
+if (isset($_POST["submit"])) {
+	$str = $_POST["search"];
+	$sth = $con->prepare("SELECT * FROM user WHERE fname = '$str'");
+
+	$sth->setFetchMode(PDO:: FETCH_OBJ);
+	$sth -> execute();
+
+	if($row = $sth->fetch())
+	{
+
+    echo "
+       <div class='info_card' style='background-color:purple;'>
+         <h3>$row->fname&nbsp;$row->lname</h3>
+         <h4>Points: $row->points</h4>
+         </div>
+    ";
+
+     ?>
+<?php
+	}
+
+
+		else{
+			echo "
+      <div class='info_card' style='background-color:red;'>
+            <h3>User does not exist</h3>
+             <p>Your searched item may not be in our database</p>
+      </div>
+
+             ";
+		}
+  }
+
+?>
 
 <?php
 
