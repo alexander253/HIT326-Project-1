@@ -68,9 +68,9 @@
 
  else{
    echo "<h2>You are not signed in yet</h2>
-   <button type='button' class='btn btn-primary'><a href= '/signup'><p>Sign up</p></a></button>
-   <button type='button' class='btn btn-primary'><a href= '/signup'><a href= '/signin'><p>Sign in</p></a></button>
-   <button type='button' class='btn btn-primary'><a href= '/signup'><a href= '/admin_signin'><p>Admin sign in</p></a></button>
+   <a href= '/signup'><button type='button' class='btn btn-primary'><p>Sign up</p></button></a>
+   <a href= '/signin'><button type='button' class='btn btn-primary'><p>Sign in</p></button></a>
+   <a href= '/admin_signin'><button type='button' class='btn btn-primary'><p>Admin sign in</p></button></a>
 
 
    ";

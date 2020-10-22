@@ -54,7 +54,7 @@
 </svg>{$points}pts</h1>
 
 
-<h3><button type='button' class='btn btn-primary'><a href= '/signup'><a href= '/signout'><p>Sign out</p></a></button> </h3>
+<a href= '/signout'><h3><button type='button' class='btn btn-primary'><a href= '/signup'><p>Sign out</p></button> </h3></a>
 
    "
    ;
