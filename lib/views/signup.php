@@ -9,7 +9,10 @@
 	  require PARTIALS."/form.password.php";
 	  require PARTIALS."/form.password-confirm.php";
 
+
  ?>
+
+
  <input type='submit' value='Sign up' />
 </form>
 </div>

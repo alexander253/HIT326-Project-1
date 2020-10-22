@@ -43,9 +43,11 @@
      $postcode = htmlspecialchars($detail['postcode'],ENT_QUOTES, 'UTF-8');
      $phone= htmlspecialchars($detail['phone'],ENT_QUOTES, 'UTF-8');
 
+
    echo "
  <h3>{$fname} {$lname} </h3>
 <h5>{$email}</h5>
+
 
 
 

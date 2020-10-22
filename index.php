@@ -400,6 +400,7 @@ post("/signup",function($app){
           $pw = $app->form('password');
           $confirm = $app->form('password-confirm');
 
+
           if($email && $fname && $lname && $pw && $confirm){
               try{
                 sign_up($email,$fname, $lname,$pw,$confirm);

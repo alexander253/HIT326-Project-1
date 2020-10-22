@@ -74,7 +74,7 @@ $con = get_db();
 
 if (isset($_POST["submit"])) {
 	$str = $_POST["search"];
-	$sth = $con->prepare("SELECT * FROM rubbish WHERE name = '$str'");
+	$sth = $con->prepare("SELECT * FROM rubbish WHERE type = 'recycle' and name = '$str'");
 
 	$sth->setFetchMode(PDO:: FETCH_OBJ);
 	$sth -> execute();
