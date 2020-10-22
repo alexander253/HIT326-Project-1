@@ -10,10 +10,14 @@
           <div class="card-body">
             <form class="form-signin" action='/signin' method='POST'>
               <input type='hidden' name='_method' value='post' />
-              <div class="form-label-group">
+              <div class="form-group">
+                <label for="email" style="color: black;">Email address</label>
                 <input type="email" id='name' name='name' class="form-control" placeholder="Email address" required autofocus>
-                <input type="password" id='password' name='password' class="form-control" placeholder="Password" required>
               </div>
+               <div class="form-group">
+                <label for="password" style="color: black;">Password</label>
+                <input type="password" id='password' name='password' class="form-control" placeholder="Password" required>
+               </div>
               </br>
               <div class="custom-control custom-checkbox mb-3">
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -24,6 +28,8 @@
               <hr class="my-4">
             </form>
 
+            <a href='/signup' style="color: #007a87; font-size: 15px;">New user?</a>
+            <a href='/admin_signin' style="color: #a90329; font-size: 15px; float: right;">Admin sign in</a>
 
         </div>
       </div>

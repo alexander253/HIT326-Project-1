@@ -13,7 +13,7 @@
 </head>
 <body>
   <header class="header-nav" id="header-nav-admin">
-  <h2>CDU Waste Management- ADMIN<span>&#9842;</span></h2>
+  <h2 style="font-size: 20px;">CDU Waste Management- ADMIN<span>&#9842;</span></h2>
 </header>
 
 <div id="main">

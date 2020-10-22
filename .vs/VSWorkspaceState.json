@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\css",
     "\\lib",
-    "\\lib\\views"
+    "\\lib\\views",
+    "\\lib\\views\\partials"
   ],
-  "SelectedNode": "\\lib\\views\\info.php",
+  "SelectedNode": "\\lib\\views\\index.html",
   "PreviewInSolutionExplorer": false
 }
