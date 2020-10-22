@@ -404,7 +404,9 @@ post("/signup",function($app){
           if($email && $fname && $lname && $pw && $confirm){
               try{
                 sign_up($email,$fname, $lname,$pw,$confirm);
-                $app->set_flash(htmlspecialchars($app->form('name'))." is now signed up ");
+                $app->set_flash("Welcome ".$fname.", now please sign in");
+                $app->redirect_to("/");   
+
              }
              catch(Exception $e){
                   $app->set_flash($e->getMessage());

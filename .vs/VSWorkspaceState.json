@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\lib",
-    "\\lib\\views",
-    "\\lib\\views\\partials"
+    "\\lib\\views"
   ],
-  "SelectedNode": "\\lib\\views\\index.html",
+  "SelectedNode": "\\lib\\model.php",
   "PreviewInSolutionExplorer": false
 }
