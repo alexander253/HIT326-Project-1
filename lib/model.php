@@ -32,6 +32,21 @@ function addrubbish($type, $name, $description){
     $statement -> execute($binding);
 }
 
+function deleterubbish($name){
+   try{
+      $db = get_db();
+      $query = "DELETE FROM rubbish WHERE name= ?" ;
+      if($statement = $db-> prepare($query)){
+         $binding = array($name);
+         if(!$statement -> execute($binding)){
+            throw new Exception("Could not execute query.");
+        }
+      }
+   } catch(Exception $e){
+      throw new Exception($e->getMessage());
+   }
+}
+
   function addpoint($points){
       session_start();
       $db = get_db();

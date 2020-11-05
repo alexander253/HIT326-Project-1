@@ -240,6 +240,24 @@ get("/addrubbish_item",function($app){
 
 });
 
+get("/removerubbish_item",function($app){
+
+  require MODEL;
+  if (is_admin_authenticated()){
+   $app->set_message("title","CDU Waste Management");
+   $app->set_message("message","Your rubbish:");}
+   else {$app->set_message("message","You are not authorised");}
+
+   if (is_admin_authenticated()){
+     $app->render(ADMIN,"deleterubbish");}
+     else {
+       $app->render(LAYOUT,"notauthorised");
+     }
+
+
+});
+
+
 get("/",function($app){
   $app->force_to_http("/");
   require MODEL;
@@ -405,7 +423,7 @@ post("/signup",function($app){
               try{
                 sign_up($email,$fname, $lname,$pw,$confirm);
                 $app->set_flash("Welcome ".$fname.", now please sign in");
-                $app->redirect_to("/");   
+                $app->redirect_to("/");
 
              }
              catch(Exception $e){
@@ -492,20 +510,32 @@ post("/addbin",function($app){
       $app->redirect_to("/bins");
 
       });
+post("/addrubbish_item",function($app){
+    require MODEL;
+    $type = $app->form('type');
+    $name = $app->form('name');
+    $description = $app->form('desc');
 
-      post("/addrubbish_item",function($app){
-            require MODEL;
-            $type = $app->form('type');
-            $name = $app->form('name');
-            $description = $app->form('desc');
+    if($type && $name && $description){
+    addrubbish($type, $name, $description);
+    $app->set_flash(htmlspecialchars($app->form('name'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
+    }
+    $app->redirect_to("/rubbish_items");
 
-            if($type && $name && $description){
-            addrubbish($type, $name, $description);
-            $app->set_flash(htmlspecialchars($app->form('name'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
-                }
-            $app->redirect_to("/rubbish_items");
+    });
 
-            });
+/*post("/removerubbish_item",function($app){
+    require MODEL;
+    $name = $app->form('name');
+
+    if($name{
+    deleterubbish($name);
+    $app->set_flash(htmlspecialchars($app->form('name'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
+    }
+    $app->redirect_to("/rubbish_items");
+
+    });
+*/
 
 post("/addpoints",function($app){
       session_start();
@@ -681,6 +711,14 @@ put("/myaccount/:id[\d]+",function($app){
         $app->set_flash("{$e->getMessage()}");
         $app->redirect_to("/");
    }
+});
+
+delete("/rubbish_items", function($app){
+   require MODEL;
+   $name = $app->form("name");
+   deleterubbish($name);
+   $app->set_flash("rubbish has been removed");
+   $app->redirect_to("/rubbish_items");
 });
 
 # The Delete call back is left for you to work out
