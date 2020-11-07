@@ -1,9 +1,12 @@
 <style media="screen">
   input,textarea,select{
     width: 350px;
-
   }
+
+
 </style>
+
+
 
 <h1>Add a Rubbish Item</h1>
 <div>

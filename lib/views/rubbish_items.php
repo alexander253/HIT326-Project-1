@@ -19,16 +19,17 @@ tr:nth-child(even) {
 }
 
 
-
-
-
-
 </style>
-
 <a href= "/addrubbish_item">
 
   <div class="info_card" style="background-color:rgb(50, 41, 91);">
     <h4>+Add Waste Item</h4>
+   </div>
+</a>
+<a href= "/removerubbish_item">
+
+  <div class="info_card" style="background-color:rgb(232, 12, 12);">
+    <h4>-Delete Waste Item</h4>
    </div>
 </a>
 
@@ -36,6 +37,7 @@ tr:nth-child(even) {
 <tr style="background-color: orange;">
   <th style="color: white;"><h2>Commingled</h2></th>
 </tr>
+<br>
 
 
 <?php

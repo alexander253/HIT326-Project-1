@@ -32,6 +32,12 @@ h4{
   box-shadow: 9px 11px 13px 2px rgba(0,0,0,0.54);
 }
 
+.leaderboarddelete{
+  margin-top: -45px;
+  float: right;
+}
+
+
 </style>
 
 <h1>Leader Board</h1>
@@ -39,9 +45,13 @@ h4{
 <!--search function by first name-->
 <form method="post">
 <input type="text" name="search" placeholder="search for user">
-<input type="submit" name="submit">
-
+<input type="submit" class="submit">
 </form>
+<div class="leaderboarddelete">
+  <a href= "/deleteuser">
+    <input type="submit" name="submit" class="btn btn-danger" value="Delete user">
+  </a>
+</div>
 
 </body>
 </html>
