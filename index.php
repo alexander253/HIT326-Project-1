@@ -257,7 +257,7 @@ get("/removerubbish_item",function($app){
 
 });
 
-<<<<<<< HEAD
+
 get("/deleteuser",function($app){
 
   require MODEL;
@@ -274,8 +274,6 @@ get("/deleteuser",function($app){
 
 
 });
-=======
->>>>>>> 42bbd40497e83b7e6c0a29f46d2d7476707dcaa2
 
 get("/",function($app){
   $app->force_to_http("/");
@@ -534,7 +532,7 @@ post("/addrubbish_item",function($app){
     $type = $app->form('type');
     $name = $app->form('name');
     $description = $app->form('desc');
-<<<<<<< HEAD
+
 
     if($type && $name && $description){
     addrubbish($type, $name, $description);
@@ -554,28 +552,7 @@ post("/addrubbish_item",function($app){
     }
     $app->redirect_to("/rubbish_items");
 
-=======
 
-    if($type && $name && $description){
-    addrubbish($type, $name, $description);
-    $app->set_flash(htmlspecialchars($app->form('name'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
-    }
-    $app->redirect_to("/rubbish_items");
-
-    });
-
-/*post("/removerubbish_item",function($app){
-    require MODEL;
-    $name = $app->form('name');
-
-    if($name{
-    deleterubbish($name);
-    $app->set_flash(htmlspecialchars($app->form('name'))." item is now added belonging to: ". htmlspecialchars($app->form('type')) );
-    }
-    $app->redirect_to("/rubbish_items");
-
->>>>>>> 42bbd40497e83b7e6c0a29f46d2d7476707dcaa2
-    });
 */
 
 post("/addpoints",function($app){
@@ -762,7 +739,7 @@ delete("/rubbish_items", function($app){
    $app->redirect_to("/rubbish_items");
 });
 
-<<<<<<< HEAD
+
 delete("/leaderboard", function($app){
    require MODEL;
    $fname = $app->form("fname");
@@ -771,9 +748,6 @@ delete("/leaderboard", function($app){
    $app->redirect_to("/leaderboard");
 });
 
-
-=======
->>>>>>> 42bbd40497e83b7e6c0a29f46d2d7476707dcaa2
 # The Delete call back is left for you to work out
 // New. If it get this far then page not found
 resolve();

@@ -47,7 +47,7 @@ function deleterubbish($name){
    }
 }
 
-<<<<<<< HEAD
+
 function deleteleaderboarduser($fname){
    try{
       $db = get_db();
@@ -63,8 +63,6 @@ function deleteleaderboarduser($fname){
    }
 }
 
-=======
->>>>>>> 42bbd40497e83b7e6c0a29f46d2d7476707dcaa2
   function addpoint($points){
       session_start();
       $db = get_db();
