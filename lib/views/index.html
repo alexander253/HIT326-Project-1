@@ -546,7 +546,7 @@
         <input type="text" placeholder="Bin index (number)" id="binIndexFilter" onkeyup="filterCheck();">
         <button type="button" style="width: 10%" onclick="clearFilter();" class="formButton">Clear filter</button>
         <h4> Bin type filter </h4>
-        <table>
+        <table style="margin-bottom: 70px;">
             <thead>
             <th>Name</th>
             <!--<th>Latitude</th>
@@ -555,8 +555,8 @@
             <th>Co-mingled <input type="checkbox" id="coFilter" onclick="filterCheck();"></th>
             <th>General <input type="checkbox" id="genFilter" onclick="filterCheck();"></th>
             <th>Special <input type="checkbox" id="speFilter" onclick="filterCheck(); "></th>
-            <th>Edit</th>
             <th>View</th>
+            <th>Edit</th>
             <th>Delete</th>
             </thead>
             <tbody id="outputTable">
@@ -570,6 +570,7 @@
             <a href="/myaccount" style="width: 85%; color: #a90329;"><span class="material-icons" style="font-size: 3rem; color: #a90329;">account_circle</span><p style="margin: auto; font-size: 1.2rem;">Account</p></a>
         </div>
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 <script defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA72fO19fgBMBh0DeOR6e9f9-QCdtJo5Jw&callback=initMap">
