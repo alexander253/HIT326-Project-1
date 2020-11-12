@@ -5,8 +5,8 @@
 <h1>Admin Sign in</h1>
 
 <div class="container" >
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5" >
+      <div style="min-width:100%;">
+        <div>
           <div class="card-body">
              <form class="form-signin" action='/admin_signin' method='POST'>
               <input type='hidden' name='_method' value='post' />
@@ -27,7 +27,6 @@
               <hr class="my-4">
             </form>
             <a href='/signin' style="color: #007a87; font-size: 15px;">User sign in</a>
-
 
         </div>
       </div>
