@@ -735,7 +735,12 @@ delete("/rubbish_items", function($app){
    require MODEL;
    $name = $app->form("name");
    deleterubbish($name);
-   $app->set_flash("rubbish has been removed");
+   if($name){
+   $app->set_flash("Rubbish has been removed");
+ } else{
+   $app->set_flash("That rubbish item does not exist, check the list again");
+
+ }
    $app->redirect_to("/rubbish_items");
 });
 
